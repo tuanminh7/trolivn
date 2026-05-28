@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %}Bài học kỹ năng sống{% endblock %}
+{% block content %}
+  <div class="life-hero mb-4">
+    <div>
+      <span class="life-hero-kicker">Kỹ năng sống</span>
+      <h2>Bài học video ngắn</h2>
+    </div>
+    <div class="life-hero-icon">🌱</div>
+  </div>
+
+  <div class="life-filter-strip">
+    {% for category in categories %}
+      <a class="life-filter-pill {% if category == active_category %}active{% endif %}" href="{{ url_for('student_life_skills', category=category) }}">{{ category }}</a>
+    {% endfor %}
+  </div>
+
+  <div class="row g-3">
+    {% for lesson in lessons %}
+      {% set progress = progress_by_lesson.get(lesson.id) %}
+      <div class="col-md-6 col-xl-4">
+        <a class="life-card life-card-link" href="{{ url_for('student_life_skill_detail', lesson_id=lesson.id) }}">
+          <div class="life-thumb">
+            {% if lesson.thumbnail_url %}
+              <img src="{{ lesson.thumbnail_url }}" alt="{{ lesson.title }}">
+            {% else %}
+              <span>▶</span>
+            {% endif %}
+          </div>
+          <div class="d-flex justify-content-between gap-2 mb-2">
+            <span class="life-pill">{{ lesson.skill_category }}</span>
+            <span class="badge text-bg-light border">{{ video_platform(lesson.video_url) }}</span>
+          </div>
+          <h5 class="fw-bold mb-2">{{ lesson.title }}</h5>
+          <p class="text-muted mb-3">{{ lesson.description }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="small text-muted">{{ lesson.duration or 'Video ngắn' }}</span>
+            <span class="life-status {{ 'done' if progress and progress.is_completed else '' }}">
+              {{ 'Đã hoàn thành' if progress and progress.is_completed else 'Bắt đầu học' }}
+            </span>
+          </div>
+        </a>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5 bg-white">
+          <h5 class="fw-bold">Chưa có bài học phù hợp</h5>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

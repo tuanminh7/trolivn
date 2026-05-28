@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+{% block title %}Nhật ký cảm xúc{% endblock %}
+{% block content %}
+  <form method="post" class="journal-shell">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="journal-top">
+      <div>
+        <div class="section-subtitle">{{ moment_label if moment_label is defined else '' }}</div>
+        <h2 class="section-title mb-0">Nhật ký cảm xúc</h2>
+      </div>
+      <div class="journal-avatar">{{ current_user.username[:2]|upper }}</div>
+    </div>
+
+    <div class="journal-prompt">
+      <span>�~�</span>
+      <span>{{ prompt }}</span>
+    </div>
+
+    <section class="journal-section">
+      <h6 class="fw-bold mb-3">Bạn �'ang cảm thấy thế nào?</h6>
+      <div class="mood-grid mb-3">
+        {% for mood, icon in [('vui','�Y~S'), ('binh_than','�Y~O'), ('buon','�Y~"'), ('cang_thang','�Y~�'), ('lo_lang','�Y~�')] %}
+          <label class="mood-option">
+            <input type="radio" name="mood" value="{{ mood }}" {% if loop.index == 2 %}checked{% endif %}>
+            <span class="mood-box">
+              <span>{{ icon }}</span>
+              <span>{{ {'vui':'Vui','binh_than':'Bình thản','buon':'Bu�"n','cang_thang':'C�fng thẳng','lo_lang':'Lo lắng'}[mood] }}</span>
+            </span>
+          </label>
+        {% endfor %}
+      </div>
+      <div class="d-flex flex-wrap align-items-center gap-3">
+        <span class="fw-semibold">Mức �'�T</span>
+        <div class="intensity-row">
+          {% for value in [1, 2, 3, 4, 5] %}
+            <label class="intensity-option">
+              <input type="radio" name="intensity" value="{{ value }}" {% if value == 2 %}checked{% endif %}>
+              <span class="intensity-dot">{{ value }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        <span class="section-subtitle small">nhẹ �?' mạnh</span>
+      </div>
+    </section>
+
+    <section class="journal-section">
+      <h6 class="fw-bold mb-3">Điều gì ảnh hư�Yng �'ến cảm xúc bạn?</h6>
+      <div class="trigger-row">
+        {% for trigger in ['Học tập', 'Bạn bè', 'Gia �'ình', 'Sức khỏe', 'Bản thân', 'Khác'] %}
+          <label class="trigger-option">
+            <input type="checkbox" name="triggers" value="{{ trigger }}">
+            <span class="trigger-pill">{{ trigger }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="journal-section">
+      <label class="form-label fw-bold">Ghi chú thêm (không bắt bu�Tc)</label>
+      <textarea name="note" class="form-control" rows="4" placeholder="Hôm nay mình..."></textarea>
+    </section>
+
+    <section class="journal-section">
+      <div class="d-flex justify-content-between gap-2 mb-3">
+        <h6 class="fw-bold mb-0">Cảm xúc 7 ngày qua</h6>
+        <span class="text-primary small">Xem chi tiết �?�</span>
+      </div>
+      <div class="trend-bars">
+        {% for entry in entries %}
+          <div class="trend-bar-wrap">
+            <div class="trend-bar" style="height: {{ 16 + entry.intensity * 16 }}px"></div>
+            <span class="small text-muted">{{ entry.created_at.strftime('%d/%m') if entry.created_at else '' }}</span>
+          </div>
+        {% else %}
+          {% for value in [2, 3, 1, 4, 2, 3, 2] %}
+            <div class="trend-bar-wrap">
+              <div class="trend-bar" style="height: {{ 16 + value * 16 }}px; opacity: .35"></div>
+              <span class="small text-muted">--</span>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+      <div class="d-flex gap-3 mt-3 small section-subtitle">
+        <span>�-� Vui / Bình thản</span>
+        <span>�-� C�fng thẳng / Lo lắng</span>
+      </div>
+    </section>
+
+    <section class="journal-section">
+      <div class="d-flex justify-content-between gap-2 mb-3">
+        <h6 class="fw-bold mb-0">Nhật ký �'ã lưu gần �'ây</h6>
+        <span class="section-subtitle small">{{ recent_entries|length }} bản ghi</span>
+      </div>
+      <div class="journal-history-list">
+        {% for item in recent_entries %}
+          {% set entry = item.entry %}
+          <article class="journal-history-item">
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-2">
+              <div>
+                <div class="fw-bold">
+                  {{ {'vui':'Vui','binh_than':'Bình thản','buon':'Bu�"n','cang_thang':'C�fng thẳng','lo_lang':'Lo lắng'}.get(entry.mood, entry.mood) }}
+                  · Mức {{ entry.intensity }}/5
+                </div>
+                <div class="section-subtitle small">{{ entry.created_at.strftime('%d/%m/%Y %H:%M') if entry.created_at else '' }}</div>
+              </div>
+            </div>
+            {% if item.triggers %}
+              <div class="journal-history-tags mb-2">
+                {% for trigger in item.triggers %}
+                  <span class="journal-history-tag">{{ trigger }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if entry.note %}
+              <p class="mb-0">{{ entry.note }}</p>
+            {% else %}
+            {% endif %}
+          </article>
+        {% else %}
+          <div class="text-center border rounded p-4">
+            <h6 class="fw-bold">Chưa có nhật ký</h6>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <div class="journal-save">
+      <button type="submit" class="btn btn-primary w-100">�o" Lưu hôm nay</button>
+    </div>
+  </form>
+{% endblock %}

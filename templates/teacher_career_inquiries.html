@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}Câu hỏi hướng nghiệp{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">Câu hỏi hướng nghiệp</h2>
+    </div>
+    <a href="{{ url_for('teacher_career_jobs') }}" class="btn btn-outline-secondary align-self-lg-start">Quản lý nghề</a>
+  </div>
+
+  <div class="d-flex flex-column gap-3">
+    {% for inquiry in inquiries %}
+      {% set student = students_by_id.get(inquiry.student_id) %}
+      {% set job = jobs_by_id.get(inquiry.job_id) %}
+      <article class="border rounded p-3">
+        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mb-3">
+          <div>
+            <h5 class="fw-bold mb-1">{{ job.name if job else 'Nghề đã xóa' }}</h5>
+            <div class="text-muted small">
+              {{ student.username if student else 'Học sinh #' ~ inquiry.student_id }}
+              {% if student and student.email %} · {{ student.email }}{% endif %}
+              · {{ inquiry.created_at.strftime('%d/%m/%Y %H:%M') if inquiry.created_at else '' }}
+            </div>
+          </div>
+          <span class="badge {{ 'text-bg-success' if inquiry.reply else 'text-bg-warning' }} align-self-lg-start">
+            {{ 'Đã phản hồi' if inquiry.reply else 'Chờ phản hồi' }}
+          </span>
+        </div>
+        <div class="p-3 rounded bg-light mb-3">{{ inquiry.question }}</div>
+        <form method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="inquiry_id" value="{{ inquiry.id }}">
+          <label class="form-label fw-semibold">Phản hồi gửi vào hộp thư học sinh</label>
+          <textarea name="reply" class="form-control mb-2" rows="3">{{ inquiry.reply or '' }}</textarea>
+          <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
+        </form>
+      </article>
+    {% else %}
+      <div class="text-center border rounded p-5">
+        <h5 class="fw-bold">Chưa có câu hỏi</h5>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

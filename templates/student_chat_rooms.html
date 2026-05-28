@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block title %}Chat chuyên gia{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Chat realtime</p>
+    <h2 class="section-title">Chọn phòng chat</h2>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <a href="{{ url_for('student_kbot_chat') }}" class="room-card">
+        <div class="feature-kicker">AI room</div>
+        <h4 class="feature-title">Tâm sự với Kbot</h4>
+      </a>
+    </div>
+    <div class="col-md-6">
+      <div class="room-card">
+        <div class="feature-kicker">Teacher room</div>
+        <h4 class="feature-title">Chat với thầy cô</h4>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="fw-bold mb-3">Danh sách giáo viên</h5>
+  <div class="row g-3">
+    {% for teacher in teachers %}
+      <div class="col-md-6 col-xl-4">
+        <a href="{{ url_for('student_teacher_chat', teacher_id=teacher.id) }}" class="room-card">
+          <div class="d-flex align-items-center gap-3">
+            <span class="chat-avatar">{{ teacher.username[:1]|upper }}</span>
+            <div>
+              <div class="fw-bold">{{ teacher.username }}</div>
+              <div class="section-subtitle small">{{ teacher.email }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có giáo viên</h5>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

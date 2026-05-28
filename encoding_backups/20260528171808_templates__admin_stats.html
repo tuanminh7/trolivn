@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Th�'ng kê người dùng{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Báo cáo</p>
+    <h2 class="section-title">Th�'ng kê người dùng</h2>
+  </div>
+
+  <div class="row g-3">
+    {% for role, count in counts.items() %}
+      <div class="col-sm-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-label text-capitalize">{{ role }}</div>
+          <p class="stat-value">{{ count }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

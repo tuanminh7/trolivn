@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}Liên hệ quản trị{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Hỗ trợ</p>
+    <h2 class="section-title">Liên hệ quản trị</h2>
+  </div>
+
+  <form method="post" class="mb-4">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      {{ form.content.label(class_='form-label') }}
+      {{ form.content(class_='form-control', rows='4', placeholder='Nhập nội dung cần hỗ trợ...') }}
+    </div>
+    <div class="d-flex gap-2">
+      {{ form.submit(class_='btn btn-primary') }}
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">Quay lại</a>
+    </div>
+  </form>
+
+  <div class="border-top pt-4">
+    <h5 class="fw-bold mb-3">Lịch sử trao đổi với quản trị</h5>
+    <div class="d-flex flex-column gap-3">
+      {% for message in messages %}
+        {% set replies = replies_by_message.get(message.id, []) %}
+        <article class="chat-thread">
+          <div class="chat-history">
+            <div class="chat-row incoming">
+              <div class="chat-bubble">
+                <div class="fw-semibold mb-1">Bạn</div>
+                <div>{{ message.content }}</div>
+                <div class="chat-time">{{ message.created_at.strftime('%d/%m/%Y %H:%M') if message.created_at else '' }}</div>
+              </div>
+            </div>
+
+            {% for reply in replies %}
+              <div class="chat-row outgoing">
+                <div class="chat-bubble">
+                  <div class="fw-semibold mb-1">Quản trị</div>
+                  <div>{{ reply.content }}</div>
+                  <div class="chat-time">{{ reply.created_at.strftime('%d/%m/%Y %H:%M') if reply.created_at else '' }}</div>
+                </div>
+              </div>
+            {% else %}
+              <div class="text-muted small">Chưa có phản hồi từ quản trị.</div>
+            {% endfor %}
+          </div>
+        </article>
+      {% else %}
+        <div class="text-center border rounded p-4">
+          <h6 class="fw-bold">Chưa có tin nhắn</h6>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

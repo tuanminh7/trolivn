@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %}H�" sơ học sinh{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">H�? th�'ng</p>
+      <h2 class="section-title">H�" sơ học sinh</h2>
+    </div>
+    {% if profile.is_complete %}
+      <span class="badge text-bg-success align-self-lg-start">Đã hoàn tất</span>
+    {% else %}
+      <span class="badge text-bg-warning align-self-lg-start">Chưa hoàn tất</span>
+    {% endif %}
+  </div>
+
+  <form method="post" class="row g-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="col-md-6">
+      <label class="form-label">Họ và tên</label>
+      <input name="full_name" class="form-control" value="{{ profile.full_name or '' }}" placeholder="Nhập họ và tên �'ầy �'ủ">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">L�>p</label>
+      <input name="class_name" class="form-control" value="{{ profile.class_name or '' }}" placeholder="Ví dụ: 10A1">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">S�' �'i�?n thoại học sinh</label>
+      <input name="phone" class="form-control" value="{{ profile.phone or '' }}" placeholder="Nhập s�' �'i�?n thoại liên h�?">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Liên h�? khẩn cấp</label>
+      <input name="emergency_contact" class="form-control" value="{{ profile.emergency_contact or '' }}" placeholder="Tên hoặc s�' �'i�?n thoại cần liên h�? gấp">
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">Đ�<a ch�?</label>
+      <input name="address" class="form-control" value="{{ profile.address or '' }}" placeholder="Nhập �'�<a ch�? hi�?n tại">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Họ tên phụ huynh/người giám h�T</label>
+      <input name="guardian_name" class="form-control" value="{{ profile.guardian_name or '' }}" placeholder="Nhập họ tên phụ huynh">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">S�' �'i�?n thoại phụ huynh/người giám h�T</label>
+      <input name="guardian_phone" class="form-control" value="{{ profile.guardian_phone or '' }}" placeholder="Nhập s�' �'i�?n thoại phụ huynh">
+    </div>
+
+    <div class="col-12">
+      <div class="alert alert-light border mb-0">
+        <strong>Thông tin này sẽ �'ược dùng lại</strong> cho các chức n�fng cần nhận di�?n học sinh, liên h�? h�- trợ và theo dõi kết quả �'ánh giá.
+      </div>
+    </div>
+
+    <div class="col-12 d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Lưu h�" sơ</button>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">Quay lại</a>
+    </div>
+  </form>
+{% endblock %}

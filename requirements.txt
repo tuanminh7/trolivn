@@ -1,0 +1,12 @@
+Flask>=2.0
+Flask-Login
+Flask-WTF
+Flask-SQLAlchemy
+Flask-Bcrypt
+email-validator
+Flask-SocketIO
+reportlab
+gunicorn
+eventlet
+psycopg2-binary
+python-dotenv

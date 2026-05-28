@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}Hộp thư{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">Hộp thư</h2>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary align-self-lg-start">Quay lại</a>
+  </div>
+
+  <div class="d-flex flex-column gap-3">
+    {% for inquiry in inquiries %}
+      {% set job = jobs_by_id.get(inquiry.job_id) %}
+      {% set teacher = teachers_by_id.get(inquiry.teacher_id) %}
+      <article class="border rounded p-3">
+        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mb-3">
+          <div>
+            <h5 class="fw-bold mb-1">{{ job.name if job else 'Nghề đã xóa' }}</h5>
+            <div class="text-muted small">
+              Gửi đến {{ teacher.username if teacher else 'giáo viên' }}
+              · {{ inquiry.created_at.strftime('%d/%m/%Y %H:%M') if inquiry.created_at else '' }}
+            </div>
+          </div>
+          <span class="badge {{ 'text-bg-success' if inquiry.reply else 'text-bg-warning' }} align-self-lg-start">
+            {{ 'Đã trả lời' if inquiry.reply else 'Đang chờ' }}
+          </span>
+        </div>
+        <div class="mb-3">
+          <div class="fw-semibold mb-1">Câu hỏi của bạn</div>
+          <div class="p-3 rounded bg-light">{{ inquiry.question }}</div>
+        </div>
+        <div>
+          <div class="fw-semibold mb-1">Phản hồi giáo viên</div>
+          {% if inquiry.reply %}
+            <div class="p-3 rounded border">{{ inquiry.reply }}</div>
+          {% else %}
+            <div class="text-muted">Giáo viên chưa phản hồi.</div>
+          {% endif %}
+        </div>
+      </article>
+    {% else %}
+      <div class="text-center border rounded p-5">
+        <h5 class="fw-bold">Hộp thư chưa có nội dung</h5>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

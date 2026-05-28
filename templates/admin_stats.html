@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Thống kê người dùng{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Báo cáo</p>
+    <h2 class="section-title">Thống kê người dùng</h2>
+  </div>
+
+  <div class="row g-3 mb-4">
+    {% for role, count in counts.items() %}
+      <div class="col-sm-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-label text-capitalize">{{ role }}</div>
+          <p class="stat-value">{{ count }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="admin-chart-card">
+    <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4">
+      <div class="admin-donut" style="--chart-gradient: {{ chart_gradient }};">
+        <div>
+          <strong>{{ total_users }}</strong>
+          <span>người dùng</span>
+        </div>
+      </div>
+
+      <div class="admin-chart-legend">
+        {% for item in chart_items %}
+          <div class="admin-chart-row">
+            <span class="admin-chart-dot" style="background: {{ item.color }};"></span>
+            <div class="flex-grow-1">
+              <strong class="text-capitalize">{{ item.role }}</strong>
+              <span>{{ item.count }} tài khoản</span>
+            </div>
+            <em>{{ item.percent }}%</em>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}Quản lý học sinh{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">Quản lý học sinh</h2>
+    </div>
+    <a href="{{ url_for('teacher_students_pdf') }}" class="btn btn-primary align-self-lg-start">Xuất PDF</a>
+  </div>
+
+  <div class="teacher-student-summary mb-3">
+    <div>
+      <strong>{{ rows|length }}</strong>
+      <span>Học sinh</span>
+    </div>
+    <div>
+      <strong>{{ rows|selectattr('is_active')|list|length }}</strong>
+      <span>Đã kích hoạt</span>
+    </div>
+    <div>
+      <strong>{{ rows|rejectattr('is_active')|list|length }}</strong>
+      <span>Chưa kích hoạt</span>
+    </div>
+  </div>
+
+  <div class="table-responsive teacher-student-table">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Mã học sinh</th>
+          <th>Họ và tên</th>
+          <th>Trạng thái</th>
+          <th>Trạng thái tâm lí</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td class="fw-semibold">{{ row.stt }}</td>
+            <td><span class="badge text-bg-light border">{{ row.student_id }}</span></td>
+            <td class="fw-semibold">{{ row.full_name }}</td>
+            <td>
+              <span class="badge {{ 'text-bg-success' if row.is_active else 'text-bg-secondary' }}">
+                {{ row.account_status }}
+              </span>
+            </td>
+            <td>
+              <span class="psych-status psych-status-{{ row.psychology.class }}">
+                {% if row.psychology.percent is none %}
+                  {{ row.psychology.label }}
+                {% else %}
+                  {{ row.psychology.percent }}% · {{ row.psychology.label }}
+                {% endif %}
+              </span>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="5" class="text-center text-muted py-4">Chưa có học sinh trong hệ thống.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

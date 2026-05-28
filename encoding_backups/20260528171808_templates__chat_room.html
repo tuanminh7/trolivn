@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block title %}Chat v�>i {{ peer_name }}{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Realtime chat</p>
+      <h2 class="section-title">Chat v�>i {{ peer_name }}</h2>
+    </div>
+    <a href="{{ url_for('teacher_chat_list') if current_user.role == 'teacher' else url_for('student_chat_rooms') }}" class="btn btn-outline-secondary align-self-lg-start">Quay lại</a>
+  </div>
+
+  <section class="realtime-chat">
+    <div class="realtime-chat-header">
+      <div class="fw-bold">{{ peer_name }}</div>
+      <div class="section-subtitle small">Đang �Y phòng #{{ conversation.id }}</div>
+    </div>
+    <div class="realtime-chat-body" id="chat-messages">
+      {% for message in messages %}
+        <div class="realtime-message {% if message.sender_id == current_user.id %}mine{% endif %}">
+          <div class="realtime-bubble">
+            <div>{{ message.content }}</div>
+            <div class="realtime-meta">{{ message.sender_role }} · {{ message.created_at.strftime('%d/%m/%Y %H:%M') if message.created_at else '' }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <form class="realtime-composer" id="chat-form">
+      <div class="input-group">
+        <input class="form-control" id="chat-input" autocomplete="off" placeholder="Nhập tin nhắn...">
+        <button class="btn btn-primary" type="submit">Gửi</button>
+      </div>
+    </form>
+  </section>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script>
+    const conversationId = {{ conversation.id }};
+    const currentUserId = {{ current_user.id }};
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const socket = io();
+
+    function scrollChatToBottom() {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function appendMessage(message) {
+      const row = document.createElement('div');
+      row.className = 'realtime-message' + (message.sender_id === currentUserId ? ' mine' : '');
+      const bubble = document.createElement('div');
+      bubble.className = 'realtime-bubble';
+      const content = document.createElement('div');
+      content.textContent = message.content;
+      const meta = document.createElement('div');
+      meta.className = 'realtime-meta';
+      meta.textContent = message.sender_role + ' · ' + message.created_at;
+      bubble.appendChild(content);
+      bubble.appendChild(meta);
+      row.appendChild(bubble);
+      chatMessages.appendChild(row);
+      scrollChatToBottom();
+    }
+
+    socket.on('connect', () => {
+      socket.emit('join_chat', { conversation_id: conversationId });
+    });
+
+    socket.on('chat_message', appendMessage);
+
+    chatForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const content = chatInput.value.trim();
+      if (!content) {
+        return;
+      }
+      socket.emit('send_chat_message', { conversation_id: conversationId, content });
+      chatInput.value = '';
+    });
+
+    scrollChatToBottom();
+  </script>
+{% endblock %}

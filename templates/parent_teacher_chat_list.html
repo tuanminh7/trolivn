@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Chat với giáo viên{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Realtime chat</p>
+    <h2 class="section-title">Chat với giáo viên</h2>
+  </div>
+
+  <div class="row g-3">
+    {% for teacher in teachers %}
+      <div class="col-md-6 col-xl-4">
+        <a href="{{ url_for('parent_teacher_chat', teacher_id=teacher.id) }}" class="room-card">
+          <div class="d-flex align-items-center gap-3">
+            <span class="chat-avatar">{{ teacher.username[:1]|upper }}</span>
+            <div>
+              <div class="fw-bold">{{ teacher.username }}</div>
+              <div class="section-subtitle small">{{ teacher.email }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có giáo viên</h5>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

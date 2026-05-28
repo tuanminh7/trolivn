@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block title %}Đăng nhập{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Chào mừng trở lại</p>
+    <h2 class="section-title">Đăng nhập</h2>
+  </div>
+
+  <div id="role-select" class="mb-4">
+    <label class="form-label fw-semibold">Loại tài khoản</label>
+    <div class="d-grid gap-2">
+      <button type="button" class="btn btn-outline-primary text-start" data-role="parent" data-label="Phụ huynh">Phụ huynh</button>
+      <button type="button" class="btn btn-outline-primary text-start" data-role="teacher" data-label="Giáo viên">Giáo viên</button>
+      <button type="button" class="btn btn-outline-primary text-start" data-role="student" data-label="Học sinh">Học sinh</button>
+      <button type="button" class="btn btn-outline-primary text-start" data-role="admin" data-label="Quản lí">Quản lí</button>
+    </div>
+  </div>
+
+  <h5 id="selected-role-title" class="mb-3">Chưa chọn loại tài khoản</h5>
+  <form method="post" id="main-login-form">
+    {{ form.hidden_tag() }}
+    {{ form.role }}
+    <div class="mb-3">
+      {{ form.email.label(class_='form-label') }}
+      {{ form.email(class_='form-control') }}
+    </div>
+    <div class="mb-3">
+      {{ form.password.label(class_='form-label') }}
+      <div class="password-field">
+        {{ form.password(class_='form-control') }}
+        <button type="button" class="password-toggle" data-password-toggle="{{ form.password.id }}" aria-label="Hiện mật khẩu">👁</button>
+      </div>
+    </div>
+    <div id="role-error" class="text-danger mb-3" style="display:none;">Vui lòng chọn loại tài khoản trước khi đăng nhập.</div>
+    <div class="d-flex gap-2">
+      {{ form.submit(class_='btn btn-primary', id='submit-btn', disabled=true) }}
+      <a href="{{ url_for('register') }}" class="btn btn-outline-secondary">Đăng ký</a>
+    </div>
+  </form>
+
+  <script>
+    const buttons = document.querySelectorAll('[data-role]');
+    const roleInput = document.querySelector('input[name="role"]');
+    const selectedTitle = document.getElementById('selected-role-title');
+    const submitBtn = document.getElementById('submit-btn');
+    const roleError = document.getElementById('role-error');
+    const form = document.getElementById('main-login-form');
+
+    function setActive(button) {
+      buttons.forEach((item) => {
+        item.classList.remove('btn-primary');
+        item.classList.add('btn-outline-primary');
+        item.textContent = item.getAttribute('data-label');
+      });
+      button.classList.remove('btn-outline-primary');
+      button.classList.add('btn-primary');
+      button.textContent = 'Đã chọn: ' + button.getAttribute('data-label');
+    }
+
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      roleInput.value = button.getAttribute('data-role');
+      setActive(button);
+      selectedTitle.textContent = 'Đăng nhập cho: ' + button.getAttribute('data-label');
+      submitBtn.disabled = false;
+      roleError.style.display = 'none';
+    }));
+
+    form.addEventListener('submit', (event) => {
+      if (!roleInput.value) {
+        event.preventDefault();
+        roleError.style.display = 'block';
+      }
+    });
+  </script>
+{% endblock %}

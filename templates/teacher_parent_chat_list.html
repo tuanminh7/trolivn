@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block title %}Tin nhắn phụ huynh{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Realtime chat</p>
+    <h2 class="section-title">Tin nhắn phụ huynh</h2>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Cuộc trò chuyện gần đây</h5>
+        <span class="text-muted small">{{ conversations|length }} cuộc trò chuyện</span>
+      </div>
+
+      <div class="row g-3">
+        {% for conversation in conversations %}
+          {% set parent = parents_by_id.get(conversation.student_id) %}
+          {% set latest = latest_messages.get(conversation.id) %}
+          <div class="col-12">
+            <a href="{{ url_for('teacher_parent_chat_room', conversation_id=conversation.id) }}" class="room-card">
+              <div class="d-flex gap-3">
+                <span class="chat-avatar">{{ (parent.username[:1] if parent else '?')|upper }}</span>
+                <div class="min-w-0 flex-grow-1">
+                  <div class="fw-bold text-truncate">{{ parent.username if parent else 'Phụ huynh #' ~ conversation.student_id }}</div>
+                  <div class="section-subtitle small text-truncate">{{ latest.content if latest else 'Chưa có tin nhắn' }}</div>
+                  <div class="text-muted small">{{ conversation.updated_at.strftime('%d/%m/%Y %H:%M') if conversation.updated_at else '' }}</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% else %}
+          <div class="col-12">
+            <div class="text-center border rounded p-5">
+              <h5 class="fw-bold">Chưa có cuộc trò chuyện</h5>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Danh sách phụ huynh</h5>
+        <span class="text-muted small">Chọn để chat</span>
+      </div>
+
+      <div class="row g-3">
+        {% for parent in all_parents %}
+          {% set conversation = conversations_by_parent.get(parent.id) %}
+          <div class="col-12">
+            <a href="{{ url_for('teacher_parent_chat_room', conversation_id=conversation.id) if conversation else url_for('teacher_parent_chat_start', parent_id=parent.id) }}" class="room-card">
+              <div class="d-flex align-items-center gap-3">
+                <span class="chat-avatar">{{ parent.username[:1]|upper }}</span>
+                <div class="min-w-0 flex-grow-1">
+                  <div class="fw-bold text-truncate">{{ parent.username }}</div>
+                  <div class="section-subtitle small text-truncate">{{ parent.email }}</div>
+                </div>
+                <span class="badge {{ 'text-bg-success' if conversation else 'text-bg-light border' }}">
+                  {{ 'Đang chat' if conversation else 'Bắt đầu' }}
+                </span>
+              </div>
+            </a>
+          </div>
+        {% else %}
+          <div class="col-12">
+            <div class="text-center border rounded p-5">
+              <h5 class="fw-bold">Chưa có phụ huynh</h5>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

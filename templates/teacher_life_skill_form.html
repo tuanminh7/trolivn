@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block title %}{{ 'Chỉnh sửa bài học' if lesson else 'Upload bài học' }}{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">{{ 'Chỉnh sửa bài học' if lesson else 'Upload bài học kỹ năng sống' }}</h2>
+    </div>
+    <a href="{{ url_for('teacher_life_skills') }}" class="btn btn-outline-secondary align-self-lg-start">Quay lại</a>
+  </div>
+
+  <form method="post" class="life-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="content-panel shadow-none">
+          <div class="content-body">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Tiêu đề bài học</label>
+              <input class="form-control" name="title" value="{{ lesson.title if lesson else '' }}" required>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Nhóm kỹ năng</label>
+                <input class="form-control" name="skill_category" value="{{ lesson.skill_category if lesson else '' }}" placeholder="Giao tiếp, quản lý cảm xúc..." required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Thời lượng</label>
+                <input class="form-control" name="duration" value="{{ lesson.duration if lesson else '' }}" placeholder="8 phút">
+              </div>
+            </div>
+            <div class="mt-3">
+              <label class="form-label fw-semibold">Link video YouTube/TikTok</label>
+              <input class="form-control" name="video_url" value="{{ lesson.video_url if lesson else '' }}" placeholder="https://www.youtube.com/watch?v=..." required>
+            </div>
+            <div class="mt-3">
+              <label class="form-label fw-semibold">Ảnh thumbnail</label>
+              <input class="form-control" name="thumbnail_url" value="{{ lesson.thumbnail_url if lesson else '' }}" placeholder="Có thể bỏ trống">
+            </div>
+            <div class="mt-3">
+              <label class="form-label fw-semibold">Mô tả bài học</label>
+              <textarea class="form-control" name="description" rows="4" required>{{ lesson.description if lesson else '' }}</textarea>
+            </div>
+            <div class="mt-3">
+              <label class="form-label fw-semibold">Hướng dẫn thực hành</label>
+              <textarea class="form-control" name="practice_steps" rows="5" placeholder="Mỗi dòng là một bước học sinh cần làm">{{ lesson.practice_steps if lesson else '' }}</textarea>
+            </div>
+            <div class="mt-3">
+              <label class="form-label fw-semibold">Câu hỏi phản tư</label>
+              <input class="form-control" name="reflection_question" value="{{ lesson.reflection_question if lesson else '' }}" placeholder="Sau bài học này em muốn thử điều gì?">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="life-side-panel">
+          <h5 class="fw-bold">Thiết lập hiển thị</h5>
+          <label class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" name="is_published" {% if not lesson or lesson.is_published %}checked{% endif %}>
+            <span class="form-check-label">Hiển thị cho học sinh</span>
+          </label>
+          <label class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" name="is_featured" {% if lesson and lesson.is_featured %}checked{% endif %}>
+            <span class="form-check-label">Đánh dấu nổi bật</span>
+          </label>
+          <button class="btn btn-primary w-100 mt-4" type="submit">Lưu bài học</button>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+{% block title %}Lộ trình học tập{% endblock %}
+{% block content %}
+  <div class="learning-page">
+    <div class="career-topbar">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">← Trang chủ</a>
+      <h2 class="section-title mb-0">Lộ trình học tập</h2>
+      <span></span>
+    </div>
+
+    {% if not selected_path %}
+      <section class="learning-select-head">
+        <h3>Bạn muốn trở thành gì?</h3>
+        <p>Chọn ngành nghề bạn hướng tới để nhận lộ trình học tập phù hợp từ bây giờ đến tương lai.</p>
+      </section>
+
+      <div class="learning-career-grid">
+        {% for path in paths %}
+          <button type="button" class="learning-career-card" data-path-url="{{ url_for('student_learning_path', path_id=path.id) }}">
+            <span class="learning-career-icon {{ path.color }}">{{ path.icon or '◇' }}</span>
+            <strong>{{ path.title }}</strong>
+            <em>{{ path.summary }}</em>
+          </button>
+        {% else %}
+          <div class="career-empty">Chưa có lộ trình nào. Giáo viên cần upload ngành và lộ trình trước.</div>
+        {% endfor %}
+      </div>
+
+      <a id="learning-open-btn" class="btn btn-primary w-100 disabled mt-4" href="#">Xem lộ trình học tập →</a>
+
+      <script>
+        const cards = document.querySelectorAll('.learning-career-card');
+        const openButton = document.getElementById('learning-open-btn');
+        cards.forEach((card) => {
+          card.addEventListener('click', () => {
+            cards.forEach((item) => item.classList.remove('active'));
+            card.classList.add('active');
+            openButton.href = card.dataset.pathUrl;
+            openButton.classList.remove('disabled');
+          });
+        });
+      </script>
+    {% else %}
+      <section class="learning-goal-card">
+        <div>
+          <div class="career-kicker">Đang hướng tới</div>
+          <h3>{{ selected_path.goal_label or selected_path.title }}</h3>
+          <div class="learning-main-progress"><i style="width: {{ selected_path.completion_percent }}%"></i></div>
+          <span>{{ selected_path.completion_percent }}% hoàn thành</span>
+        </div>
+        <div class="learning-goal-icon {{ selected_path.color }}">{{ selected_path.icon or '◇' }}</div>
+      </section>
+
+      <div class="career-stat-grid">
+        <div class="career-stat"><strong>{{ done_tasks }}/{{ total_tasks }}</strong><span>Nhiệm vụ xong</span></div>
+        <div class="career-stat"><strong>{{ stages|length }}</strong><span>Giai đoạn học</span></div>
+        <div class="career-stat"><strong>{{ skills|length }}</strong><span>Kỹ năng đang rèn</span></div>
+      </div>
+
+      <div class="forum-section-head">
+        <h5>Lộ trình theo năm học</h5>
+        <span>Bấm để xem chi tiết</span>
+      </div>
+
+      <div class="learning-timeline">
+        {% for stage in stages %}
+          {% set tasks = tasks_by_stage.get(stage.id, []) %}
+          {% set done = tasks|selectattr('is_done')|list|length %}
+          <article class="learning-stage {% if not stage.is_open %}collapsed{% endif %}">
+            <div class="learning-stage-dot">{{ stage.year_label.replace('Lớp ', '') }}</div>
+            <div class="learning-stage-card">
+              <div class="learning-stage-head">
+                <div>
+                  <small>{{ stage.year_label }}{% if stage.subtitle %} · {{ stage.subtitle }}{% endif %}</small>
+                  <h5>{{ stage.title }}</h5>
+                </div>
+                <span class="learning-status">{{ stage.status }}</span>
+              </div>
+
+              {% if stage.is_open %}
+                <div class="learning-task-list">
+                  {% for task in tasks %}
+                    <div class="learning-task">
+                      <span class="learning-check {% if task.is_done %}done{% endif %}">{{ '✓' if task.is_done else '' }}</span>
+                      <div>
+                        <strong class="{% if task.is_done %}text-decoration-line-through text-muted{% endif %}">{{ task.title }}</strong>
+                        <small>{{ task.subtitle }}</small>
+                      </div>
+                      <span class="learning-task-type">{{ task.task_type }}</span>
+                    </div>
+                  {% endfor %}
+                </div>
+                <div class="learning-stage-progress">
+                  <span>Tiến độ giai đoạn</span>
+                  <strong>{{ done }}/{{ tasks|length }} nhiệm vụ</strong>
+                  <i style="width: {{ (done / (tasks|length) * 100)|round if tasks else 0 }}%"></i>
+                </div>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="forum-section-head mt-4">
+        <h5>Kỹ năng đang rèn</h5>
+        <span>Cập nhật tự động</span>
+      </div>
+      <div class="learning-skill-grid">
+        {% for skill in skills %}
+          <article class="learning-skill-card">
+            <strong>{{ skill.name }}</strong>
+            <span>{{ skill.level_label }}</span>
+            <div class="learning-skill-progress {{ skill.color }}"><i style="width: {{ skill.percent }}%"></i></div>
+            <em>{{ skill.percent }}%</em>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}Quản lý: {{ user.username }}{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Hồ sơ người dùng</p>
+      <h2 class="section-title">{{ user.username }}</h2>
+    </div>
+    <a href="{{ url_for('admin_users') }}" class="btn btn-outline-secondary align-self-lg-start">Danh sách người dùng</a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Vai trò</div>
+        <p class="stat-value text-capitalize">{{ user.role }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Mã tài khoản</div>
+        <p class="stat-value">{{ user.account_id or '—' }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Trạng thái</div>
+        <p class="stat-value">{{ 'Active' if user.is_active else 'Revoked' }}</p>
+          <button type="button" class="password-toggle" data-password-toggle="{{ form.password.id }}" aria-label="Hiện mật khẩu">🙈</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{ form.password2.label(class_='form-label') }}
+        <div class="password-field">
+          {{ form.password2(class_='form-control') }}
+          <button type="button" class="password-toggle" data-password-toggle="{{ form.password2.id }}" aria-label="Hiện mật khẩu">🙈</button>
+        </div>
+      </div>
+      <div class="col-12">
+        {{ form.submit(class_='btn btn-primary') }}
+      </div>
+    </form>
+  </div>
+{% endblock %}

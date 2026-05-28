@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block title %}Khám phá bản thân{% endblock %}
+{% block content %}
+  <div class="career-mobile-page">
+    <div class="career-topbar">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">← Trang chủ</a>
+      <h2 class="section-title mb-0">Khám phá bản thân</h2>
+      <span></span>
+    </div>
+
+    <section class="career-hero">
+      <div>
+        <div class="career-kicker">Tính cách nổi bật của bạn</div>
+        <h3>{{ personality.title }}</h3>
+        <p>{{ personality.body }}</p>
+      </div>
+      <div class="career-hero-icon">◎</div>
+    </section>
+
+    <div class="career-stat-grid">
+      <div class="career-stat"><strong>{{ entry_count }}</strong><span>Ngày ghi chú</span></div>
+      <div class="career-stat"><strong>{{ test_count }}</strong><span>Bài đã làm</span></div>
+      <div class="career-stat"><strong>{{ discovery_percent }}%</strong><span>Khám phá</span></div>
+    </div>
+
+    <div class="career-section-head">
+      <h5>Insight từ nhật ký</h5>
+      <button type="button" class="btn btn-outline-secondary">Xem tất cả ›</button>
+    </div>
+    <div class="career-insight-list">
+      {% for insight in insights %}
+        <article class="career-insight">
+          <div class="career-insight-icon {{ insight.tone }}">{{ insight.icon }}</div>
+          <div>
+            <h6>{{ insight.title }}</h6>
+            <p>{{ insight.body }}</p>
+            <span class="career-badge {{ insight.tone }}">{{ insight.badge }}</span>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    <div class="career-section-head">
+      <h5>Bài khám phá</h5>
+      <a href="{{ url_for('student_self_discovery') }}" class="btn btn-outline-secondary">Xem tất cả ›</a>
+    </div>
+    <div class="career-test-strip">
+      {% for test in tests %}
+        {% set done = latest_submissions.get(test.id) %}
+        <a class="career-test-card" href="{{ url_for('student_career_test_take', test_id=test.id) }}">
+          <span class="career-test-icon">{{ '✓' if done else '♧' }}</span>
+          <strong>{{ test.title }}</strong>
+          <small>{{ question_counts.get(test.id, 0) }} câu · 5–7 phút</small>
+          <span class="career-progress"><i style="width: {{ done.percent if done else 18 }}%"></i></span>
+        </a>
+      {% else %}
+        <div class="career-empty">Chưa có bài khám phá. Giáo viên sẽ upload bài tại khu vực hướng nghiệp.</div>
+      {% endfor %}
+    </div>
+
+    <div class="career-section-head">
+      <h5>Xu hướng cảm xúc</h5>
+    </div>
+    <section class="career-trend-box">
+      {% for trend in trends %}
+        <div class="career-trend-row">
+          <span>{{ trend.label }}</span>
+          <div class="career-trend-track"><i style="width: {{ trend.percent }}%; background: {{ trend.color }}"></i></div>
+          <strong>{{ trend.percent }}%</strong>
+        </div>
+      {% endfor %}
+    </section>
+  </div>
+{% endblock %}

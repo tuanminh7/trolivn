@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block title %}{{ 'Chỉnh sửa' if job else 'Upload' }} nghề{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">{{ 'Chỉnh sửa nghề' if job else 'Upload nghề mới' }}</h2>
+    </div>
+    <a href="{{ url_for('teacher_career_jobs') }}" class="btn btn-outline-secondary align-self-lg-start">Quay lại</a>
+  </div>
+
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Tên nghề</label>
+        <input name="name" class="form-control" value="{{ job.name if job else '' }}" placeholder="Ví dụ: Lập trình viên">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Lĩnh vực</label>
+        <input name="field" class="form-control" value="{{ job.field if job else '' }}" placeholder="Công nghệ">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Icon</label>
+        <input name="icon" class="form-control" value="{{ job.icon if job else '' }}" placeholder="</>">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Mô tả một dòng</label>
+        <input name="summary" class="form-control" value="{{ job.summary if job else '' }}" placeholder="Xây dựng phần mềm, ứng dụng và hệ thống">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Kỹ năng/pill</label>
+        <input name="skills" class="form-control" value="{{ skills_text }}" placeholder="Logic, Sáng tạo, Làm việc nhóm">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Thời gian học</label>
+        <input name="study" class="form-control" value="{{ job.study if job else '' }}" placeholder="4 năm">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Lương</label>
+        <input name="salary" class="form-control" value="{{ job.salary if job else '' }}" placeholder="9–25tr">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Nhu cầu</label>
+        <input name="demand" class="form-control" value="{{ job.demand if job else '' }}" placeholder="Cao">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Màu card</label>
+        <select name="color" class="form-select">
+          {% for color in ['purple', 'green', 'yellow', 'orange'] %}
+            <option value="{{ color }}" {% if job and job.color == color %}selected{% endif %}>{{ color }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-8 d-flex align-items-end">
+        <label class="form-check">
+          <input class="form-check-input" type="checkbox" name="is_featured" {% if job and job.is_featured %}checked{% endif %}>
+          <span class="form-check-label">Đưa vào Nghề nổi bật</span>
+        </label>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Nghề này làm gì?</label>
+        <textarea name="work" class="form-control" rows="4">{{ job.work if job else '' }}</textarea>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Cần tính cách/kỹ năng gì?</label>
+        <textarea name="personality" class="form-control" rows="4">{{ job.personality if job else '' }}</textarea>
+      </div>
+    </div>
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary">Lưu nghề</button>
+      <a href="{{ url_for('teacher_career_jobs') }}" class="btn btn-outline-secondary">Hủy</a>
+    </div>
+  </form>
+{% endblock %}

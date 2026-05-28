@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block title %}{{ 'Ch�?nh sửa' if topic else 'Tạo' }} trắc nghi�?m{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Trắc nghi�?m tâm lý</p>
+      <h2 class="section-title">{{ 'Ch�?nh sửa chủ �'ề' if topic else 'Tạo chủ �'ề m�>i' }}</h2>
+    </div>
+    <a href="{{ url_for('teacher_quizzes') }}" class="btn btn-outline-secondary align-self-lg-start">Quay lại</a>
+  </div>
+
+  <form method="post" id="quiz-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row g-3 mb-4">
+      <div class="col-md-7">
+        <label class="form-label">Chủ �'ề</label>
+        <input name="title" class="form-control" value="{{ topic.title if topic else '' }}" placeholder="Ví dụ: Đánh giá c�fng thẳng học tập">
+      </div>
+      <div class="col-md-5">
+        <label class="form-label">Trạng thái</label>
+        <input class="form-control" value="Học sinh có th�f nhìn thấy sau khi lưu" disabled>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Mô tả</label>
+        <textarea name="description" class="form-control" rows="3" placeholder="Mô tả ngắn về mục tiêu của bài trắc nghi�?m">{{ topic.description if topic else '' }}</textarea>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+      <h5 class="fw-bold mb-0">Câu hỏi ABCD</h5>
+      <button type="button" class="btn btn-outline-primary btn-sm" id="add-question">Thêm câu hỏi</button>
+    </div>
+
+    <div id="questions-wrap" class="d-flex flex-column gap-3">
+      {% set existing_questions = questions if questions else [None] %}
+      {% for question in existing_questions %}
+        <div class="border rounded p-3 quiz-question-item">
+          <div class="d-flex justify-content-between gap-2 mb-3">
+            <div class="fw-bold">Câu hỏi</div>
+            <button type="button" class="btn btn-sm btn-outline-danger remove-question">Xóa</button>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">N�Ti dung câu hỏi</label>
+            <textarea name="question_text[]" class="form-control" rows="2">{{ question.question_text if question else '' }}</textarea>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Đáp án A</label>
+              <input name="option_a[]" class="form-control" value="{{ question.option_a if question else '' }}" placeholder="0 �'i�fm">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Đáp án B</label>
+              <input name="option_b[]" class="form-control" value="{{ question.option_b if question else '' }}" placeholder="1 �'i�fm">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Đáp án C</label>
+              <input name="option_c[]" class="form-control" value="{{ question.option_c if question else '' }}" placeholder="2 �'i�fm">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Đáp án D</label>
+              <input name="option_d[]" class="form-control" value="{{ question.option_d if question else '' }}" placeholder="3 �'i�fm">
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary">Lưu và upload</button>
+      <a href="{{ url_for('teacher_quizzes') }}" class="btn btn-outline-secondary">Hủy</a>
+    </div>
+  </form>
+
+  <template id="question-template">
+    <div class="border rounded p-3 quiz-question-item">
+      <div class="d-flex justify-content-between gap-2 mb-3">
+        <div class="fw-bold">Câu hỏi</div>
+        <button type="button" class="btn btn-sm btn-outline-danger remove-question">Xóa</button>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">N�Ti dung câu hỏi</label>
+        <textarea name="question_text[]" class="form-control" rows="2"></textarea>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Đáp án A</label>
+          <input name="option_a[]" class="form-control" placeholder="0 �'i�fm">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Đáp án B</label>
+          <input name="option_b[]" class="form-control" placeholder="1 �'i�fm">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Đáp án C</label>
+          <input name="option_c[]" class="form-control" placeholder="2 �'i�fm">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Đáp án D</label>
+          <input name="option_d[]" class="form-control" placeholder="3 �'i�fm">
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const questionsWrap = document.getElementById('questions-wrap');
+    const questionTemplate = document.getElementById('question-template');
+    const addQuestion = document.getElementById('add-question');
+
+    function bindRemoveButtons() {
+      document.querySelectorAll('.remove-question').forEach((button) => {
+        button.onclick = () => {
+          if (document.querySelectorAll('.quiz-question-item').length > 1) {
+            button.closest('.quiz-question-item').remove();
+          }
+        };
+      });
+    }
+
+    addQuestion.addEventListener('click', () => {
+      questionsWrap.appendChild(questionTemplate.content.cloneNode(true));
+      bindRemoveButtons();
+    });
+
+    bindRemoveButtons();
+  </script>
+{% endblock %}

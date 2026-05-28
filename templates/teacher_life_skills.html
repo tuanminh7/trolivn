@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %}Bài học kỹ năng sống{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">Bài học kỹ năng sống</h2>
+    </div>
+    <div class="d-flex gap-2 align-self-lg-start">
+      <a href="{{ url_for('teacher_quizzes') }}" class="btn btn-outline-primary">Trắc nghiệm tâm lý</a>
+      <a href="{{ url_for('teacher_life_skill_new') }}" class="btn btn-primary">Upload bài học</a>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    {% for lesson in lessons %}
+      <div class="col-md-6 col-xl-4">
+        <article class="life-card">
+          <div class="life-thumb">
+            {% if lesson.thumbnail_url %}
+              <img src="{{ lesson.thumbnail_url }}" alt="{{ lesson.title }}">
+            {% else %}
+              <span>▶</span>
+            {% endif %}
+          </div>
+          <div class="d-flex justify-content-between gap-2 mb-2">
+            <span class="life-pill">{{ lesson.skill_category }}</span>
+            <span class="badge {{ 'text-bg-success' if lesson.is_published else 'text-bg-secondary' }}">
+              {{ 'Đã đăng' if lesson.is_published else 'Bản nháp' }}
+            </span>
+          </div>
+          <h5 class="fw-bold mb-2">{{ lesson.title }}</h5>
+          <p class="text-muted mb-3">{{ lesson.description }}</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge text-bg-light border">{{ lesson.duration or 'Chưa nhập thời lượng' }}</span>
+            <span class="badge text-bg-light border">{{ completion_counts.get(lesson.id, 0) }} học sinh hoàn thành</span>
+            {% if lesson.is_featured %}
+              <span class="badge text-bg-warning">Nổi bật</span>
+            {% endif %}
+          </div>
+          <a href="{{ url_for('teacher_life_skill_edit', lesson_id=lesson.id) }}" class="btn btn-sm btn-outline-primary">Chỉnh sửa</a>
+        </article>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5 bg-white">
+          <h5 class="fw-bold">Chưa có bài học kỹ năng sống</h5>
+          <a href="{{ url_for('teacher_life_skill_new') }}" class="btn btn-primary">Upload bài học đầu tiên</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

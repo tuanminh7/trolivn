@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block title %}Hồ sơ giáo viên{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Hệ thống</p>
+      <h2 class="section-title">Hồ sơ giáo viên</h2>
+    </div>
+    {% if profile.is_complete %}
+      <span class="badge text-bg-success align-self-lg-start">Đã hoàn tất</span>
+    {% else %}
+      <span class="badge text-bg-warning align-self-lg-start">Chưa hoàn tất</span>
+    {% endif %}
+  </div>
+
+  <form method="post" enctype="multipart/form-data" class="row g-4" id="teacher-profile-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="col-lg-4">
+      <aside class="profile-preview-card">
+        <label class="profile-avatar-wrap" for="teacher-avatar-input">
+          {% if profile.avatar_filename %}
+            <img id="teacher-avatar-preview" src="{{ url_for('static', filename='uploads/profiles/' ~ profile.avatar_filename) }}" alt="Ảnh hồ sơ">
+          {% else %}
+            <span id="teacher-avatar-placeholder">{{ (profile.full_name or current_user.username)[:2]|upper }}</span>
+            <img id="teacher-avatar-preview" alt="Ảnh hồ sơ" hidden>
+          {% endif %}
+        </label>
+        <input id="teacher-avatar-input" class="d-none" type="file" name="avatar" accept="image/png,image/jpeg,image/webp">
+        <button type="button" class="btn btn-outline-primary btn-sm mt-3" id="teacher-avatar-button">Upload ảnh profile</button>
+        <div class="text-muted small mt-2">Chọn ảnh xong hệ thống sẽ tự lưu.</div>
+
+        <div class="profile-preview-info mt-4">
+          <div class="text-muted small">Mã giáo viên</div>
+          <h4>{{ current_user.account_id or '—' }}</h4>
+          <div class="text-muted small">Tên hiển thị</div>
+          <strong>{{ profile.full_name or current_user.username }}</strong>
+          <div class="text-muted small mt-3">Bộ môn</div>
+          <strong>{{ profile.subject or 'Chưa cập nhật' }}</strong>
+        </div>
+      </aside>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Họ và tên</label>
+          <input name="full_name" class="form-control" value="{{ profile.full_name or '' }}" placeholder="Nhập họ và tên đầy đủ">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Tổ / phòng ban</label>
+          <input name="department" class="form-control" value="{{ profile.department or '' }}" placeholder="Ví dụ: Tổ Tư vấn học đường">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Bộ môn / chuyên môn</label>
+          <input name="subject" class="form-control" value="{{ profile.subject or '' }}" placeholder="Ví dụ: Tâm lý học đường">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Số điện thoại</label>
+          <input name="phone" class="form-control" value="{{ profile.phone or '' }}" placeholder="Nhập số điện thoại liên hệ">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Email liên hệ</label>
+          <input name="email_contact" class="form-control" value="{{ profile.email_contact or current_user.email }}" placeholder="Nhập email liên hệ">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Phòng làm việc</label>
+          <input name="office_location" class="form-control" value="{{ profile.office_location or '' }}" placeholder="Ví dụ: Phòng tư vấn A102">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Lịch tư vấn / thời gian hỗ trợ</label>
+          <input name="consultation_time" class="form-control" value="{{ profile.consultation_time or '' }}" placeholder="Ví dụ: Thứ 2-6, 14:00-16:30">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Giới thiệu ngắn</label>
+          <textarea name="bio" class="form-control" rows="4" placeholder="Thông tin chuyên môn, kinh nghiệm hoặc lời nhắn đến học sinh">{{ profile.bio or '' }}</textarea>
+        </div>
+
+        <div class="col-12">
+          <div class="alert alert-light border mb-0">
+            <strong>Thông tin này sẽ được dùng lại</strong> trong các chức năng tư vấn, chat với học sinh và quản lý hoạt động giáo viên.
+          </div>
+        </div>
+
+        <div class="col-12 d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Lưu hồ sơ</button>
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">Quay lại</a>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    const teacherAvatarInput = document.getElementById('teacher-avatar-input');
+    const teacherAvatarButton = document.getElementById('teacher-avatar-button');
+    const teacherAvatarPreview = document.getElementById('teacher-avatar-preview');
+    const teacherAvatarPlaceholder = document.getElementById('teacher-avatar-placeholder');
+    const teacherProfileForm = document.getElementById('teacher-profile-form');
+
+    teacherAvatarButton.addEventListener('click', () => teacherAvatarInput.click());
+    teacherAvatarInput.addEventListener('change', () => {
+      const file = teacherAvatarInput.files && teacherAvatarInput.files[0];
+      if (!file) {
+        return;
+      }
+      teacherAvatarPreview.src = URL.createObjectURL(file);
+      teacherAvatarPreview.hidden = false;
+      if (teacherAvatarPlaceholder) {
+        teacherAvatarPlaceholder.hidden = true;
+      }
+      teacherAvatarButton.textContent = 'Đang lưu ảnh...';
+      teacherProfileForm.requestSubmit();
+    });
+  </script>
+{% endblock %}

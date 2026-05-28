@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}Quản lý nghề nghiệp{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">Quản lý nghề nghiệp</h2>
+    </div>
+    <div class="d-flex gap-2 align-self-lg-start">
+      <a href="{{ url_for('teacher_career_inquiries') }}" class="btn btn-outline-primary">Câu hỏi học sinh</a>
+      <a href="{{ url_for('teacher_career_job_new') }}" class="btn btn-primary">Upload nghề</a>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    {% for job in jobs %}
+      <div class="col-md-6 col-xl-4">
+        <article class="feature-card">
+          <div class="d-flex justify-content-between gap-3">
+            <div>
+              <div class="feature-kicker">{{ job.field }}</div>
+              <h5 class="feature-title">{{ job.name }}</h5>
+            </div>
+            {% if job.is_featured %}
+              <span class="badge text-bg-warning align-self-start">Nổi bật</span>
+            {% endif %}
+          </div>
+          <p class="text-muted mb-3">{{ job.summary }}</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge text-bg-light border">{{ job.salary }}</span>
+            <span class="badge text-bg-light border">{{ job.study }}</span>
+            <span class="badge text-bg-light border">{{ job.demand }}</span>
+          </div>
+          <a href="{{ url_for('teacher_career_job_edit', job_id=job.id) }}" class="btn btn-sm btn-outline-primary">Chỉnh sửa</a>
+        </article>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có nghề nào</h5>
+          <a href="{{ url_for('teacher_career_job_new') }}" class="btn btn-primary">Upload nghề đầu tiên</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

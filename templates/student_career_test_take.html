@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}{{ test.title }}{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">{{ test.title }}</h2>
+    </div>
+    <a href="{{ url_for('student_self_discovery') }}" class="btn btn-outline-secondary align-self-lg-start">Quay lại</a>
+  </div>
+
+  <form method="post" class="d-flex flex-column gap-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {% for question in questions %}
+      <section class="border rounded p-3">
+        {% if question.image_url %}
+          <img src="{{ question.image_url }}" alt="Dữ kiện câu hỏi" class="career-question-image mb-3">
+        {% endif %}
+        <h5 class="fw-bold mb-3">Câu {{ loop.index }}. {{ question.question_text }}</h5>
+        <div class="row g-3">
+          {% for key, text in [('a', question.option_a), ('b', question.option_b), ('c', question.option_c), ('d', question.option_d)] %}
+            <div class="col-md-6">
+              <label class="quiz-option">
+                <input type="radio" name="question_{{ question.id }}" value="{{ key }}">
+                <span>{{ key|upper }}. {{ text }}</span>
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endfor %}
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Nộp bài khám phá</button>
+      <a href="{{ url_for('student_self_discovery') }}" class="btn btn-outline-secondary">Hủy</a>
+    </div>
+  </form>
+{% endblock %}

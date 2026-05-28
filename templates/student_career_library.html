@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+{% block title %}Thư viện nghề nghiệp{% endblock %}
+{% block content %}
+  <div class="career-mobile-page">
+    <div class="career-topbar">
+      <a href="{{ url_for('student_self_discovery') }}" class="btn btn-outline-secondary">← Khám phá</a>
+      <h2 class="section-title mb-0">Thư viện nghề</h2>
+      <a href="{{ url_for('student_inbox') }}" class="btn btn-outline-secondary">Hộp thư</a>
+    </div>
+
+    <input id="career-search" class="form-control career-search" placeholder="Tìm nghề, kỹ năng, lĩnh vực...">
+
+    <div class="career-filter-strip" id="career-filters">
+      {% for field in fields %}
+        <button type="button" class="career-filter-pill {% if loop.first %}active{% endif %}" data-field="{{ field }}">{{ field }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="career-section-head">
+      <h5>Nghề nổi bật</h5>
+      <span>Giáo viên đề xuất</span>
+    </div>
+    <div class="career-featured-strip">
+      {% for job in jobs if job.featured %}
+        <button type="button" class="career-job-card {{ job.color }}" data-job='{{ job|tojson|forceescape }}'>
+          <div class="career-job-icon">{{ job.icon }}</div>
+          <strong>{{ job.name }}</strong>
+          <span>{{ job.field }} · {{ job.demand }}</span>
+          <div class="career-chip-row">
+            {% for skill in job.skills[:2] %}
+              <small>{{ skill }}</small>
+            {% endfor %}
+          </div>
+        </button>
+      {% else %}
+        <div class="career-empty">Chưa có nghề nổi bật. Giáo viên sẽ đánh dấu khi upload nghề.</div>
+      {% endfor %}
+    </div>
+
+    <div class="career-section-head border-top pt-3">
+      <h5>Danh sách nghề</h5>
+      <span>{{ jobs|length }} nghề</span>
+    </div>
+    <div class="career-job-list">
+      {% for job in jobs %}
+        <button type="button" class="career-job-row" data-field="{{ job.field }}" data-keywords="{{ (job.name ~ ' ' ~ job.field ~ ' ' ~ job.summary ~ ' ' ~ job.skills|join(' '))|lower }}" data-job='{{ job|tojson|forceescape }}'>
+          <span class="career-row-icon {{ job.color }}">{{ job.icon }}</span>
+          <span class="career-row-body">
+            <strong>{{ job.name }}</strong>
+            <em>{{ job.summary }}</em>
+            <span class="career-chip-row">
+              {% for skill in job.skills[:2] %}
+                <small>{{ skill }}</small>
+              {% endfor %}
+            </span>
+          </span>
+          <span class="career-save">♡</span>
+        </button>
+      {% else %}
+        <div class="career-empty">Chưa có nghề nào trong thư viện. Giáo viên cần upload nghề trước.</div>
+      {% endfor %}
+    </div>
+
+    <div class="career-sheet-backdrop" id="career-sheet">
+      <div class="career-sheet">
+        <div class="career-sheet-head">
+          <span>Chi tiết nghề</span>
+          <button type="button" class="btn btn-outline-secondary" id="career-sheet-close">×</button>
+        </div>
+        <div class="d-flex gap-3 align-items-center mb-3">
+          <div class="career-row-icon purple" id="sheet-icon"></div>
+          <div>
+            <h4 class="mb-0" id="sheet-name"></h4>
+            <p class="mb-0 text-muted" id="sheet-field"></p>
+          </div>
+        </div>
+        <div class="career-chip-row mb-3" id="sheet-skills"></div>
+        <h6>Nghề này làm gì?</h6>
+        <p id="sheet-work"></p>
+        <div class="career-detail-grid">
+          <div><strong id="sheet-salary"></strong><span>Lương/tháng</span></div>
+          <div><strong id="sheet-study"></strong><span>Thời gian học</span></div>
+          <div><strong id="sheet-demand"></strong><span>Nhu cầu tuyển</span></div>
+        </div>
+        <h6>Cần kỹ năng gì?</h6>
+        <p id="sheet-personality"></p>
+        <button type="button" class="btn btn-outline-primary w-100" id="ask-job-toggle">✣ Hỏi thêm về nghề này ↗</button>
+        <form method="post" action="{{ url_for('student_career_ask') }}" class="career-ask-form mt-3" id="ask-job-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="job_id" id="ask-job-id">
+          <label class="form-label fw-semibold">Câu hỏi gửi giáo viên</label>
+          <textarea name="question" class="form-control mb-2" rows="3" placeholder="Ví dụ: Nghề này cần học môn nào nhiều nhất?"></textarea>
+          <button type="submit" class="btn btn-primary w-100">Gửi câu hỏi</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('career-search');
+    const rows = Array.from(document.querySelectorAll('.career-job-row'));
+    const filters = Array.from(document.querySelectorAll('.career-filter-pill'));
+    const sheet = document.getElementById('career-sheet');
+    const askForm = document.getElementById('ask-job-form');
+    let activeField = 'Tất cả';
+
+    function filterJobs() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      rows.forEach((row) => {
+        const fieldMatch = activeField === 'Tất cả' || row.dataset.field === activeField;
+        const keywordMatch = !keyword || row.dataset.keywords.includes(keyword);
+        row.style.display = fieldMatch && keywordMatch ? '' : 'none';
+      });
+    }
+
+    filters.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeField = button.dataset.field;
+        filters.forEach((item) => item.classList.toggle('active', item === button));
+        filterJobs();
+      });
+    });
+    searchInput.addEventListener('input', filterJobs);
+
+    function openJob(job) {
+      document.getElementById('sheet-icon').textContent = job.icon;
+      document.getElementById('sheet-name').textContent = job.name;
+      document.getElementById('sheet-field').textContent = job.field;
+      document.getElementById('sheet-work').textContent = job.work;
+      document.getElementById('sheet-salary').textContent = job.salary;
+      document.getElementById('sheet-study').textContent = job.study;
+      document.getElementById('sheet-demand').textContent = job.demand;
+      document.getElementById('sheet-personality').textContent = job.personality;
+      document.getElementById('sheet-skills').innerHTML = job.skills.map((skill) => `<small>${skill}</small>`).join('');
+      document.getElementById('ask-job-id').value = job.id;
+      askForm.classList.remove('show');
+      sheet.classList.add('show');
+    }
+
+    document.querySelectorAll('[data-job]').forEach((button) => {
+      button.addEventListener('click', () => openJob(JSON.parse(button.dataset.job)));
+    });
+    document.getElementById('ask-job-toggle').addEventListener('click', () => askForm.classList.toggle('show'));
+    document.getElementById('career-sheet-close').addEventListener('click', () => sheet.classList.remove('show'));
+    sheet.addEventListener('click', (event) => {
+      if (event.target === sheet) {
+        sheet.classList.remove('show');
+      }
+    });
+  </script>
+{% endblock %}

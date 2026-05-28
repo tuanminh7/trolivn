@@ -1,0 +1,219 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">Xin chào, {{ current_user.username }}</h2>
+    </div>
+    <div class="d-flex gap-2 align-items-start">
+      {% if current_user.role == 'admin' %}
+        <a class="btn btn-primary" href="{{ url_for('create_teacher') }}">Tạo giáo viên</a>
+      {% endif %}
+      {% if current_user.role in ['teacher', 'student'] %}
+        {% if current_user.role == 'student' %}
+          <a class="btn btn-outline-primary" href="{{ url_for('student_inbox') }}">Hộp thư</a>
+        {% endif %}
+        <a class="btn btn-outline-primary" href="{{ url_for('contact_admin') }}">Liên hệ quản trị</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Vai trò</div>
+        <p class="stat-value text-capitalize">{{ current_user.role }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Mã tài khoản</div>
+        <p class="stat-value">{{ current_user.account_id or '—' }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Trạng thái</div>
+        <p class="stat-value">{{ 'Active' if current_user.is_active else 'Revoked' }}</p>
+      </div>
+    </div>
+  </div>
+
+  {% if current_user.role == 'admin' %}
+    <div class="mb-4">
+      <h5 class="fw-bold mb-3">Quản trị nhanh</h5>
+      <div class="row g-3">
+        <div class="col-md-6 col-xl-3">
+          <a href="{{ url_for('admin_users') }}" class="feature-card">
+            <div class="feature-kicker">Users</div>
+            <div class="feature-title">Quản lý người dùng</div>
+          </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <a href="{{ url_for('admin_stats') }}" class="feature-card">
+            <div class="feature-kicker">Reports</div>
+            <div class="feature-title">Thống kê hệ thống</div>
+          </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <a href="{{ url_for('admin_chat') }}" class="feature-card">
+            <div class="feature-kicker">Messages</div>
+            <div class="feature-title">Tin nhắn quản trị</div>
+          </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <a href="{{ url_for('create_teacher') }}" class="feature-card">
+            <div class="feature-kicker">Teachers</div>
+            <div class="feature-title">Tạo giáo viên</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if current_user.role == 'parent' %}
+    <div>
+      <h5 class="fw-bold mb-3">Chat với giáo viên</h5>
+      <div class="row g-3">
+        {% for teacher in parent_teachers %}
+          <div class="col-md-6 col-xl-4">
+            <a href="{{ url_for('parent_teacher_chat', teacher_id=teacher.id) }}" class="room-card">
+              <div class="d-flex align-items-center gap-3">
+                <span class="chat-avatar">{{ teacher.username[:1]|upper }}</span>
+                <div>
+                  <div class="fw-bold">{{ teacher.username }}</div>
+                  <div class="section-subtitle small">{{ teacher.email }}</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% else %}
+          <div class="col-12">
+            <div class="text-center border rounded p-5">
+              <h5 class="fw-bold">Chưa có giáo viên</h5>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% elif current_user.role != 'admin' %}
+    <div>
+      <h5 class="fw-bold mb-3">Khu vực chức năng</h5>
+      <div class="row g-3">
+        <div class="col-md-6 col-xl-3 position-relative">
+          {% if current_user.role == 'student' %}
+            <button type="button" class="feature-card feature-card-button" id="student-psychology-toggle" aria-expanded="false" aria-controls="student-psychology-menu">
+              <div class="feature-kicker">Support</div>
+              <div class="feature-title">🧠 Tâm lý học đường</div>
+              <div class="mt-3 small text-primary fw-semibold" id="student-psychology-hint">Mở các mục ›</div>
+            </button>
+            <div class="student-submenu" id="student-psychology-menu">
+              <a href="{{ url_for('student_quizzes') }}" class="student-submenu-link">Trắc nghiệm tâm lý</a>
+              <a href="{{ url_for('student_chat_rooms') }}" class="student-submenu-link">Chat với chuyên gia</a>
+              <a href="{{ url_for('emotion_journal') }}" class="student-submenu-link">Nhật ký cảm xúc</a>
+              <a href="{{ url_for('student_life_skills') }}" class="student-submenu-link">Bài học kỹ năng sống</a>
+            </div>
+          {% elif current_user.role == 'teacher' %}
+            <a href="{{ url_for('teacher_quizzes') }}" class="feature-card">
+              <div class="feature-kicker">Support</div>
+              <div class="feature-title">Tâm lý học đường</div>
+            </a>
+          {% else %}
+            <a href="#" class="feature-card">
+              <div class="feature-kicker">Support</div>
+              <div class="feature-title">Tâm lý học đường</div>
+            </a>
+          {% endif %}
+        </div>
+        <div class="col-md-6 col-xl-3 position-relative">
+          {% if current_user.role == 'student' %}
+            <button type="button" class="feature-card feature-card-button" id="student-career-toggle" aria-expanded="false" aria-controls="student-career-menu">
+              <div class="feature-kicker">Career</div>
+              <div class="feature-title">🎯 Hướng nghiệp</div>
+              <div class="mt-3 small text-primary fw-semibold" id="student-career-hint">Mở các mục ›</div>
+            </button>
+            <div class="student-submenu" id="student-career-menu">
+              <a href="{{ url_for('student_self_discovery') }}" class="student-submenu-link">Khám phá bản thân</a>
+              <a href="{{ url_for('student_career_library') }}" class="student-submenu-link">Thư viện nghề nghiệp</a>
+              <a href="{{ url_for('student_learning_path') }}" class="student-submenu-link">Lộ trình học tập</a>
+            </div>
+          {% elif current_user.role == 'teacher' %}
+            <a href="{{ url_for('teacher_career_tests') }}" class="feature-card">
+              <div class="feature-kicker">Career</div>
+              <div class="feature-title">Hướng nghiệp</div>
+            </a>
+          {% else %}
+            <a href="#" class="feature-card">
+              <div class="feature-kicker">Career</div>
+              <div class="feature-title">Hướng nghiệp</div>
+            </a>
+          {% endif %}
+        </div>
+        <div class="col-md-6 col-xl-3 position-relative">
+          {% if current_user.role == 'student' %}
+            <button type="button" class="feature-card feature-card-button" id="student-community-toggle" aria-expanded="false" aria-controls="student-community-menu">
+              <div class="feature-kicker">Community</div>
+              <div class="feature-title">👥 Cộng đồng</div>
+              <div class="mt-3 small text-primary fw-semibold" id="student-community-hint">Mở diễn đàn ›</div>
+            </button>
+            <div class="student-submenu" id="student-community-menu">
+              <a href="{{ url_for('student_forum') }}" class="student-submenu-link">Diễn đàn học sinh</a>
+            </div>
+          {% else %}
+            <a href="{{ url_for('student_forum') if current_user.role == 'teacher' else '#' }}" class="feature-card">
+              <div class="feature-kicker">Community</div>
+              <div class="feature-title">Cộng đồng</div>
+            </a>
+          {% endif %}
+        </div>
+        <div class="col-md-6 col-xl-3 position-relative">
+          {% if current_user.role == 'student' %}
+            <button type="button" class="feature-card feature-card-button" id="student-system-toggle" aria-expanded="false" aria-controls="student-system-menu">
+              <div class="feature-kicker">System</div>
+              <div class="feature-title">Hệ thống</div>
+              <div class="mt-3 small text-primary fw-semibold" id="student-system-hint">Mở hồ sơ ›</div>
+            </button>
+            <div class="student-submenu" id="student-system-menu">
+              <a href="{{ url_for('student_profile') }}" class="student-submenu-link">Hồ sơ học sinh</a>
+            </div>
+          {% elif current_user.role == 'teacher' %}
+            <a href="{{ url_for('teacher_profile') }}" class="feature-card">
+              <div class="feature-kicker">System</div>
+              <div class="feature-title">Hệ thống</div>
+            </a>
+          {% else %}
+            <a href="#" class="feature-card">
+              <div class="feature-kicker">System</div>
+              <div class="feature-title">Hệ thống</div>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if current_user.role == 'student' %}
+    <script>
+      function bindDropdown(toggleId, menuId, hintId, openText, closedText) {
+        const toggle = document.getElementById(toggleId);
+        const menu = document.getElementById(menuId);
+        const hint = document.getElementById(hintId);
+
+        if (toggle && menu) {
+          toggle.addEventListener('click', () => {
+            const isOpen = menu.classList.toggle('show');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (hint) {
+              hint.textContent = isOpen ? openText : closedText;
+            }
+          });
+        }
+      }
+
+      bindDropdown('student-psychology-toggle', 'student-psychology-menu', 'student-psychology-hint', 'Thu gọn ↑', 'Mở các mục ›');
+      bindDropdown('student-career-toggle', 'student-career-menu', 'student-career-hint', 'Thu gọn ↑', 'Mở các mục ›');
+      bindDropdown('student-community-toggle', 'student-community-menu', 'student-community-hint', 'Thu gọn ↑', 'Mở diễn đàn ›');
+      bindDropdown('student-system-toggle', 'student-system-menu', 'student-system-hint', 'Thu gọn ↑', 'Mở hồ sơ ›');
+    </script>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block title %}Chat Admin{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Tin nhắn</p>
+      <h2 class="section-title">Lịch sử chat người dùng</h2>
+    </div>
+    <span class="badge text-bg-light border align-self-lg-start">{{ messages|length }} hội thoại</span>
+  </div>
+
+  <div class="chat-workspace">
+    <aside class="chat-sidebar-panel">
+      <div class="chat-sidebar-header">
+        <div class="fw-bold">Hộp thư đến</div>
+        <div class="section-subtitle small">Danh sách hội thoại mới nhất</div>
+      </div>
+      <div class="chat-list">
+        {% for m in messages %}
+          {% set sender = users_by_id.get(m.sender_id) %}
+          {% set replies = replies_by_message.get(m.id, []) %}
+          <a href="#thread-{{ m.id }}" class="chat-list-item">
+            <div class="d-flex gap-3">
+              <span class="chat-avatar">{{ (sender.username[:1] if sender else '?')|upper }}</span>
+              <div class="min-w-0 flex-grow-1">
+                <div class="d-flex justify-content-between gap-2">
+                  <div class="fw-semibold text-truncate">{{ sender.username if sender else 'Người dùng #' ~ m.sender_id }}</div>
+                  <span class="text-muted small">{{ replies|length }}</span>
+                </div>
+                <div class="text-muted small text-capitalize">{{ sender.role if sender else 'unknown' }}</div>
+                <div class="text-muted small text-truncate">{{ m.content }}</div>
+              </div>
+            </div>
+          </a>
+        {% else %}
+          <div class="p-4 text-center">
+            <div class="fw-bold">Chưa có hội thoại</div>
+            <div class="section-subtitle small">Tin nhắn mới sẽ xuất hiện tại đây.</div>
+          </div>
+        {% endfor %}
+      </div>
+    </aside>
+
+    <section class="chat-thread-panel">
+      <div class="chat-thread-header">
+        <div class="fw-bold">Nội dung trao đổi</div>
+        <div class="section-subtitle small">Xem lịch sử và phản hồi ngay trong từng luồng chat.</div>
+      </div>
+
+      <div class="chat-thread-list">
+        {% for m in messages %}
+          {% set sender = users_by_id.get(m.sender_id) %}
+          {% set replies = replies_by_message.get(m.id, []) %}
+          <article class="chat-thread" id="thread-{{ m.id }}">
+            <div class="chat-thread-title">
+              <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
+                <div class="d-flex gap-3 align-items-center">
+                  <span class="chat-avatar">{{ (sender.username[:1] if sender else '?')|upper }}</span>
+                  <div>
+                    <div class="fw-bold">{{ sender.username if sender else 'Người dùng #' ~ m.sender_id }}</div>
+                    <div class="section-subtitle small">
+                      {{ sender.email if sender else 'Không rõ email' }}
+                      ·
+                      {{ sender.role if sender else 'unknown' }}
+                    </div>
+                  </div>
+                </div>
+                <span class="badge text-bg-light border align-self-md-start">{{ replies|length }} phản hồi</span>
+              </div>
+            </div>
+
+            <div class="chat-history">
+              <div class="chat-row incoming">
+                <div class="chat-bubble">
+                  <div class="fw-semibold mb-1">{{ sender.username if sender else 'Người dùng' }}</div>
+                  <div>{{ m.content }}</div>
+                  <div class="chat-time">{{ m.created_at.strftime('%d/%m/%Y %H:%M') if m.created_at else '' }}</div>
+                </div>
+              </div>
+
+              {% for r in replies %}
+                <div class="chat-row outgoing">
+                  <div class="chat-bubble">
+                    <div class="fw-semibold mb-1">Quản trị</div>
+                    <div>{{ r.content }}</div>
+                    <div class="chat-time">{{ r.created_at.strftime('%d/%m/%Y %H:%M') if r.created_at else '' }}</div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+
+            <form method="post" action="{{ url_for('admin_reply', message_id=m.id) }}" class="chat-composer">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <div class="input-group">
+                <input name="reply" class="form-control" placeholder="Nhập phản hồi cho {{ sender.username if sender else 'người dùng' }}...">
+                <button class="btn btn-primary" type="submit">Gửi</button>
+              </div>
+            </form>
+          </article>
+        {% else %}
+          <div class="text-center border rounded p-5 bg-white">
+            <h5 class="fw-bold">Chưa có tin nhắn</h5>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+{% endblock %}

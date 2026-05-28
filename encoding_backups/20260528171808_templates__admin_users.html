@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}Quản lý người dùng{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Quản tr�<</p>
+      <h2 class="section-title">Danh sách người dùng</h2>
+    </div>
+    <a class="btn btn-primary align-self-lg-start" href="{{ url_for('create_teacher') }}">Tạo giáo viên</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Mã</th>
+          <th>Tên</th>
+          <th>Email</th>
+          <th>Vai trò</th>
+          <th>Trạng thái</th>
+          <th class="text-end">Hành �'�Tng</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+          <tr>
+            <td>{{ u.id }}</td>
+            <td><span class="badge text-bg-light border">{{ u.account_id or '�?"' }}</span></td>
+            <td class="fw-semibold">{{ u.username }}</td>
+            <td>{{ u.email }}</td>
+            <td><span class="badge text-bg-secondary text-capitalize">{{ u.role }}</span></td>
+            <td>
+              {% if u.is_active %}
+                <span class="badge text-bg-success">Active</span>
+              {% else %}
+                <span class="badge text-bg-warning">Revoked</span>
+              {% endif %}
+            </td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin_user_manage', user_id=u.id) }}">Quản lý</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

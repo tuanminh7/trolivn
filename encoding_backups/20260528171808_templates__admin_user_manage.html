@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block title %}Quản lý: {{ user.username }}{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">H�" sơ người dùng</p>
+      <h2 class="section-title">{{ user.username }}</h2>
+    </div>
+    <a href="{{ url_for('admin_users') }}" class="btn btn-outline-secondary align-self-lg-start">Danh sách người dùng</a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Vai trò</div>
+        <p class="stat-value text-capitalize">{{ user.role }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Mã tài khoản</div>
+        <p class="stat-value">{{ user.account_id or '�?"' }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-label">Trạng thái</div>
+        <p class="stat-value">{{ 'Active' if user.is_active else 'Revoked' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="border rounded p-3 mb-4">
+    <h5 class="fw-bold mb-2">Trạng thái tài khoản</h5>
+    <p class="section-subtitle">Thu h�"i sẽ chặn �'�fng nhập; cấp lại sẽ cho phép người dùng truy cập tr�Y lại.</p>
+    <div class="d-flex flex-wrap gap-2">
+      <form method="post" action="{{ url_for('admin_user_manage', user_id=user.id) }}">
+        {{ form.hidden_tag() }}
+        <input type="hidden" name="action" value="deactivate">
+        <button type="submit" class="btn btn-warning">Thu h�"i</button>
+      </form>
+      <form method="post" action="{{ url_for('admin_user_manage', user_id=user.id) }}">
+        {{ form.hidden_tag() }}
+        <input type="hidden" name="action" value="activate">
+        <button type="submit" class="btn btn-success">Cấp lại</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="border rounded p-3">
+    <h5 class="fw-bold mb-3">Đ�.i mật khẩu</h5>
+    <form method="post" class="row g-3">
+      {{ form.hidden_tag() }}
+      <div class="col-md-6">
+        {{ form.password.label(class_='form-label') }}
+        <div class="password-field">
+          {{ form.password(class_='form-control') }}
+          <button type="button" class="password-toggle" data-password-toggle="{{ form.password.id }}" aria-label="Hi�?n mật khẩu">�Y'�</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        {{ form.password2.label(class_='form-label') }}
+        <div class="password-field">
+          {{ form.password2(class_='form-control') }}
+          <button type="button" class="password-toggle" data-password-toggle="{{ form.password2.id }}" aria-label="Hi�?n mật khẩu">�Y'�</button>
+        </div>
+      </div>
+      <div class="col-12">
+        {{ form.submit(class_='btn btn-primary') }}
+      </div>
+    </form>
+  </div>
+{% endblock %}

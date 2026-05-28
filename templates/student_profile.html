@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+{% block title %}Hồ sơ học sinh{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Hệ thống</p>
+      <h2 class="section-title">Hồ sơ học sinh</h2>
+    </div>
+    {% if profile.is_complete %}
+      <span class="badge text-bg-success align-self-lg-start">Đã hoàn tất</span>
+    {% else %}
+      <span class="badge text-bg-warning align-self-lg-start">Chưa hoàn tất</span>
+    {% endif %}
+  </div>
+
+  <form method="post" enctype="multipart/form-data" class="row g-4" id="student-profile-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="col-lg-4">
+      <aside class="profile-preview-card">
+        <label class="profile-avatar-wrap" for="avatar-input">
+          {% if profile.avatar_filename %}
+            <img id="avatar-preview" src="{{ url_for('static', filename='uploads/profiles/' ~ profile.avatar_filename) }}" alt="Ảnh hồ sơ">
+          {% else %}
+            <span id="avatar-placeholder">{{ (profile.full_name or current_user.username)[:2]|upper }}</span>
+            <img id="avatar-preview" alt="Ảnh hồ sơ" hidden>
+          {% endif %}
+        </label>
+        <input id="avatar-input" class="d-none" type="file" name="avatar" accept="image/png,image/jpeg,image/webp">
+        <button type="button" class="btn btn-outline-primary btn-sm mt-3" id="avatar-button">Upload ảnh profile</button>
+        <div class="text-muted small mt-2">Chọn ảnh xong hệ thống sẽ tự lưu.</div>
+
+        <div class="profile-preview-info mt-4">
+          <div class="text-muted small">Mã học sinh</div>
+          <h4>{{ current_user.account_id or '—' }}</h4>
+          <div class="text-muted small">Tên hiển thị</div>
+          <strong>{{ profile.full_name or current_user.username }}</strong>
+          <div class="text-muted small mt-3">Lớp</div>
+          <strong>{{ profile.class_name or 'Chưa cập nhật' }}</strong>
+        </div>
+      </aside>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Họ và tên</label>
+          <input name="full_name" class="form-control" value="{{ profile.full_name or '' }}" placeholder="Nhập họ và tên đầy đủ">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Lớp</label>
+          <input name="class_name" class="form-control" value="{{ profile.class_name or '' }}" placeholder="Ví dụ: 10A1">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Số điện thoại học sinh</label>
+          <input name="phone" class="form-control" value="{{ profile.phone or '' }}" placeholder="Nhập số điện thoại liên hệ">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Liên hệ khẩn cấp</label>
+          <input name="emergency_contact" class="form-control" value="{{ profile.emergency_contact or '' }}" placeholder="Tên hoặc số điện thoại cần liên hệ gấp">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Địa chỉ</label>
+          <input name="address" class="form-control" value="{{ profile.address or '' }}" placeholder="Nhập địa chỉ hiện tại">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Họ tên phụ huynh/người giám hộ</label>
+          <input name="guardian_name" class="form-control" value="{{ profile.guardian_name or '' }}" placeholder="Nhập họ tên phụ huynh">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Số điện thoại phụ huynh/người giám hộ</label>
+          <input name="guardian_phone" class="form-control" value="{{ profile.guardian_phone or '' }}" placeholder="Nhập số điện thoại phụ huynh">
+        </div>
+
+        <div class="col-12">
+          <div class="alert alert-light border mb-0">
+            <strong>Thông tin này sẽ được dùng lại</strong> cho các chức năng cần nhận diện học sinh, liên hệ hỗ trợ và theo dõi kết quả đánh giá.
+          </div>
+        </div>
+
+        <div class="col-12 d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Lưu hồ sơ</button>
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">Quay lại</a>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    const avatarInput = document.getElementById('avatar-input');
+    const avatarButton = document.getElementById('avatar-button');
+    const avatarPreview = document.getElementById('avatar-preview');
+    const avatarPlaceholder = document.getElementById('avatar-placeholder');
+    const profileForm = document.getElementById('student-profile-form');
+
+    avatarButton.addEventListener('click', () => avatarInput.click());
+    avatarInput.addEventListener('change', () => {
+      const file = avatarInput.files && avatarInput.files[0];
+      if (!file) {
+        return;
+      }
+      avatarPreview.src = URL.createObjectURL(file);
+      avatarPreview.hidden = false;
+      if (avatarPlaceholder) {
+        avatarPlaceholder.hidden = true;
+      }
+      avatarButton.textContent = 'Đang lưu ảnh...';
+      profileForm.requestSubmit();
+    });
+  </script>
+{% endblock %}

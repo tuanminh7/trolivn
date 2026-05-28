@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+{% block title %}Diễn đàn học sinh{% endblock %}
+{% block content %}
+  <div class="forum-page">
+    <div class="forum-topbar">
+      <h2 class="section-title mb-0">Diễn đàn</h2>
+      <button type="button" class="btn btn-outline-secondary">•••</button>
+    </div>
+
+    <div class="forum-safe-banner">
+      <span>♧</span>
+      <strong>Không có lượt thích công khai · Đăng ẩn danh tùy ý · Bình luận xây dựng</strong>
+    </div>
+
+    <div class="forum-filter-strip">
+      {% for category in categories %}
+        <a class="forum-filter-pill {% if active_category == category %}active{% endif %}" href="{{ url_for('student_forum', category=category) }}">
+          {{ category }}
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if can_interact %}
+      <form method="post" class="forum-composer">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="forum-avatar">{{ current_user.username[:2]|upper }}</div>
+        <div class="forum-composer-body">
+          <input name="title" class="form-control mb-2" placeholder="Tiêu đề bài viết...">
+          <textarea name="content" class="form-control" rows="3" placeholder="Chia sẻ điều gì đó hôm nay..."></textarea>
+          <div class="d-flex flex-wrap justify-content-between gap-2 mt-2">
+            <select name="category" class="form-select forum-category-select">
+              {% for category in categories[1:] %}
+                <option value="{{ category }}">{{ category }}</option>
+              {% endfor %}
+            </select>
+            <label class="form-check forum-anonymous-check">
+              <input class="form-check-input" type="checkbox" name="is_anonymous">
+              <span class="form-check-label">Ẩn danh</span>
+            </label>
+            <button class="btn btn-primary" type="submit">Đăng bài mới</button>
+          </div>
+        </div>
+      </form>
+    {% endif %}
+
+    <div class="forum-section-head">
+      <h5>Bài viết mới nhất</h5>
+      <span>↕ Mới nhất</span>
+    </div>
+
+    <div class="forum-feed">
+      {% for post in posts %}
+        {% set author = users_by_id.get(post.student_id) %}
+        {% set author_name = 'Ẩn danh' if post.is_anonymous else (author.username if author else 'Học sinh') %}
+        {% set my_reaction = my_reactions.get(post.id) %}
+        <article class="forum-post">
+          <div class="forum-post-head">
+            <div class="forum-avatar {{ 'anonymous' if post.is_anonymous else '' }}">{{ '🔒' if post.is_anonymous else author_name[:2]|upper }}</div>
+            <div>
+              <strong>{{ author_name }}</strong>
+              <div class="text-muted small">{{ post.created_at.strftime('%d/%m/%Y %H:%M') if post.created_at else '' }}</div>
+            </div>
+            <span class="forum-topic">{{ post.category }}</span>
+          </div>
+
+          <h5 class="forum-post-title">{{ post.title }}</h5>
+          <p class="forum-post-content">{{ post.content }}</p>
+
+          <div class="forum-actions">
+            {% if can_interact %}
+              <form method="post" action="{{ url_for('student_forum_react', post_id=post.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="reaction_type" value="empathy">
+                <input type="hidden" name="active_category" value="{{ active_category }}">
+                <button class="btn btn-outline-secondary forum-action-btn {% if my_reaction == 'empathy' %}active{% endif %}" type="submit">♡ Đồng cảm</button>
+              </form>
+              <form method="post" action="{{ url_for('student_forum_react', post_id=post.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="reaction_type" value="useful">
+                <input type="hidden" name="active_category" value="{{ active_category }}">
+                <button class="btn btn-outline-secondary forum-action-btn {% if my_reaction == 'useful' %}active{% endif %}" type="submit">✣ Hay</button>
+              </form>
+            {% endif %}
+            <span class="btn btn-outline-secondary forum-action-btn">💬 {{ comments_by_post.get(post.id, [])|length }}</span>
+            {% if can_interact %}
+              <form method="post" action="{{ url_for('student_forum_report', post_id=post.id) }}" class="ms-auto">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="active_category" value="{{ active_category }}">
+                <button class="btn btn-link forum-report-btn" type="submit">Báo cáo</button>
+              </form>
+            {% endif %}
+          </div>
+
+          {% if comments_by_post.get(post.id) %}
+            <div class="forum-comments">
+              {% for comment in comments_by_post.get(post.id) %}
+                {% set commenter = users_by_id.get(comment.student_id) %}
+                {% set commenter_name = 'Ẩn danh' if comment.is_anonymous else (commenter.username if commenter else 'Học sinh') %}
+                <div class="forum-comment">
+                  <div class="forum-avatar small {{ 'anonymous' if comment.is_anonymous else '' }}">{{ '🔒' if comment.is_anonymous else commenter_name[:2]|upper }}</div>
+                  <div>
+                    <strong>{{ commenter_name }}</strong>
+                    <p>{{ comment.content }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if can_interact %}
+            <form method="post" action="{{ url_for('student_forum_comment', post_id=post.id) }}" class="forum-comment-form">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="active_category" value="{{ active_category }}">
+              <div class="forum-avatar small">{{ current_user.username[:2]|upper }}</div>
+              <input name="content" class="form-control" placeholder="Viết bình luận...">
+              <label class="form-check forum-comment-anonymous">
+                <input class="form-check-input" type="checkbox" name="is_anonymous">
+                <span class="form-check-label">Ẩn danh</span>
+              </label>
+              <button class="btn btn-outline-primary" type="submit">Gửi</button>
+            </form>
+          {% endif %}
+        </article>
+      {% else %}
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có bài viết</h5>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

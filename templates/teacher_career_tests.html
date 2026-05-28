@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}Bài khám phá hướng nghiệp{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <h2 class="section-title">Bài khám phá hướng nghiệp</h2>
+    </div>
+    <div class="d-flex gap-2 align-self-lg-start">
+      <a href="{{ url_for('teacher_career_jobs') }}" class="btn btn-outline-primary">Quản lý nghề</a>
+      <a href="{{ url_for('teacher_learning_paths') }}" class="btn btn-outline-primary">Lộ trình học tập</a>
+      <a href="{{ url_for('teacher_career_inquiries') }}" class="btn btn-outline-primary">Câu hỏi học sinh</a>
+      <a href="{{ url_for('teacher_career_test_new') }}" class="btn btn-primary">Tạo bài khám phá</a>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    {% for test in tests %}
+      <div class="col-md-6 col-xl-4">
+        <article class="feature-card">
+          <div class="d-flex justify-content-between gap-3">
+            <div>
+              <div class="feature-kicker">Hướng nghiệp</div>
+              <h5 class="feature-title">{{ test.title }}</h5>
+            </div>
+            <span class="badge text-bg-success align-self-start">Đã upload</span>
+          </div>
+          <p class="text-muted mb-3">{{ test.description or 'Bài khám phá ngắn cho học sinh.' }}</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge text-bg-light border">{{ question_counts.get(test.id, 0) }} câu hỏi</span>
+            <span class="badge text-bg-light border">{{ submission_counts.get(test.id, 0) }} lượt làm</span>
+          </div>
+          <a href="{{ url_for('teacher_career_test_edit', test_id=test.id) }}" class="btn btn-sm btn-outline-primary">Chỉnh sửa</a>
+        </article>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có bài khám phá</h5>
+          <a href="{{ url_for('teacher_career_test_new') }}" class="btn btn-primary">Tạo bài khám phá</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

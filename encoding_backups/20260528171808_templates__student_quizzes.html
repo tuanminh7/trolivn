@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}Trắc nghi�?m tâm lý{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Tâm lý học �'ường</p>
+    <h2 class="section-title">Trắc nghi�?m tâm lý</h2>
+  </div>
+
+  <div class="row g-3">
+    {% for topic in topics %}
+      {% set latest = latest_submissions.get(topic.id) %}
+      <div class="col-md-6">
+        <article class="feature-card">
+          <div class="d-flex justify-content-between gap-2 mb-2">
+            <div>
+              <div class="feature-kicker">Trắc nghi�?m</div>
+              <h5 class="feature-title">{{ topic.title }}</h5>
+            </div>
+            <span class="badge text-bg-light border">{{ question_counts.get(topic.id, 0) }} câu</span>
+          </div>
+          {% if latest %}
+            <div class="alert alert-light border py-2 mb-3">
+              Lần gần nhất: {{ latest.percent }}/100 · Mức {{ latest.level }}
+            </div>
+          {% endif %}
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('student_quiz_take', topic_id=topic.id) }}" class="btn btn-primary">Tiến hành làm</a>
+            {% if latest %}
+              <a href="{{ url_for('student_quiz_result', submission_id=latest.id) }}" class="btn btn-outline-secondary">Xem kết quả</a>
+            {% endif %}
+          </div>
+        </article>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có bài trắc nghi�?m</h5>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

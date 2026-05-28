@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Trắc nghi�?m tâm lý{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Giáo viên</p>
+      <h2 class="section-title">Trắc nghi�?m tâm lý</h2>
+    </div>
+    <a href="{{ url_for('teacher_quiz_new') }}" class="btn btn-primary align-self-lg-start">Tạo chủ �'ề</a>
+  </div>
+
+  <div class="row g-3">
+    {% for topic in topics %}
+      <div class="col-md-6">
+        <article class="feature-card">
+          <div class="d-flex justify-content-between gap-2 mb-2">
+            <div>
+              <div class="feature-kicker">Chủ �'ề</div>
+              <h5 class="feature-title">{{ topic.title }}</h5>
+            </div>
+            <span class="badge text-bg-success align-self-start">Đã upload</span>
+          </div>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge text-bg-light border">{{ question_counts.get(topic.id, 0) }} câu hỏi</span>
+            <span class="badge text-bg-light border">{{ submission_counts.get(topic.id, 0) }} lượt làm</span>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('teacher_quiz_edit', topic_id=topic.id) }}" class="btn btn-sm btn-outline-primary">Ch�?nh sửa</a>
+            <a href="{{ url_for('teacher_quiz_results', topic_id=topic.id) }}" class="btn btn-sm btn-outline-secondary">Xem kết quả</a>
+          </div>
+        </article>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có chủ �'ề</h5>
+          <p class="section-subtitle">Tạo chủ �'ề �'ầu tiên �'�f học sinh có th�f làm trắc nghi�?m tâm lý.</p>
+          <a href="{{ url_for('teacher_quiz_new') }}" class="btn btn-primary">Tạo chủ �'ề</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

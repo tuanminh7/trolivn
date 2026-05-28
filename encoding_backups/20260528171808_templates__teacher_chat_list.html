@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Tin nhắn học sinh{% endblock %}
+{% block content %}
+  <div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">Realtime chat</p>
+    <h2 class="section-title">Tin nhắn từ học sinh</h2>
+  </div>
+
+  <div class="row g-3">
+    {% for conversation in conversations %}
+      {% set student = students_by_id.get(conversation.student_id) %}
+      {% set latest = latest_messages.get(conversation.id) %}
+      <div class="col-md-6">
+        <a href="{{ url_for('teacher_chat_room', conversation_id=conversation.id) }}" class="room-card">
+          <div class="d-flex gap-3">
+            <span class="chat-avatar">{{ (student.username[:1] if student else '?')|upper }}</span>
+            <div class="min-w-0 flex-grow-1">
+              <div class="fw-bold text-truncate">{{ student.username if student else 'Học sinh #' ~ conversation.student_id }}</div>
+              <div class="section-subtitle small text-truncate">{{ latest.content if latest else 'Chưa có tin nhắn' }}</div>
+              <div class="text-muted small">{{ conversation.updated_at.strftime('%d/%m/%Y %H:%M') if conversation.updated_at else '' }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
+          <h5 class="fw-bold">Chưa có cu�Tc trò chuy�?n</h5>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
