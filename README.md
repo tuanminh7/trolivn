@@ -156,6 +156,24 @@ Nếu muốn đưa đúng dữ liệu local hiện tại lên Render, dự án c
 python import_current_data.py
 ```
 
+Nếu dùng Render free không có Shell, bật biến môi trường này rồi redeploy:
+
+```bash
+IMPORT_CURRENT_DATA=1
+```
+
+App sẽ tự import `seed_current_data.json` khi database còn trống. Sau khi đăng nhập được, đổi lại:
+
+```bash
+IMPORT_CURRENT_DATA=0
+```
+
+Nếu muốn ghi đè database đang có dữ liệu:
+
+```bash
+IMPORT_CURRENT_DATA=force
+```
+
 Nếu sau này muốn xuất lại dữ liệu local mới nhất:
 
 ```bash

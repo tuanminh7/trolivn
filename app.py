@@ -14,6 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
+from sqlalchemy import Boolean, DateTime, text
 from wtforms import StringField, PasswordField, SubmitField, SelectField, HiddenField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from flask_bcrypt import Bcrypt
@@ -2642,7 +2643,84 @@ def initialize_database():
         db.create_all()
 
 
+def parse_import_datetime(value):
+    if not value:
+        return None
+    if isinstance(value, datetime):
+        return value
+    for fmt in ('%Y-%m-%d %H:%M:%S.%f', '%Y-%m-%d %H:%M:%S', '%Y-%m-%dT%H:%M:%S.%f', '%Y-%m-%dT%H:%M:%S'):
+        try:
+            return datetime.strptime(str(value), fmt)
+        except ValueError:
+            continue
+    return value
+
+
+def current_data_rows(tables_payload, table_name):
+    rows = tables_payload.get(table_name, [])
+    if isinstance(rows, dict) and 'value' in rows:
+        rows = rows['value']
+    if rows is None:
+        return []
+    if isinstance(rows, dict):
+        return [rows]
+    return rows
+
+
+def normalize_import_row(table, row):
+    normalized = {}
+    for column in table.columns:
+        value = row.get(column.name)
+        if isinstance(column.type, DateTime):
+            value = parse_import_datetime(value)
+        elif isinstance(column.type, Boolean) and value is not None:
+            value = bool(value)
+        normalized[column.name] = value
+    return normalized
+
+
+def reset_database_sequences():
+    if db.engine.dialect.name != 'postgresql':
+        return
+    for table in db.metadata.sorted_tables:
+        if 'id' not in table.columns:
+            continue
+        db.session.execute(text(
+            f"SELECT setval(pg_get_serial_sequence('\"{table.name}\"', 'id'), "
+            f"COALESCE((SELECT MAX(id) FROM \"{table.name}\"), 1), true)"
+        ))
+
+
+def import_current_data_if_requested():
+    import_mode = os.environ.get('IMPORT_CURRENT_DATA', '').lower()
+    if import_mode not in {'1', 'true', 'yes', 'force'}:
+        return
+    data_path = os.path.join(app.root_path, 'seed_current_data.json')
+    if not os.path.exists(data_path):
+        print('IMPORT_CURRENT_DATA enabled but seed_current_data.json was not found.')
+        return
+    with app.app_context():
+        db.create_all()
+        existing_users = User.query.count()
+        if existing_users and import_mode != 'force':
+            print(f'IMPORT_CURRENT_DATA skipped: database already has {existing_users} users. Use IMPORT_CURRENT_DATA=force to overwrite.')
+            return
+        payload = json.loads(open(data_path, encoding='utf-8').read())
+        tables_payload = payload.get('tables', {})
+        for table in reversed(db.metadata.sorted_tables):
+            db.session.execute(table.delete())
+        db.session.flush()
+        for table in db.metadata.sorted_tables:
+            rows = current_data_rows(tables_payload, table.name)
+            if rows:
+                db.session.execute(table.insert(), [normalize_import_row(table, row) for row in rows])
+        reset_database_sequences()
+        db.session.commit()
+        print('Imported seed_current_data.json on startup.')
+
+
 initialize_database()
+import_current_data_if_requested()
 
 
 if __name__ == '__main__':
