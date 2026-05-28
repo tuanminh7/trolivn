@@ -62,7 +62,7 @@ def reset_postgres_sequences():
 def import_data():
     if not INPUT_PATH.exists():
         raise FileNotFoundError(f'Không tìm thấy file dữ liệu: {INPUT_PATH}')
-    payload = json.loads(INPUT_PATH.read_text(encoding='utf-8'))
+    payload = json.loads(INPUT_PATH.read_text(encoding='utf-8-sig'))
     tables_payload = payload.get('tables', {})
     with app.app_context():
         db.create_all()

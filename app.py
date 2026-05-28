@@ -2705,7 +2705,8 @@ def import_current_data_if_requested():
         if existing_users and import_mode != 'force':
             print(f'IMPORT_CURRENT_DATA skipped: database already has {existing_users} users. Use IMPORT_CURRENT_DATA=force to overwrite.')
             return
-        payload = json.loads(open(data_path, encoding='utf-8').read())
+        with open(data_path, encoding='utf-8-sig') as data_file:
+            payload = json.loads(data_file.read())
         tables_payload = payload.get('tables', {})
         for table in reversed(db.metadata.sorted_tables):
             db.session.execute(table.delete())
