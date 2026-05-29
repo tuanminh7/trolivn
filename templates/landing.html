@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trường học</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+            },
+            colors: {
+              primary: '#7C3AED',
+              primarySoft: '#8B5CF6',
+              ink: '#1E1B4B',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-ink antialiased">
+    <header class="sticky top-0 z-50 border-b border-violet-100 bg-white/90 backdrop-blur-xl">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
+        <a href="{{ url_for('index') }}" class="flex items-center gap-3 text-xl font-extrabold text-primary">
+          <span class="grid h-10 w-10 place-items-center rounded-2xl bg-violet-100 text-primary shadow-sm">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 4h6v6H4V4ZM14 4h6v6h-6V4ZM4 14h6v6H4v-6ZM14 14h6v6h-6v-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span>Trường học</span>
+        </a>
+
+        <div class="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
+          <a class="transition hover:text-primary" href="#tam-ly">Tâm lý</a>
+          <a class="transition hover:text-primary" href="#huong-nghiep">Hướng nghiệp</a>
+          <a class="transition hover:text-primary" href="#cong-dong">Cộng đồng</a>
+          <a class="transition hover:text-primary" href="#ho-so">Hồ sơ</a>
+        </div>
+
+        <a href="{{ url_for('login') }}" class="rounded-full border border-primary px-5 py-2.5 text-sm font-bold text-primary transition hover:-translate-y-0.5 hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-violet-200">
+          Đăng nhập
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="overflow-hidden bg-[#F5F3FF]">
+        <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
+          <div>
+            <div class="mb-5 inline-flex items-center rounded-full border border-violet-200 bg-white/70 px-4 py-2 text-sm font-bold text-primary shadow-sm">
+              Dành cho học sinh THPT & THCS
+            </div>
+            <h1 class="max-w-2xl text-4xl font-black leading-tight tracking-tight text-ink sm:text-5xl lg:text-6xl">
+              Khám phá bản thân —<br>
+              Định hướng tương lai
+            </h1>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+              Nền tảng hỗ trợ tâm lý học đường & hướng nghiệp toàn diện. Trắc nghiệm · Chuyên gia · Cộng đồng.
+            </p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href="{{ url_for('register') }}" class="inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-extrabold text-white shadow-xl shadow-violet-200 transition hover:-translate-y-1 hover:bg-violet-700">
+                Bắt đầu miễn phí
+              </a>
+              <a href="#features" class="inline-flex items-center justify-center rounded-2xl border border-violet-200 bg-white px-6 py-3 text-base font-extrabold text-primary shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-lg">
+                Xem demo
+              </a>
+            </div>
+          </div>
+
+          <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
+            <div class="absolute left-4 top-8 z-20 rounded-2xl bg-white px-4 py-2 text-sm font-extrabold text-primary shadow-xl shadow-violet-200">
+              Tâm lý
+            </div>
+            <div class="absolute right-4 top-20 z-20 rounded-2xl bg-white px-4 py-2 text-sm font-extrabold text-emerald-600 shadow-xl shadow-emerald-100">
+              Nghề
+            </div>
+
+            <div class="relative overflow-hidden rounded-[2rem] border border-violet-100 bg-white/80 p-8 shadow-2xl shadow-violet-200/60">
+              <div class="absolute left-8 top-10 h-28 w-28 rounded-full bg-violet-200/40 blur-2xl"></div>
+              <div class="absolute bottom-12 right-8 h-32 w-32 rounded-full bg-pink-200/40 blur-2xl"></div>
+              <svg viewBox="0 0 420 360" class="relative mx-auto h-auto w-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Friendly owl counselor mascot">
+                <defs>
+                  <linearGradient id="owlBody" x1="142" y1="82" x2="282" y2="298" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#A78BFA"/>
+                    <stop offset="0.48" stop-color="#7C3AED"/>
+                    <stop offset="1" stop-color="#6D28D9"/>
+                  </linearGradient>
+                  <linearGradient id="owlWing" x1="98" y1="156" x2="324" y2="260" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#C4B5FD"/>
+                    <stop offset="1" stop-color="#8B5CF6"/>
+                  </linearGradient>
+                  <filter id="owlShadow" x="56" y="42" width="314" height="290" filterUnits="userSpaceOnUse">
+                    <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#6D28D9" flood-opacity="0.18"/>
+                  </filter>
+                </defs>
+
+                <ellipse cx="210" cy="314" rx="132" ry="22" fill="#DDD6FE"/>
+
+                <g filter="url(#owlShadow)">
+                  <path d="M126 206C102 204 84 185 84 162C84 137 104 118 129 118C156 118 176 139 176 166V207H126Z" fill="url(#owlWing)"/>
+                  <path d="M294 206C318 204 336 185 336 162C336 137 316 118 291 118C264 118 244 139 244 166V207H294Z" fill="url(#owlWing)"/>
+
+                  <path d="M132 148C132 92 166 62 210 62C254 62 288 92 288 148V216C288 270 255 302 210 302C165 302 132 270 132 216V148Z" fill="url(#owlBody)"/>
+                  <path d="M151 101C168 70 191 54 210 54C229 54 252 70 269 101C247 92 228 91 210 102C192 91 173 92 151 101Z" fill="#312E81"/>
+                  <path d="M132 150C148 116 176 94 210 94C244 94 272 116 288 150C264 134 236 126 210 126C184 126 156 134 132 150Z" fill="#8B5CF6"/>
+
+                  <rect x="141" y="124" width="138" height="108" rx="45" fill="#F8FAFC"/>
+                  <circle cx="180" cy="168" r="28" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="8"/>
+                  <circle cx="240" cy="168" r="28" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="8"/>
+                  <path d="M208 169H212" stroke="#DDD6FE" stroke-width="8" stroke-linecap="round"/>
+                  <circle cx="180" cy="168" r="10" fill="#7C3AED"/>
+                  <circle cx="240" cy="168" r="10" fill="#7C3AED"/>
+                  <path d="M188 203C199 216 221 216 232 203" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
+
+                  <path d="M198 184L210 194L222 184" fill="#F59E0B"/>
+                  <path d="M198 184L210 194L222 184" stroke="#F59E0B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+                  <path d="M150 238C170 255 250 255 270 238" stroke="#F5F3FF" stroke-width="12" stroke-linecap="round"/>
+                  <path d="M168 262C185 272 235 272 252 262" stroke="#C4B5FD" stroke-width="10" stroke-linecap="round"/>
+                </g>
+
+                <g>
+                  <rect x="55" y="126" width="104" height="66" rx="24" fill="#FFFFFF" stroke="#E9D5FF" stroke-width="2"/>
+                  <path d="M82 152H128M82 168H116" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
+                  <circle cx="64" cy="132" r="7" fill="#EC4899"/>
+                </g>
+
+                <g>
+                  <rect x="264" y="116" width="104" height="70" rx="24" fill="#ECFDF5" stroke="#BBF7D0" stroke-width="2"/>
+                  <circle cx="316" cy="151" r="22" fill="#D1FAE5"/>
+                  <path d="M316 134V151L330 158" stroke="#059669" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="316" cy="151" r="5" fill="#059669"/>
+                </g>
+
+                <g>
+                  <rect x="78" y="226" width="86" height="54" rx="20" fill="#FDF2F8" stroke="#FBCFE8" stroke-width="2"/>
+                  <path d="M103 250C110 241 124 241 131 250C124 260 110 260 103 250Z" fill="#EC4899"/>
+                  <path d="M117 244V256" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                  <path d="M111 250H123" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                </g>
+
+                <g>
+                  <rect x="256" y="232" width="90" height="54" rx="20" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="2"/>
+                  <path d="M301 246L311 260L294 268L301 246Z" fill="#7C3AED"/>
+                  <circle cx="301" cy="260" r="20" stroke="#8B5CF6" stroke-width="5"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <p class="text-sm font-black uppercase tracking-[0.18em] text-primary">TỔNG QUAN</p>
+          <h2 class="mt-3 text-3xl font-black tracking-tight text-ink sm:text-4xl">Học sinh đã tin dùng</h2>
+          <p class="mt-3 text-lg text-slate-600">Các con số từ cộng đồng Trường học</p>
+
+          <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <article class="rounded-2xl bg-[#7C3AED] p-7 text-left text-white shadow-xl shadow-violet-200 transition hover:-translate-y-1">
+              <div class="mb-5 text-3xl">🧠</div>
+              <div class="text-4xl font-black">1,200+</div>
+              <p class="mt-2 font-bold text-white/90">Bài trắc nghiệm tâm lý</p>
+            </article>
+            <article class="rounded-2xl bg-[#EC4899] p-7 text-left text-white shadow-xl shadow-pink-200 transition hover:-translate-y-1">
+              <div class="mb-5 text-3xl">💬</div>
+              <div class="text-4xl font-black">340+</div>
+              <p class="mt-2 font-bold text-white/90">Buổi chat chuyên gia</p>
+            </article>
+            <article class="rounded-2xl bg-[#0D9488] p-7 text-left text-white shadow-xl shadow-teal-200 transition hover:-translate-y-1">
+              <div class="mb-5 text-3xl">🧭</div>
+              <div class="text-4xl font-black">80+</div>
+              <p class="mt-2 font-bold text-white/90">Ngành nghề được khám phá</p>
+            </article>
+            <article class="rounded-2xl bg-[#059669] p-7 text-left text-white shadow-xl shadow-emerald-200 transition hover:-translate-y-1">
+              <div class="mb-5 text-3xl">👥</div>
+              <div class="text-4xl font-black">500+</div>
+              <p class="mt-2 font-bold text-white/90">Học sinh trong cộng đồng</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="bg-violet-50/70 py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-black uppercase tracking-[0.18em] text-primary">CHỨC NĂNG CHÍNH</p>
+            <h2 class="mt-3 text-3xl font-black tracking-tight text-ink sm:text-4xl">Tất cả những gì bạn cần</h2>
+            <p class="mt-3 text-lg text-slate-600">6 khu vực chức năng dành riêng cho học sinh</p>
+          </div>
+
+          <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <article id="tam-ly" class="group rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-100">
+              <div class="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-violet-100 text-3xl">🧠</div>
+              <h3 class="text-xl font-black text-ink">Trắc nghiệm tâm lý</h3>
+              <p class="mt-3 text-slate-600">MBTI, DISC, Holland — khám phá tính cách và thế mạnh của bản thân</p>
+              <a href="{{ url_for('login') }}" class="mt-5 inline-flex font-extrabold text-primary">Làm ngay →</a>
+            </article>
+            <article class="group rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-100">
+              <div class="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-pink-100 text-3xl">💬</div>
+              <h3 class="text-xl font-black text-ink">Chat chuyên gia</h3>
+              <p class="mt-3 text-slate-600">Kết nối trực tiếp với chuyên gia tâm lý và hướng nghiệp</p>
+              <a href="{{ url_for('login') }}" class="mt-5 inline-flex font-extrabold text-primary">Chat ngay →</a>
+            </article>
+            <article id="huong-nghiep" class="group rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-100">
+              <div class="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-teal-100 text-3xl">🧭</div>
+              <h3 class="text-xl font-black text-ink">Hướng nghiệp</h3>
+              <p class="mt-3 text-slate-600">Thư viện ngành nghề, lộ trình học tập và cơ hội tương lai</p>
+              <a href="{{ url_for('login') }}" class="mt-5 inline-flex font-extrabold text-primary">Khám phá →</a>
+            </article>
+            <article class="group rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-green-100">
+              <div class="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-green-100 text-3xl">📖</div>
+              <h3 class="text-xl font-black text-ink">Bài học kỹ năng sống</h3>
+              <p class="mt-3 text-slate-600">Các bài học thực tế về kỹ năng mềm, quản lý cảm xúc</p>
+              <a href="{{ url_for('login') }}" class="mt-5 inline-flex font-extrabold text-primary">Học ngay →</a>
+            </article>
+            <article id="ho-so" class="group rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-100">
+              <div class="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-orange-100 text-3xl">♡</div>
+              <h3 class="text-xl font-black text-ink">Nhật ký cảm xúc</h3>
+              <p class="mt-3 text-slate-600">Ghi lại tâm trạng hàng ngày, theo dõi sức khỏe tinh thần</p>
+              <a href="{{ url_for('login') }}" class="mt-5 inline-flex font-extrabold text-primary">Ghi hôm nay →</a>
+            </article>
+            <article id="cong-dong" class="group rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-100">
+              <div class="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-emerald-100 text-3xl">👥</div>
+              <h3 class="text-xl font-black text-ink">Cộng đồng & diễn đàn</h3>
+              <p class="mt-3 text-slate-600">Chia sẻ, hỏi đáp và kết nối với bạn bè cùng chí hướng</p>
+              <a href="{{ url_for('login') }}" class="mt-5 inline-flex font-extrabold text-primary">Vào diễn đàn →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-black uppercase tracking-[0.18em] text-primary">HỌC SINH NÓI GÌ</p>
+            <h2 class="mt-3 text-3xl font-black tracking-tight text-ink sm:text-4xl">Phản hồi thực từ cộng đồng</h2>
+          </div>
+
+          <div class="mt-10 grid gap-6 lg:grid-cols-3">
+            <article class="rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div class="text-yellow-400">★★★★★</div>
+              <p class="mt-4 italic leading-7 text-slate-700">"Làm trắc nghiệm Holland xong mình mới biết mình hợp với ngành thiết kế. Giờ đã có định hướng rõ ràng hơn nhiều!"</p>
+              <div class="mt-6 flex items-center gap-3">
+                <div class="grid h-12 w-12 place-items-center rounded-full bg-primary font-black text-white">NA</div>
+                <div>
+                  <div class="font-black text-ink">Ngọc Anh</div>
+                  <div class="text-sm text-slate-500">Học sinh lớp 11</div>
+                </div>
+              </div>
+            </article>
+            <article class="rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div class="text-yellow-400">★★★★★</div>
+              <p class="mt-4 italic leading-7 text-slate-700">"Chat với chuyên gia tâm lý giúp mình vượt qua áp lực thi cử. Cảm ơn Trường học rất nhiều!"</p>
+              <div class="mt-6 flex items-center gap-3">
+                <div class="grid h-12 w-12 place-items-center rounded-full bg-pink-500 font-black text-white">MH</div>
+                <div>
+                  <div class="font-black text-ink">Minh Hoàng</div>
+                  <div class="text-sm text-slate-500">Học sinh lớp 12</div>
+                </div>
+              </div>
+            </article>
+            <article class="rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div class="text-yellow-400">★★★★★</div>
+              <p class="mt-4 italic leading-7 text-slate-700">"Nhật ký cảm xúc giúp mình nhận ra những pattern trong tâm trạng và cải thiện được khá nhiều!"</p>
+              <div class="mt-6 flex items-center gap-3">
+                <div class="grid h-12 w-12 place-items-center rounded-full bg-teal-600 font-black text-white">TL</div>
+                <div>
+                  <div class="font-black text-ink">Thu Lan</div>
+                  <div class="text-sm text-slate-500">Học sinh lớp 10</div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+        <div class="mx-auto max-w-7xl rounded-[2rem] bg-gradient-to-r from-violet-700 via-primary to-fuchsia-700 px-6 py-12 text-center text-white shadow-2xl shadow-violet-200 sm:px-10">
+          <h2 class="text-3xl font-black tracking-tight sm:text-4xl">Sẵn sàng khám phá bản thân?</h2>
+          <p class="mt-4 text-lg font-medium text-white/85">Đăng ký miễn phí và bắt đầu hành trình hiểu mình hôm nay</p>
+          <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <a href="{{ url_for('register') }}" class="rounded-2xl border border-white bg-white px-6 py-3 font-extrabold text-primary transition hover:-translate-y-1 hover:shadow-xl">
+              Tạo tài khoản miễn phí
+            </a>
+            <a href="{{ url_for('login') }}" class="rounded-2xl border border-white/40 bg-white/15 px-6 py-3 font-extrabold text-white transition hover:-translate-y-1 hover:bg-white/25">
+              Đã có tài khoản? Đăng nhập
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-[#1E1B4B] text-white">
+      <div class="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+        <a href="{{ url_for('index') }}" class="flex items-center gap-3 text-lg font-black">
+          <span class="grid h-10 w-10 place-items-center rounded-2xl bg-white/10 text-white">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 4h6v6H4V4ZM14 4h6v6h-6V4ZM4 14h6v6H4v-6ZM14 14h6v6h-6v-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span>Trường học</span>
+        </a>
+        <div class="flex flex-wrap items-center gap-6 text-sm font-semibold text-white/75">
+          <a class="transition hover:text-white" href="#features">Giới thiệu</a>
+          <a class="transition hover:text-white" href="{{ url_for('login') }}">Liên hệ</a>
+          <a class="transition hover:text-white" href="{{ url_for('login') }}">Chính sách</a>
+          <span>© 2026</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

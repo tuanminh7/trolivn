@@ -1,0 +1,203 @@
+BÁO CÁO MÔ TẢ CHỨC NĂNG VÀ VAI TRÒ TRONG DỰ ÁN
+
+1. Tổng quan dự án
+
+Dự án là hệ thống quản lý học đường xây dựng bằng Flask, hướng đến môi trường giáo dục với các nhóm người dùng chính gồm quản trị viên, giáo viên, học sinh và phụ huynh. Hệ thống không chỉ hỗ trợ quản lý tài khoản mà còn tập trung vào các chức năng tư vấn tâm lý học đường, hướng nghiệp, kỹ năng sống, diễn đàn học sinh và trao đổi giữa nhà trường với phụ huynh.
+
+Ứng dụng sử dụng cơ chế đăng nhập theo vai trò. Sau khi đăng nhập, mỗi người dùng được chuyển đến khu vực chức năng phù hợp với quyền hạn của mình. Dữ liệu được lưu trong cơ sở dữ liệu thông qua SQLAlchemy, có hỗ trợ SQLite khi chạy local và PostgreSQL khi deploy lên Render.
+
+2. Các vai trò trong hệ thống
+
+2.1. Quản trị viên
+
+Quản trị viên là vai trò có quyền quản lý tổng thể hệ thống. Các chức năng chính gồm:
+
+- Đăng nhập vào khu vực quản trị.
+- Xem danh sách người dùng trong hệ thống.
+- Quản lý thông tin tài khoản người dùng.
+- Đổi mật khẩu cho tài khoản người dùng khi cần.
+- Khóa hoặc kích hoạt lại tài khoản.
+- Tạo tài khoản giáo viên.
+- Xem thống kê người dùng theo từng vai trò.
+- Xem biểu đồ thống kê người dùng dạng hình tròn.
+- Nhận tin nhắn liên hệ từ người dùng.
+- Phản hồi tin nhắn liên hệ của học sinh, giáo viên hoặc phụ huynh.
+
+Vai trò quản trị viên phù hợp với người phụ trách vận hành hệ thống, quản lý tài khoản và theo dõi tình hình sử dụng chung.
+
+2.2. Giáo viên
+
+Giáo viên là vai trò phụ trách nội dung học tập, hướng nghiệp, tư vấn và theo dõi học sinh. Các chức năng chính gồm:
+
+- Đăng nhập vào trang tổng quan giáo viên.
+- Cập nhật hồ sơ giáo viên gồm họ tên, bộ môn, phòng ban, số điện thoại, email liên hệ, vị trí làm việc, lịch tư vấn và ảnh đại diện.
+- Xem diễn đàn học sinh tương tự học sinh để nắm bắt nội dung trao đổi trong cộng đồng.
+- Xem danh sách học sinh trong mục tổng quan.
+- Theo dõi mã học sinh, họ tên, trạng thái tài khoản và trạng thái tâm lý của học sinh.
+- Xuất danh sách học sinh ra file PDF.
+- Quản lý bài trắc nghiệm tâm lý.
+- Tạo chủ đề trắc nghiệm tâm lý.
+- Thêm câu hỏi trắc nghiệm dạng A, B, C, D.
+- Chỉnh sửa chủ đề và câu hỏi trắc nghiệm đã tạo.
+- Xem kết quả làm bài trắc nghiệm tâm lý của học sinh.
+- Nhận và phản hồi tin nhắn tư vấn tâm lý từ học sinh.
+- Nhận và phản hồi tin nhắn từ phụ huynh.
+- Xem danh sách phụ huynh để chọn đúng người cần trả lời.
+- Quản lý bài test hướng nghiệp.
+- Tạo câu hỏi hướng nghiệp dạng A, B, C, D.
+- Tạo câu hỏi hướng nghiệp có thể kèm ảnh làm dữ kiện.
+- Quản lý thư viện nghề nghiệp.
+- Upload hoặc nhập nghề nghiệp vào thư viện nghề.
+- Đánh dấu nghề nổi bật.
+- Chỉnh sửa thông tin nghề nghiệp đã đăng.
+- Nhận câu hỏi của học sinh về từng nghề nghiệp.
+- Phản hồi câu hỏi hướng nghiệp của học sinh vào hộp thư học sinh.
+- Quản lý lộ trình học tập theo ngành nghề.
+- Tạo ngành nghề và lộ trình học tập tương ứng.
+- Chỉnh sửa timeline học tập, kỹ năng cần rèn và mục tiêu của từng ngành.
+- Quản lý bài học kỹ năng sống.
+- Tạo bài học kỹ năng sống bằng link video YouTube hoặc TikTok.
+- Thêm mô tả, hướng dẫn thực hành, câu hỏi phản tư và thời lượng bài học.
+- Theo dõi số lượng học sinh hoàn thành bài học kỹ năng sống.
+
+Vai trò giáo viên là trung tâm của các nội dung tương tác với học sinh, bao gồm tư vấn, đánh giá, hướng nghiệp, kỹ năng sống và quản lý tiến trình học tập.
+
+2.3. Học sinh
+
+Học sinh là vai trò sử dụng chính các chức năng học đường, tâm lý, hướng nghiệp và cộng đồng. Các chức năng chính gồm:
+
+- Đăng ký tài khoản học sinh.
+- Đăng nhập vào trang tổng quan học sinh.
+- Cập nhật hồ sơ học sinh.
+- Nhập họ tên, lớp, địa chỉ, số điện thoại, thông tin phụ huynh và liên hệ khẩn cấp.
+- Upload ảnh đại diện hồ sơ.
+- Xem trước thông tin hồ sơ cá nhân.
+- Vào khu vực tâm lý học đường.
+- Làm các bài trắc nghiệm tâm lý do giáo viên tạo.
+- Xem danh sách chủ đề trắc nghiệm tâm lý theo từng hộp nội dung.
+- Làm bài trắc nghiệm dạng A, B, C, D.
+- Nhận kết quả đánh giá tâm lý sau khi nộp bài.
+- Chat với Kbot, trợ lý AI sử dụng Gemini API.
+- Chọn giáo viên để chat tư vấn tâm lý trực tiếp.
+- Xem lịch sử tin nhắn trong phòng chat.
+- Ghi nhật ký cảm xúc hằng ngày.
+- Chọn cảm xúc bằng emoji hoặc icon.
+- Chọn mức độ cảm xúc từ 1 đến 5.
+- Gắn tag nguyên nhân cảm xúc như học tập, bạn bè, gia đình, sức khỏe hoặc khác.
+- Viết ghi chú cảm xúc tự do.
+- Xem lịch sử nhật ký và xu hướng cảm xúc 7 ngày.
+- Nhận câu hỏi gợi mở hằng ngày để tự nhìn lại cảm xúc.
+- Vào khu vực hướng nghiệp.
+- Khám phá bản thân dựa trên nhật ký cảm xúc và bài test đã làm.
+- Xem insight cá nhân, số ngày ghi chú, số bài đã làm và tiến trình khám phá.
+- Làm bài test hướng nghiệp do giáo viên tạo.
+- Xem thư viện nghề nghiệp.
+- Tìm kiếm nghề theo tên nghề hoặc từ khóa.
+- Lọc nghề nghiệp theo lĩnh vực.
+- Xem nghề nổi bật và danh sách nghề.
+- Xem chi tiết nghề nghiệp ngay trong màn hình.
+- Gửi câu hỏi cho giáo viên về nghề nghiệp đang quan tâm.
+- Nhận phản hồi của giáo viên trong hộp thư.
+- Xem lộ trình học tập theo ngành nghề.
+- Chọn ngành nghề quan tâm.
+- Xem mục tiêu, thống kê, timeline theo năm học và kỹ năng đang rèn.
+- Tự tick hoàn thành các nhiệm vụ trong lộ trình khi đã thực hiện.
+- Học bài học kỹ năng sống.
+- Xem video kỹ năng sống từ YouTube hoặc TikTok.
+- Đọc mô tả, hướng dẫn thực hành và câu hỏi phản tư.
+- Đánh dấu hoàn thành bài học kỹ năng sống.
+- Tham gia diễn đàn học sinh trong khu vực cộng đồng.
+- Đăng bài theo chủ đề học tập, cảm xúc, hướng nghiệp hoặc cuộc sống.
+- Chọn đăng ẩn danh khi cần chia sẻ nội dung nhạy cảm.
+- Bày tỏ phản ứng với bài viết bằng "Đồng cảm" hoặc "Hay".
+- Bình luận vào bài viết của bạn khác.
+- Báo cáo bài viết không phù hợp.
+- Liên hệ quản trị viên khi cần hỗ trợ.
+
+Vai trò học sinh tập trung vào trải nghiệm cá nhân hóa, giúp học sinh theo dõi bản thân, nhận hỗ trợ tâm lý, định hướng nghề nghiệp và tương tác trong môi trường cộng đồng an toàn.
+
+2.4. Phụ huynh
+
+Phụ huynh là vai trò dùng để kết nối với giáo viên và nhà trường. Các chức năng chính gồm:
+
+- Đăng ký tài khoản phụ huynh.
+- Đăng nhập vào khu vực phụ huynh.
+- Xem khung chat với giáo viên.
+- Chọn giáo viên để trao đổi.
+- Gửi tin nhắn cho giáo viên.
+- Nhận phản hồi từ giáo viên.
+- Liên hệ quản trị viên khi cần hỗ trợ tài khoản hoặc thông tin hệ thống.
+
+Vai trò phụ huynh được thiết kế đơn giản, tập trung vào kênh liên lạc trực tiếp với giáo viên thay vì nhiều chức năng quản trị phức tạp.
+
+3. Các nhóm chức năng chính
+
+3.1. Quản lý tài khoản
+
+Hệ thống hỗ trợ đăng ký, đăng nhập, đăng xuất và phân quyền theo vai trò. Người dùng có mã tài khoản riêng bắt đầu từ dãy 250000. Quản trị viên có quyền tạo tài khoản giáo viên, chỉnh sửa tài khoản, đổi mật khẩu và khóa hoặc mở tài khoản.
+
+3.2. Hồ sơ cá nhân
+
+Học sinh và giáo viên đều có khu vực hồ sơ riêng. Hồ sơ học sinh lưu các thông tin phục vụ cho các chức năng khác như lớp, thông tin liên hệ, phụ huynh và liên hệ khẩn cấp. Hồ sơ giáo viên lưu thông tin chuyên môn và lịch tư vấn. Cả hai hồ sơ đều hỗ trợ ảnh đại diện.
+
+3.3. Tâm lý học đường
+
+Nhóm chức năng tâm lý học đường gồm trắc nghiệm tâm lý, nhật ký cảm xúc và chat tư vấn. Giáo viên tạo bài trắc nghiệm, học sinh làm bài và nhận kết quả. Giáo viên có thể xem kết quả để theo dõi tình hình học sinh. Nhật ký cảm xúc giúp học sinh ghi lại cảm xúc mỗi ngày và hệ thống dùng dữ liệu này để tính trạng thái tâm lý. Chat tư vấn cho phép học sinh chọn Kbot hoặc giáo viên để trao đổi.
+
+3.4. Chat và tương tác thời gian thực
+
+Hệ thống có mô hình phòng chat cho các luồng trao đổi:
+
+- Học sinh chat với Kbot.
+- Học sinh chat với giáo viên.
+- Phụ huynh chat với giáo viên.
+- Người dùng gửi liên hệ đến quản trị viên.
+
+Ứng dụng có hỗ trợ Flask-SocketIO khi bật cấu hình ENABLE_SOCKETIO. Nếu không bật SocketIO, hệ thống vẫn có API lấy và gửi tin nhắn theo cơ chế polling để đảm bảo chat vẫn hoạt động.
+
+3.5. Hướng nghiệp
+
+Khu vực hướng nghiệp gồm khám phá bản thân, bài test hướng nghiệp, thư viện nghề nghiệp, hỏi thêm về nghề và lộ trình học tập. Giáo viên là người upload hoặc nhập dữ liệu nghề nghiệp, bài test và lộ trình. Học sinh là người xem, làm bài, gửi câu hỏi và theo dõi tiến trình cá nhân.
+
+3.6. Thư viện nghề nghiệp
+
+Thư viện nghề cho phép giáo viên tạo danh sách nghề và nghề nổi bật. Mỗi nghề có lĩnh vực, mô tả, kỹ năng, nội dung công việc, thời gian học, mức lương, nhu cầu thị trường và tính cách phù hợp. Học sinh có thể tìm kiếm, lọc theo lĩnh vực, xem chi tiết và gửi câu hỏi cho giáo viên.
+
+3.7. Lộ trình học tập
+
+Giáo viên tạo ngành nghề và lộ trình học tập cho từng ngành. Mỗi lộ trình gồm mục tiêu, timeline theo năm học, danh sách nhiệm vụ và kỹ năng đang rèn. Học sinh chọn ngành nghề quan tâm để xem lộ trình và tự đánh dấu hoàn thành các nhiệm vụ sau khi thực hiện.
+
+3.8. Kỹ năng sống
+
+Giáo viên tạo bài học kỹ năng sống bằng cách nhập video từ YouTube hoặc TikTok, mô tả nội dung, hướng dẫn thực hành và câu hỏi phản tư. Học sinh xem bài học, thực hành theo hướng dẫn, gửi phản hồi và đánh dấu hoàn thành.
+
+3.9. Diễn đàn học sinh
+
+Diễn đàn học sinh là không gian cộng đồng an toàn. Học sinh có thể đăng bài theo chủ đề, chọn đăng ẩn danh, bình luận và phản ứng bằng "Đồng cảm" hoặc "Hay". Hệ thống không dùng nút chia sẻ lại để hạn chế lan truyền ngoài kiểm soát. Mỗi bài viết có nút báo cáo để xử lý nội dung không phù hợp. Giáo viên cũng có thể vào xem diễn đàn để theo dõi tình hình cộng đồng học sinh.
+
+3.10. Quản lý học sinh cho giáo viên
+
+Trong tổng quan giáo viên có chức năng quản lý danh sách học sinh. Bảng gồm STT, mã học sinh, họ tên, trạng thái tài khoản và trạng thái tâm lý. Trạng thái tâm lý được tính dựa trên các dữ liệu như nhật ký cảm xúc và lịch sử chat tư vấn. Giáo viên có thể xuất bảng này ra file PDF.
+
+4. Chức năng AI
+
+Hệ thống tích hợp Kbot làm phòng chat AI cho học sinh. Kbot sử dụng Gemini API, model chính theo cấu hình GEMINI_MODEL và có thể có model dự phòng theo GEMINI_FALLBACK_MODEL. Chức năng này hỗ trợ học sinh trò chuyện, tâm sự và nhận phản hồi định hướng ban đầu. Khi API gặp lỗi hoặc quá tải, hệ thống có cơ chế xử lý lỗi để tránh làm hỏng luồng chat.
+
+5. Chức năng triển khai
+
+Dự án đã có cấu hình phục vụ deploy lên Render, gồm requirements.txt, Procfile và render.yaml. Hệ thống hỗ trợ DATABASE_URL để dùng PostgreSQL trên Render. Ngoài ra có cơ chế import dữ liệu hiện tại từ seed_current_data.json khi bật biến môi trường IMPORT_CURRENT_DATA.
+
+Các biến môi trường quan trọng gồm:
+
+- SECRET_KEY: khóa bảo mật Flask.
+- DATABASE_URL: đường dẫn cơ sở dữ liệu khi deploy.
+- GEMINI_API_KEY: khóa API Gemini.
+- GEMINI_MODEL: model Gemini chính.
+- GEMINI_FALLBACK_MODEL: model Gemini dự phòng.
+- ENABLE_SOCKETIO: bật hoặc tắt SocketIO.
+- SOCKETIO_ASYNC_MODE: chế độ async cho SocketIO.
+- IMPORT_CURRENT_DATA: cho phép import dữ liệu mẫu hoặc dữ liệu hiện tại khi deploy.
+
+6. Kết luận
+
+Hệ thống là một website học đường có đầy đủ các vai trò quản trị viên, giáo viên, học sinh và phụ huynh. Điểm mạnh của dự án là kết hợp quản lý học sinh với các chức năng hỗ trợ tâm lý, hướng nghiệp, kỹ năng sống, diễn đàn an toàn và trao đổi giữa nhà trường với gia đình. Các chức năng được phân quyền rõ ràng, trong đó giáo viên quản lý nội dung và theo dõi học sinh, học sinh sử dụng các công cụ tự khám phá và học tập, phụ huynh trao đổi với giáo viên, còn quản trị viên quản lý toàn bộ hệ thống.

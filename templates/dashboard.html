@@ -1,219 +1,526 @@
 {% extends "layout.html" %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
-    <div>
-      <h2 class="section-title">Xin chào, {{ current_user.username }}</h2>
-    </div>
-    <div class="d-flex gap-2 align-items-start">
-      {% if current_user.role == 'admin' %}
-        <a class="btn btn-primary" href="{{ url_for('create_teacher') }}">Tạo giáo viên</a>
-      {% endif %}
-      {% if current_user.role in ['teacher', 'student'] %}
-        {% if current_user.role == 'student' %}
-          <a class="btn btn-outline-primary" href="{{ url_for('student_inbox') }}">Hộp thư</a>
-        {% endif %}
-        <a class="btn btn-outline-primary" href="{{ url_for('contact_admin') }}">Liên hệ quản trị</a>
-      {% endif %}
-    </div>
-  </div>
-
-  <div class="row g-3 mb-4">
-    <div class="col-md-4">
-      <div class="stat-card">
-        <div class="stat-label">Vai trò</div>
-        <p class="stat-value text-capitalize">{{ current_user.role }}</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="stat-card">
-        <div class="stat-label">Mã tài khoản</div>
-        <p class="stat-value">{{ current_user.account_id or '—' }}</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="stat-card">
-        <div class="stat-label">Trạng thái</div>
-        <p class="stat-value">{{ 'Active' if current_user.is_active else 'Revoked' }}</p>
-      </div>
-    </div>
-  </div>
-
-  {% if current_user.role == 'admin' %}
-    <div class="mb-4">
-      <h5 class="fw-bold mb-3">Quản trị nhanh</h5>
-      <div class="row g-3">
-        <div class="col-md-6 col-xl-3">
-          <a href="{{ url_for('admin_users') }}" class="feature-card">
-            <div class="feature-kicker">Users</div>
-            <div class="feature-title">Quản lý người dùng</div>
-          </a>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <a href="{{ url_for('admin_stats') }}" class="feature-card">
-            <div class="feature-kicker">Reports</div>
-            <div class="feature-title">Thống kê hệ thống</div>
-          </a>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <a href="{{ url_for('admin_chat') }}" class="feature-card">
-            <div class="feature-kicker">Messages</div>
-            <div class="feature-title">Tin nhắn quản trị</div>
-          </a>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <a href="{{ url_for('create_teacher') }}" class="feature-card">
-            <div class="feature-kicker">Teachers</div>
-            <div class="feature-title">Tạo giáo viên</div>
-          </a>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
-  {% if current_user.role == 'parent' %}
-    <div>
-      <h5 class="fw-bold mb-3">Chat với giáo viên</h5>
-      <div class="row g-3">
-        {% for teacher in parent_teachers %}
-          <div class="col-md-6 col-xl-4">
-            <a href="{{ url_for('parent_teacher_chat', teacher_id=teacher.id) }}" class="room-card">
-              <div class="d-flex align-items-center gap-3">
-                <span class="chat-avatar">{{ teacher.username[:1]|upper }}</span>
-                <div>
-                  <div class="fw-bold">{{ teacher.username }}</div>
-                  <div class="section-subtitle small">{{ teacher.email }}</div>
-                </div>
-              </div>
-            </a>
-          </div>
-        {% else %}
-          <div class="col-12">
-            <div class="text-center border rounded p-5">
-              <h5 class="fw-bold">Chưa có giáo viên</h5>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  {% elif current_user.role != 'admin' %}
-    <div>
-      <h5 class="fw-bold mb-3">Khu vực chức năng</h5>
-      <div class="row g-3">
-        <div class="col-md-6 col-xl-3 position-relative">
-          {% if current_user.role == 'student' %}
-            <button type="button" class="feature-card feature-card-button" id="student-psychology-toggle" aria-expanded="false" aria-controls="student-psychology-menu">
-              <div class="feature-kicker">Support</div>
-              <div class="feature-title">🧠 Tâm lý học đường</div>
-              <div class="mt-3 small text-primary fw-semibold" id="student-psychology-hint">Mở các mục ›</div>
-            </button>
-            <div class="student-submenu" id="student-psychology-menu">
-              <a href="{{ url_for('student_quizzes') }}" class="student-submenu-link">Trắc nghiệm tâm lý</a>
-              <a href="{{ url_for('student_chat_rooms') }}" class="student-submenu-link">Chat với chuyên gia</a>
-              <a href="{{ url_for('emotion_journal') }}" class="student-submenu-link">Nhật ký cảm xúc</a>
-              <a href="{{ url_for('student_life_skills') }}" class="student-submenu-link">Bài học kỹ năng sống</a>
-            </div>
-          {% elif current_user.role == 'teacher' %}
-            <a href="{{ url_for('teacher_quizzes') }}" class="feature-card">
-              <div class="feature-kicker">Support</div>
-              <div class="feature-title">Tâm lý học đường</div>
-            </a>
-          {% else %}
-            <a href="#" class="feature-card">
-              <div class="feature-kicker">Support</div>
-              <div class="feature-title">Tâm lý học đường</div>
-            </a>
-          {% endif %}
-        </div>
-        <div class="col-md-6 col-xl-3 position-relative">
-          {% if current_user.role == 'student' %}
-            <button type="button" class="feature-card feature-card-button" id="student-career-toggle" aria-expanded="false" aria-controls="student-career-menu">
-              <div class="feature-kicker">Career</div>
-              <div class="feature-title">🎯 Hướng nghiệp</div>
-              <div class="mt-3 small text-primary fw-semibold" id="student-career-hint">Mở các mục ›</div>
-            </button>
-            <div class="student-submenu" id="student-career-menu">
-              <a href="{{ url_for('student_self_discovery') }}" class="student-submenu-link">Khám phá bản thân</a>
-              <a href="{{ url_for('student_career_library') }}" class="student-submenu-link">Thư viện nghề nghiệp</a>
-              <a href="{{ url_for('student_learning_path') }}" class="student-submenu-link">Lộ trình học tập</a>
-            </div>
-          {% elif current_user.role == 'teacher' %}
-            <a href="{{ url_for('teacher_career_tests') }}" class="feature-card">
-              <div class="feature-kicker">Career</div>
-              <div class="feature-title">Hướng nghiệp</div>
-            </a>
-          {% else %}
-            <a href="#" class="feature-card">
-              <div class="feature-kicker">Career</div>
-              <div class="feature-title">Hướng nghiệp</div>
-            </a>
-          {% endif %}
-        </div>
-        <div class="col-md-6 col-xl-3 position-relative">
-          {% if current_user.role == 'student' %}
-            <button type="button" class="feature-card feature-card-button" id="student-community-toggle" aria-expanded="false" aria-controls="student-community-menu">
-              <div class="feature-kicker">Community</div>
-              <div class="feature-title">👥 Cộng đồng</div>
-              <div class="mt-3 small text-primary fw-semibold" id="student-community-hint">Mở diễn đàn ›</div>
-            </button>
-            <div class="student-submenu" id="student-community-menu">
-              <a href="{{ url_for('student_forum') }}" class="student-submenu-link">Diễn đàn học sinh</a>
-            </div>
-          {% else %}
-            <a href="{{ url_for('student_forum') if current_user.role == 'teacher' else '#' }}" class="feature-card">
-              <div class="feature-kicker">Community</div>
-              <div class="feature-title">Cộng đồng</div>
-            </a>
-          {% endif %}
-        </div>
-        <div class="col-md-6 col-xl-3 position-relative">
-          {% if current_user.role == 'student' %}
-            <button type="button" class="feature-card feature-card-button" id="student-system-toggle" aria-expanded="false" aria-controls="student-system-menu">
-              <div class="feature-kicker">System</div>
-              <div class="feature-title">Hệ thống</div>
-              <div class="mt-3 small text-primary fw-semibold" id="student-system-hint">Mở hồ sơ ›</div>
-            </button>
-            <div class="student-submenu" id="student-system-menu">
-              <a href="{{ url_for('student_profile') }}" class="student-submenu-link">Hồ sơ học sinh</a>
-            </div>
-          {% elif current_user.role == 'teacher' %}
-            <a href="{{ url_for('teacher_profile') }}" class="feature-card">
-              <div class="feature-kicker">System</div>
-              <div class="feature-title">Hệ thống</div>
-            </a>
-          {% else %}
-            <a href="#" class="feature-card">
-              <div class="feature-kicker">System</div>
-              <div class="feature-title">Hệ thống</div>
-            </a>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
   {% if current_user.role == 'student' %}
-    <script>
-      function bindDropdown(toggleId, menuId, hintId, openText, closedText) {
-        const toggle = document.getElementById(toggleId);
-        const menu = document.getElementById(menuId);
-        const hint = document.getElementById(hintId);
+    <style>
+      .student-dashboard-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+        gap: 28px;
+        align-items: center;
+        margin-bottom: 28px;
+        padding: 32px;
+        border: 1px solid var(--color-primary-border);
+        border-radius: 24px;
+        background: linear-gradient(135deg, var(--color-primary-subtle) 0%, #FDF4FF 52%, #ECFEFF 100%);
+      }
 
-        if (toggle && menu) {
-          toggle.addEventListener('click', () => {
-            const isOpen = menu.classList.toggle('show');
-            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            if (hint) {
-              hint.textContent = isOpen ? openText : closedText;
-            }
-          });
+      .student-dashboard-label {
+        color: var(--color-text-label);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .student-dashboard-hero h1 {
+        margin: 8px 0 10px;
+        color: #1E1B4B;
+        font-size: 28px;
+        font-weight: 800;
+        line-height: 1.25;
+      }
+
+      .student-dashboard-hero p {
+        max-width: 620px;
+        margin: 0 0 22px;
+        color: var(--color-text-secondary);
+        font-size: 15px;
+      }
+
+      .student-dashboard-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .student-dashboard-visual {
+        position: relative;
+        min-height: 230px;
+        display: grid;
+        place-items: center;
+      }
+
+      .student-dashboard-visual-card {
+        width: min(100%, 340px);
+        padding: 18px;
+        border: 1px solid #E9D5FF;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 24px 60px rgba(124, 58, 237, 0.16);
+      }
+
+      .student-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+        margin-bottom: 36px;
+      }
+
+      .student-stat-tile {
+        min-height: 138px;
+        padding: 20px;
+        border-radius: 16px;
+        color: #fff;
+        box-shadow: 0 16px 36px rgba(17, 24, 39, 0.12);
+      }
+
+      .student-stat-tile strong {
+        display: block;
+        margin-top: 16px;
+        font-size: 28px;
+        font-weight: 750;
+        line-height: 1;
+      }
+
+      .student-stat-tile span {
+        display: block;
+        margin-top: 8px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .student-stat-icon {
+        width: 42px;
+        height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.18);
+        font-size: 1.3rem;
+      }
+
+      .student-feature-head {
+        margin-bottom: 18px;
+        text-align: center;
+      }
+
+      .student-feature-head h2 {
+        margin: 6px 0;
+        color: #1E1B4B;
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .student-feature-head p {
+        margin: 0;
+        color: var(--color-text-muted);
+        font-size: 15px;
+      }
+
+      .student-feature-grid-modern {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .student-feature-modern {
+        display: block;
+        min-height: 210px;
+        padding: 20px;
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        background: #fff;
+        color: inherit;
+        text-decoration: none;
+        transition: all 200ms ease;
+      }
+
+      .student-feature-modern:hover {
+        color: inherit;
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(17, 24, 39, 0.09);
+      }
+
+      .student-feature-modern h3 {
+        margin: 14px 0 8px;
+        color: var(--color-text-primary);
+        font-size: 18px;
+        font-weight: 750;
+      }
+
+      .student-feature-modern p {
+        margin: 0;
+        color: var(--color-text-secondary);
+        font-size: 15px;
+      }
+
+      .student-feature-icon-modern {
+        width: 48px;
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 1.35rem;
+      }
+
+      .student-feature-link {
+        display: inline-flex;
+        margin-top: 16px;
+        color: var(--color-primary);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .accent-psy:hover { border-color: var(--color-psy); }
+      .accent-chat:hover { border-color: var(--color-chat); }
+      .accent-career:hover { border-color: var(--color-career); }
+      .accent-skill:hover { border-color: var(--color-skill); }
+      .accent-mood:hover { border-color: var(--color-mood); }
+      .accent-community:hover { border-color: var(--color-community); }
+
+      @media (max-width: 991.98px) {
+        .student-dashboard-hero,
+        .student-feature-grid-modern {
+          grid-template-columns: 1fr;
+        }
+
+        .student-stats-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
 
-      bindDropdown('student-psychology-toggle', 'student-psychology-menu', 'student-psychology-hint', 'Thu gọn ↑', 'Mở các mục ›');
-      bindDropdown('student-career-toggle', 'student-career-menu', 'student-career-hint', 'Thu gọn ↑', 'Mở các mục ›');
-      bindDropdown('student-community-toggle', 'student-community-menu', 'student-community-hint', 'Thu gọn ↑', 'Mở diễn đàn ›');
-      bindDropdown('student-system-toggle', 'student-system-menu', 'student-system-hint', 'Thu gọn ↑', 'Mở hồ sơ ›');
-    </script>
+      @media (max-width: 575.98px) {
+        .student-dashboard-hero {
+          padding: 22px;
+        }
+
+        .student-stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <section class="student-dashboard-hero">
+      <div>
+        <div class="student-dashboard-label">TỔNG QUAN HỌC SINH</div>
+        <h1>Chào mừng, {{ current_user.username }} 👋</h1>
+        <p>Khám phá bản thân, theo dõi cảm xúc và định hướng tương lai bằng các công cụ tâm lý học đường & hướng nghiệp.</p>
+        <div class="student-dashboard-actions">
+          <a class="btn btn-primary" href="{{ url_for('student_quizzes') }}">Làm trắc nghiệm</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('student_chat_rooms') }}">Chat chuyên gia</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('student_inbox') }}">Hộp thư</a>
+        </div>
+      </div>
+
+      <div class="student-dashboard-visual">
+        <div class="student-dashboard-visual-card">
+          <svg viewBox="0 0 360 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="26" y="22" width="308" height="206" rx="28" fill="#FFFFFF"/>
+            <rect x="48" y="46" width="140" height="42" rx="16" fill="#EDE9FE"/>
+            <rect x="208" y="46" width="104" height="42" rx="16" fill="#CCFBF1"/>
+            <path d="M72 68H140M232 68H286" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="180" cy="142" r="56" fill="#F5F3FF"/>
+            <path d="M142 142C142 112 158 94 180 94C202 94 218 112 218 142V164C218 190 202 206 180 206C158 206 142 190 142 164V142Z" fill="#7C3AED"/>
+            <rect x="136" y="116" width="88" height="64" rx="28" fill="#FFFFFF"/>
+            <circle cx="162" cy="146" r="7" fill="#7C3AED"/>
+            <circle cx="198" cy="146" r="7" fill="#7C3AED"/>
+            <path d="M164 162C172 170 188 170 196 162" stroke="#7C3AED" stroke-width="6" stroke-linecap="round"/>
+            <rect x="54" y="142" width="82" height="58" rx="20" fill="#FCE7F3"/>
+            <path d="M78 170H112M78 184H102" stroke="#EC4899" stroke-width="7" stroke-linecap="round"/>
+            <rect x="224" y="142" width="82" height="58" rx="20" fill="#D1FAE5"/>
+            <path d="M265 156V176L280 184" stroke="#059669" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="265" cy="176" r="18" stroke="#059669" stroke-width="5"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="student-stats-grid" aria-label="Thống kê học sinh">
+      <article class="student-stat-tile" style="background: var(--color-psy);">
+        <div class="student-stat-icon">🧠</div>
+        <strong>{{ completed_quiz_count|default(0) }}</strong>
+        <span>Bài trắc nghiệm đã làm</span>
+      </article>
+      <article class="student-stat-tile" style="background: var(--color-chat);">
+        <div class="student-stat-icon">💬</div>
+        <strong>{{ expert_chat_count|default(0) }}</strong>
+        <span>Lần chat chuyên gia</span>
+      </article>
+      <article class="student-stat-tile" style="background: var(--color-career);">
+        <div class="student-stat-icon">🎯</div>
+        <strong>{{ explored_career_count|default(0) }}</strong>
+        <span>Nghề đã khám phá</span>
+      </article>
+      <article class="student-stat-tile" style="background: var(--color-skill);">
+        <div class="student-stat-icon">✅</div>
+        <strong>{{ emotion_entry_count|default(0) }}</strong>
+        <span>Nhật ký cảm xúc</span>
+      </article>
+    </section>
+
+    <section>
+      <div class="student-feature-head">
+        <div class="student-dashboard-label">CHỨC NĂNG CHÍNH</div>
+        <h2>Tất cả những gì bạn cần</h2>
+        <p>6 khu vực chức năng dành riêng cho học sinh</p>
+      </div>
+
+      <div class="student-feature-grid-modern">
+        <a class="student-feature-modern accent-psy" href="{{ url_for('student_quizzes') }}">
+          <span class="student-feature-icon-modern" style="background: var(--color-psy-light); color: var(--color-psy-text);">🧠</span>
+          <h3>Trắc nghiệm tâm lý</h3>
+          <p>MBTI, DISC, Holland — khám phá tính cách và thế mạnh của bản thân</p>
+          <span class="student-feature-link">Làm ngay →</span>
+        </a>
+        <a class="student-feature-modern accent-chat" href="{{ url_for('student_chat_rooms') }}">
+          <span class="student-feature-icon-modern" style="background: var(--color-chat-light); color: var(--color-chat-text);">💬</span>
+          <h3>Chat chuyên gia</h3>
+          <p>Kết nối trực tiếp với chuyên gia tâm lý và hướng nghiệp</p>
+          <span class="student-feature-link">Chat ngay →</span>
+        </a>
+        <a class="student-feature-modern accent-career" href="{{ url_for('student_self_discovery') }}">
+          <span class="student-feature-icon-modern" style="background: var(--color-career-light); color: var(--color-career-text);">🧭</span>
+          <h3>Hướng nghiệp</h3>
+          <p>Thư viện ngành nghề, lộ trình học tập và cơ hội tương lai</p>
+          <span class="student-feature-link">Khám phá →</span>
+        </a>
+        <a class="student-feature-modern accent-skill" href="{{ url_for('student_life_skills') }}">
+          <span class="student-feature-icon-modern" style="background: var(--color-skill-light); color: var(--color-skill-text);">📖</span>
+          <h3>Bài học kỹ năng sống</h3>
+          <p>Các bài học thực tế về kỹ năng mềm, quản lý cảm xúc</p>
+          <span class="student-feature-link">Học ngay →</span>
+        </a>
+        <a class="student-feature-modern accent-mood" href="{{ url_for('emotion_journal') }}">
+          <span class="student-feature-icon-modern" style="background: var(--color-mood-light); color: var(--color-mood-text);">♡</span>
+          <h3>Nhật ký cảm xúc</h3>
+          <p>Ghi lại tâm trạng hàng ngày, theo dõi sức khỏe tinh thần</p>
+          <span class="student-feature-link">Ghi hôm nay →</span>
+        </a>
+        <a class="student-feature-modern accent-community" href="{{ url_for('student_forum') }}">
+          <span class="student-feature-icon-modern" style="background: var(--color-community-light); color: var(--color-community-text);">👥</span>
+          <h3>Cộng đồng & diễn đàn</h3>
+          <p>Chia sẻ, hỏi đáp và kết nối với bạn bè cùng chí hướng</p>
+          <span class="student-feature-link">Vào diễn đàn →</span>
+        </a>
+      </div>
+    </section>
+  {% else %}
+    <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+      <div>
+        <h2 class="section-title">Xin chào, {{ current_user.username }}</h2>
+      </div>
+      <div class="d-flex gap-2 align-items-start">
+        {% if current_user.role == 'admin' %}
+          <a class="btn btn-primary" href="{{ url_for('create_teacher') }}">Tạo giáo viên</a>
+        {% endif %}
+        {% if current_user.role == 'teacher' %}
+          <a class="btn btn-outline-primary" href="{{ url_for('contact_admin') }}">Liên hệ quản trị</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="stat-card">
+          <div class="stat-label">Vai trò</div>
+          <p class="stat-value text-capitalize">{{ current_user.role }}</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <div class="stat-label">Mã tài khoản</div>
+          <p class="stat-value">{{ current_user.account_id or '—' }}</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <div class="stat-label">Trạng thái</div>
+          <p class="stat-value">{{ 'Active' if current_user.is_active else 'Revoked' }}</p>
+        </div>
+      </div>
+    </div>
+
+    {% if current_user.role == 'admin' %}
+      <div class="mb-4">
+        <h5 class="fw-bold mb-3">Quản trị nhanh</h5>
+        <div class="row g-3">
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('admin_users') }}" class="feature-card"><div class="feature-kicker">Users</div><div class="feature-title">Quản lý người dùng</div></a></div>
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('admin_stats') }}" class="feature-card"><div class="feature-kicker">Reports</div><div class="feature-title">Thống kê hệ thống</div></a></div>
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('admin_chat') }}" class="feature-card"><div class="feature-kicker">Messages</div><div class="feature-title">Tin nhắn quản trị</div></a></div>
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('create_teacher') }}" class="feature-card"><div class="feature-kicker">Teachers</div><div class="feature-title">Tạo giáo viên</div></a></div>
+        </div>
+      </div>
+    {% elif current_user.role == 'parent' %}
+      <style>
+        .parent-app-body.endpoint-dashboard .content-body > .d-flex.flex-column.flex-lg-row,
+        .parent-app-body.endpoint-dashboard .content-body > .row.g-3.mb-4 { display: none !important; }
+        .parent-dashboard { display: grid; gap: 24px; }
+        .parent-hero {
+          position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+          gap: 26px; align-items: center; padding: 34px; border: 1px solid rgba(124,58,237,.18); border-radius: 28px;
+          background: radial-gradient(circle at 8% 12%, rgba(255,255,255,.9), transparent 22%), linear-gradient(135deg, rgba(237,233,254,.96), rgba(252,231,243,.92) 52%, rgba(204,251,241,.9));
+          box-shadow: 0 24px 70px rgba(91,33,182,.13);
+        }
+        .parent-hero::after { content: ""; position: absolute; right: -90px; top: -110px; width: 260px; height: 260px; border-radius: 999px; background: rgba(255,255,255,.42); }
+        .parent-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.72); color: #6D28D9; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+        .parent-hero h1 { position: relative; margin: 16px 0 10px; color: #1E1B4B; font-size: clamp(30px, 4vw, 46px); font-weight: 850; line-height: 1.08; letter-spacing: -.03em; }
+        .parent-hero p { max-width: 640px; margin: 0; color: #5B5178; font-size: 16px; line-height: 1.7; }
+        .parent-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+        .parent-btn-primary, .parent-btn-soft { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 18px; border-radius: 14px; font-weight: 750; text-decoration: none; transition: all 200ms ease; }
+        .parent-btn-primary { border: 0; background: linear-gradient(135deg, #7C3AED, #DB2777); color: #fff; box-shadow: 0 16px 34px rgba(124,58,237,.26); }
+        .parent-btn-primary:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 20px 44px rgba(124,58,237,.32); }
+        .parent-btn-soft { border: 1px solid rgba(124,58,237,.22); background: rgba(255,255,255,.76); color: #5B21B6; }
+        .parent-btn-soft:hover { color: #5B21B6; transform: translateY(-2px); background: #fff; }
+        .parent-visual { position: relative; z-index: 1; min-height: 260px; display: grid; place-items: center; }
+        .parent-dream-card { position: relative; width: min(100%, 380px); min-height: 280px; padding: 18px; border: 1px solid rgba(255,255,255,.78); border-radius: 32px; background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(245,243,255,.72)); box-shadow: 0 30px 80px rgba(91,33,182,.18); backdrop-filter: blur(18px); }
+        .parent-dream-card::before { content: ""; position: absolute; inset: 18px; border-radius: 26px; background: radial-gradient(circle at 50% 40%, rgba(124,58,237,.16), transparent 34%), radial-gradient(circle at 78% 70%, rgba(13,148,136,.16), transparent 30%); }
+        .parent-illustration { position: relative; z-index: 1; width: 100%; height: auto; display: block; }
+        .parent-mini-badge { position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 8px; padding: 10px 13px; border: 1px solid rgba(255,255,255,.8); border-radius: 999px; background: rgba(255,255,255,.9); color: #1E1B4B; font-size: 13px; font-weight: 850; box-shadow: 0 14px 34px rgba(30,27,75,.11); }
+        .parent-mini-badge.one { left: 22px; top: 22px; }
+        .parent-mini-badge.two { right: 20px; top: 76px; }
+        .parent-mini-badge.three { left: 34px; bottom: 28px; }
+        .parent-mini-badge i { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
+        .parent-stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+        .parent-stat { padding: 20px; border: 1px solid rgba(124,58,237,.14); border-radius: 22px; background: rgba(255,255,255,.82); box-shadow: 0 18px 40px rgba(30,27,75,.06); }
+        .parent-stat span { display: block; color: #7C6F97; font-size: 13px; font-weight: 700; }
+        .parent-stat strong { display: block; margin-top: 8px; color: #1E1B4B; font-size: 26px; font-weight: 850; line-height: 1.1; }
+        .parent-main-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 22px; align-items: start; }
+        .parent-panel { border: 1px solid rgba(124,58,237,.14); border-radius: 26px; background: rgba(255,255,255,.86); box-shadow: 0 20px 48px rgba(30,27,75,.07); overflow: hidden; }
+        .parent-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 22px 22px 16px; border-bottom: 1px solid rgba(124,58,237,.1); }
+        .parent-panel-head h2 { margin: 0; color: #1E1B4B; font-size: 22px; font-weight: 850; }
+        .parent-panel-head p { margin: 6px 0 0; color: #6B7280; }
+        .parent-teacher-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 18px 22px 22px; }
+        .parent-teacher-card { min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; padding: 18px; border: 1px solid #EDE9FE; border-radius: 20px; background: linear-gradient(180deg, #fff 0%, #FAF5FF 100%); color: inherit; text-decoration: none; transition: all 200ms ease; }
+        .parent-teacher-card:hover { color: inherit; transform: translateY(-4px); border-color: #C4B5FD; box-shadow: 0 18px 38px rgba(124,58,237,.15); }
+        .parent-teacher-top { display: flex; align-items: center; gap: 12px; }
+        .parent-teacher-avatar { position: relative; width: 52px; height: 52px; display: inline-flex; align-items: center; justify-content: center; border-radius: 18px; background: linear-gradient(135deg, #7C3AED, #0D9488); color: #fff; font-weight: 850; box-shadow: 0 14px 26px rgba(13,148,136,.18); }
+        .parent-teacher-avatar::after { content: ""; position: absolute; right: -2px; bottom: -2px; width: 14px; height: 14px; border: 3px solid #fff; border-radius: 999px; background: #22C55E; }
+        .parent-teacher-name { color: #111827; font-size: 16px; font-weight: 850; }
+        .parent-teacher-email { color: #6B7280; font-size: 13px; }
+        .parent-teacher-action { display: inline-flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 18px; color: #7C3AED; font-size: 14px; font-weight: 800; }
+        .parent-empty { grid-column: 1 / -1; padding: 42px 18px; border: 1px dashed #C4B5FD; border-radius: 22px; background: #fff; text-align: center; }
+        .parent-empty h3 { color: #1E1B4B; font-weight: 850; }
+        .parent-side-card { padding: 22px; }
+        .parent-side-card h3 { margin: 0 0 12px; color: #1E1B4B; font-size: 20px; font-weight: 850; }
+        .parent-note-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+        .parent-note-list li { display: flex; gap: 10px; padding: 12px; border-radius: 16px; background: #F8FAFC; color: #4B5563; line-height: 1.45; }
+        .parent-note-list b { color: #1E1B4B; }
+        @media (max-width: 991.98px) { .parent-hero, .parent-main-grid { grid-template-columns: 1fr; } .parent-stat-grid, .parent-teacher-list { grid-template-columns: 1fr; } }
+        @media (max-width: 575.98px) { .parent-hero { padding: 24px; } .parent-panel-head, .parent-teacher-list { padding-left: 16px; padding-right: 16px; } }
+      </style>
+
+      <div class="parent-dashboard">
+        <section class="parent-hero">
+          <div>
+            <span class="parent-kicker">✦ Không gian phụ huynh</span>
+            <h1>Xin chào, {{ current_user.username }}.</h1>
+            <p>Một góc yên bình để gia đình lắng nghe, đồng hành và kết nối với giáo viên — như một chiếc đèn nhỏ thắp sáng hành trình trưởng thành của con.</p>
+            <div class="parent-actions">
+              {% if parent_teachers %}
+                <a class="parent-btn-primary" href="{{ url_for('parent_teacher_chat', teacher_id=parent_teachers[0].id) }}">Nhắn giáo viên ngay →</a>
+              {% endif %}
+              <a class="parent-btn-soft" href="#parent-teachers">Xem danh sách giáo viên</a>
+            </div>
+          </div>
+          <div class="parent-visual" aria-hidden="true">
+            <div class="parent-dream-card">
+              <span class="parent-mini-badge one"><i style="background:#F59E0B;"></i>Lắng nghe</span>
+              <span class="parent-mini-badge two"><i style="background:#7C3AED;"></i>Đồng hành</span>
+              <span class="parent-mini-badge three"><i style="background:#0D9488;"></i>Kết nối</span>
+              <svg class="parent-illustration" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="parentGlow" x1="96" y1="38" x2="260" y2="210" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#7C3AED"/>
+                    <stop offset="1" stop-color="#EC4899"/>
+                  </linearGradient>
+                  <linearGradient id="parentBridge" x1="80" y1="164" x2="278" y2="164" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#C4B5FD"/>
+                    <stop offset="1" stop-color="#99F6E4"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="184" cy="128" r="68" fill="url(#parentGlow)" opacity="0.94"/>
+                <circle cx="184" cy="128" r="88" stroke="#FFFFFF" stroke-width="12" opacity="0.38"/>
+                <path d="M74 182C116 144 150 144 184 176C219 209 257 203 294 164" stroke="url(#parentBridge)" stroke-width="16" stroke-linecap="round"/>
+                <path d="M98 183C133 157 159 158 184 181C213 207 242 198 270 172" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.88"/>
+                <rect x="122" y="98" width="50" height="60" rx="14" fill="#FFFFFF"/>
+                <path d="M116 106L147 78L178 106" stroke="#F97316" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="141" y="128" width="15" height="30" rx="5" fill="#7C3AED" opacity="0.82"/>
+                <circle cx="226" cy="108" r="17" fill="#FFFFFF"/>
+                <path d="M213 132C218 122 234 122 240 132L247 154H206L213 132Z" fill="#FFFFFF"/>
+                <circle cx="139" cy="119" r="13" fill="#FDE68A"/>
+                <path d="M128 139C133 131 145 131 150 139L157 158H122L128 139Z" fill="#FDE68A"/>
+                <circle cx="251" cy="150" r="11" fill="#99F6E4"/>
+                <path d="M242 166C246 160 255 160 260 166L266 181H236L242 166Z" fill="#99F6E4"/>
+                <circle cx="90" cy="90" r="5" fill="#F59E0B"/>
+                <circle cx="282" cy="78" r="6" fill="#0D9488"/>
+                <circle cx="286" cy="202" r="4" fill="#7C3AED"/>
+                <path d="M199 76C212 68 230 70 240 83" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+                <path d="M119 202H247" stroke="#1E1B4B" stroke-width="5" stroke-linecap="round" opacity="0.14"/>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <section class="parent-stat-grid" aria-label="Tổng quan phụ huynh">
+          <article class="parent-stat"><span>Vai trò</span><strong>Phụ huynh</strong></article>
+          <article class="parent-stat"><span>Mã tài khoản</span><strong>{{ current_user.account_id or '—' }}</strong></article>
+          <article class="parent-stat"><span>Giáo viên có thể liên hệ</span><strong>{{ parent_teachers|length }}</strong></article>
+        </section>
+
+        <section class="parent-main-grid" id="parent-teachers">
+          <div class="parent-panel">
+            <div class="parent-panel-head">
+              <div>
+                <h2>Chat với giáo viên</h2>
+                <p>Chọn giáo viên để trao đổi tình hình học tập, cảm xúc và những điều cần phối hợp với gia đình.</p>
+              </div>
+              <span class="parent-kicker">Realtime</span>
+            </div>
+            <div class="parent-teacher-list">
+              {% for teacher in parent_teachers %}
+                <a href="{{ url_for('parent_teacher_chat', teacher_id=teacher.id) }}" class="parent-teacher-card">
+                  <div class="parent-teacher-top">
+                    <span class="parent-teacher-avatar">{{ teacher.username[:1]|upper }}</span>
+                    <div>
+                      <div class="parent-teacher-name">{{ teacher.username }}</div>
+                      <div class="parent-teacher-email">{{ teacher.email }}</div>
+                    </div>
+                  </div>
+                  <span class="parent-teacher-action">Mở phòng chat <span>→</span></span>
+                </a>
+              {% else %}
+                <div class="parent-empty">
+                  <h3>Chưa có giáo viên</h3>
+                  <p class="text-muted mb-0">Khi nhà trường thêm tài khoản giáo viên, danh sách liên hệ sẽ xuất hiện tại đây.</p>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <aside class="parent-panel parent-side-card">
+            <h3>Nhịp cầu hôm nay</h3>
+            <ul class="parent-note-list">
+              <li><span>🌱</span><div><b>Hỏi nhẹ nhàng.</b><br>“Hôm nay ở trường có điều gì làm con nhớ nhất?”</div></li>
+              <li><span>🕯️</span><div><b>Giữ bình tĩnh.</b><br>Khi con căng thẳng, sự yên ổn của phụ huynh là điểm tựa đầu tiên.</div></li>
+              <li><span>💌</span><div><b>Kết nối sớm.</b><br>Nếu thấy dấu hiệu bất thường, hãy nhắn giáo viên để cùng theo dõi.</div></li>
+            </ul>
+          </aside>
+        </section>
+      </div>
+    {% elif current_user.role == 'teacher' %}
+      <div>
+        <h5 class="fw-bold mb-3">Khu vực chức năng</h5>
+        <div class="row g-3">
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('teacher_quizzes') }}" class="feature-card"><div class="feature-kicker">Support</div><div class="feature-title">Tâm lý học đường</div></a></div>
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('teacher_career_tests') }}" class="feature-card"><div class="feature-kicker">Career</div><div class="feature-title">Hướng nghiệp</div></a></div>
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('student_forum') }}" class="feature-card"><div class="feature-kicker">Community</div><div class="feature-title">Cộng đồng</div></a></div>
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('teacher_profile') }}" class="feature-card"><div class="feature-kicker">System</div><div class="feature-title">Hồ sơ giáo viên</div></a></div>
+        </div>
+      </div>
+    {% endif %}
   {% endif %}
 {% endblock %}

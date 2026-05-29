@@ -970,6 +970,15 @@ def get_or_create_student_profile(student_id):
     return profile
 
 
+@app.context_processor
+def inject_nav_student_profile():
+    if current_user.is_authenticated and current_user.role == 'student':
+        return {
+            'nav_student_profile': StudentProfile.query.filter_by(student_id=current_user.id).first()
+        }
+    return {'nav_student_profile': None}
+
+
 def get_or_create_teacher_profile(teacher_id):
     profile = TeacherProfile.query.filter_by(teacher_id=teacher_id).first()
     if profile:
@@ -1182,7 +1191,7 @@ def build_teacher_students_pdf(rows):
 def index():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
-    return redirect(url_for('login'))
+    return render_template('landing.html')
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -1230,11 +1239,30 @@ def login():
 def dashboard():
     student_profile = None
     parent_teachers = []
+    student_dashboard_stats = {}
     if current_user.role == 'student':
         student_profile = get_or_create_student_profile(current_user.id)
+        student_conversation_ids = [
+            conversation.id
+            for conversation in ChatConversation.query.filter_by(student_id=current_user.id).all()
+        ]
+        student_dashboard_stats = {
+            'completed_quiz_count': PsychologySubmission.query.filter_by(student_id=current_user.id).count(),
+            'expert_chat_count': ChatMessage.query.filter(
+                ChatMessage.conversation_id.in_(student_conversation_ids),
+                ChatMessage.sender_id == current_user.id,
+            ).count() if student_conversation_ids else 0,
+            'explored_career_count': CareerSubmission.query.filter_by(student_id=current_user.id).count() + CareerInquiry.query.filter_by(student_id=current_user.id).count(),
+            'emotion_entry_count': EmotionEntry.query.filter_by(student_id=current_user.id).count(),
+        }
     if current_user.role == 'parent':
         parent_teachers = User.query.filter_by(role='teacher', is_active=True).order_by(User.username).all()
-    return render_template('dashboard.html', student_profile=student_profile, parent_teachers=parent_teachers)
+    return render_template(
+        'dashboard.html',
+        student_profile=student_profile,
+        parent_teachers=parent_teachers,
+        **student_dashboard_stats,
+    )
 
 
 @app.route('/teacher/students')
