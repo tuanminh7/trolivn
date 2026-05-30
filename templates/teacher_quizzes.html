@@ -1,46 +1,62 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %}
+
 {% block title %}Trắc nghiệm tâm lý{% endblock %}
-{% block content %}
-  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
-    <div>
-      <p class="text-primary fw-semibold mb-1">Giáo viên</p>
+
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+    <div>
+      <p class="text-primary fw-semibold mb-1">Giáo viên</p>
       <h2 class="section-title">Trắc nghiệm tâm lý</h2>
-    </div>
+    </div>
+
     <div class="d-flex gap-2 align-self-lg-start">
       <a href="{{ url_for('teacher_life_skills') }}" class="btn btn-outline-primary">Bài học kỹ năng sống</a>
       <a href="{{ url_for('teacher_quiz_new') }}" class="btn btn-primary">Tạo chủ đề</a>
     </div>
   </div>
-
-  <div class="row g-3">
-    {% for topic in topics %}
-      <div class="col-md-6">
-        <article class="feature-card">
-          <div class="d-flex justify-content-between gap-2 mb-2">
-            <div>
+
+  <div class="row g-3">
+    {% for topic in topics %}
+      <div class="col-md-6">
+        <article class="feature-card">
+          <div class="d-flex justify-content-between gap-2 mb-2">
+            <div>
               <div class="feature-kicker">Chủ đề</div>
-              <h5 class="feature-title">{{ topic.title }}</h5>
-            </div>
-            <span class="badge text-bg-success align-self-start">Đã upload</span>
-          </div>
-          <div class="d-flex flex-wrap gap-2 mb-3">
-            <span class="badge text-bg-light border">{{ question_counts.get(topic.id, 0) }} câu hỏi</span>
-            <span class="badge text-bg-light border">{{ submission_counts.get(topic.id, 0) }} lượt làm</span>
-          </div>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('teacher_quiz_edit', topic_id=topic.id) }}" class="btn btn-sm btn-outline-primary">Chỉnh sửa</a>
-            <a href="{{ url_for('teacher_quiz_results', topic_id=topic.id) }}" class="btn btn-sm btn-outline-secondary">Xem kết quả</a>
-          </div>
-        </article>
-      </div>
-    {% else %}
-      <div class="col-12">
-        <div class="text-center border rounded p-5">
+              <h5 class="feature-title">{{ topic.title }}</h5>
+            </div>
+
+            {% if topic.teacher_id == current_user.id %}
+              <span class="badge text-bg-success align-self-start">Đã upload</span>
+            {% else %}
+              <span class="badge text-bg-info align-self-start">Chủ đề publish</span>
+            {% endif %}
+          </div>
+
+          {% if topic.description %}
+            <p class="section-subtitle small mb-3">{{ topic.description }}</p>
+          {% endif %}
+
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge text-bg-light border">{{ question_counts.get(topic.id, 0) }} câu hỏi</span>
+            <span class="badge text-bg-light border">{{ submission_counts.get(topic.id, 0) }} lượt làm</span>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            {% if topic.teacher_id == current_user.id %}
+              <a href="{{ url_for('teacher_quiz_edit', topic_id=topic.id) }}" class="btn btn-sm btn-outline-primary">Chỉnh sửa</a>
+            {% endif %}
+            <a href="{{ url_for('teacher_quiz_results', topic_id=topic.id) }}" class="btn btn-sm btn-outline-secondary">Xem kết quả</a>
+          </div>
+        </article>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <div class="text-center border rounded p-5">
           <h5 class="fw-bold">Chưa có chủ đề</h5>
           <p class="section-subtitle">Tạo chủ đề đầu tiên để học sinh có thể làm trắc nghiệm tâm lý.</p>
           <a href="{{ url_for('teacher_quiz_new') }}" class="btn btn-primary">Tạo chủ đề</a>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-{% endblock %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
