@@ -272,6 +272,8 @@
 
         min-width: 0;
 
+        min-height: calc(100vh - 73px);
+
         padding: 28px;
 
       }
@@ -285,6 +287,8 @@
         flex: 1;
 
         flex-direction: column;
+
+        min-height: calc(100vh - 129px);
 
         max-width: 1180px;
 
@@ -2921,7 +2925,7 @@
       }
 
       body:not(.student-app-body):not(.parent-app-body) .app-footer {
-        margin-top: 20vh;
+        margin-top: auto;
       }
 
       .footer-inner {
@@ -3629,7 +3633,7 @@
 
 
 
-    {% if current_user.is_authenticated %}
+    {% if current_user.is_authenticated and current_user.role not in ['admin', 'teacher'] %}
 
             <footer class="app-footer">
               <div class="footer-inner">

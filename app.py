@@ -80,34 +80,33 @@ def load_user(user_id):
     return None
 
 class RegisterForm(FlaskForm):
-    username = StringField('TÃƒÂªn Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p', validators=[DataRequired(), Length(3,80)])
+    username = StringField('Tên đăng nhập', validators=[DataRequired(), Length(3,80)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('MÃ¡ÂºÂ­t khÃ¡ÂºÂ©u', validators=[DataRequired(), Length(6,128)])
-    password2 = PasswordField('XÃƒÂ¡c nhÃ¡ÂºÂ­n mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u', validators=[DataRequired(), EqualTo('password')])
-    role = SelectField('Vai trÃƒÂ²', choices=[('student','HÃ¡Â»Âc sinh'),('parent','PhÃ¡Â»Â¥ huynh')], validators=[DataRequired()])
-    submit = SubmitField('Ã„ÂÃ„Æ’ng kÃƒÂ½')
+    password = PasswordField('Mật khẩu', validators=[DataRequired(), Length(6,128)])
+    password2 = PasswordField('Xác nhận mật khẩu', validators=[DataRequired(), EqualTo('password')])
+    role = SelectField('Vai trò', choices=[('student','Học sinh'),('parent','Phụ huynh')], validators=[DataRequired()])
+    submit = SubmitField('Đăng ký')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('MÃ¡ÂºÂ­t khÃ¡ÂºÂ©u', validators=[DataRequired()])
+    password = PasswordField('Mật khẩu', validators=[DataRequired()])
     role = HiddenField('role')
-    submit = SubmitField('Ã„ÂÃ„Æ’ng nhÃ¡ÂºÂ­p')
+    submit = SubmitField('Đăng nhập')
 
 class CreateTeacherForm(FlaskForm):
-    username = StringField('TÃƒÂªn Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p', validators=[DataRequired(), Length(3,80)])
+    username = StringField('Tên đăng nhập', validators=[DataRequired(), Length(3,80)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('MÃ¡ÂºÂ­t khÃ¡ÂºÂ©u', validators=[DataRequired(), Length(6,128)])
-    password2 = PasswordField('XÃƒÂ¡c nhÃ¡ÂºÂ­n mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('TÃ¡ÂºÂ¡o tÃƒÂ i khoÃ¡ÂºÂ£n giÃƒÂ¡o viÃƒÂªn')
+    password = PasswordField('Mật khẩu', validators=[DataRequired(), Length(6,128)])
+    password2 = PasswordField('Xác nhận mật khẩu', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Tạo tài khoản giáo viên')
 
 class ChangePasswordForm(FlaskForm):
-    password = PasswordField('MÃ¡ÂºÂ­t khÃ¡ÂºÂ©u mÃ¡Â»â€ºi', validators=[DataRequired(), Length(6,128)])
-    password2 = PasswordField('XÃƒÂ¡c nhÃ¡ÂºÂ­n mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('CÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u')
-
+    password = PasswordField('Mật khẩu mới', validators=[DataRequired(), Length(6,128)])
+    password2 = PasswordField('Xác nhận mật khẩu', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Cập nhật mật khẩu')
 class MessageForm(FlaskForm):
-    content = TextAreaField('NÃ¡Â»â„¢i dung', validators=[DataRequired(), Length(1,1000)])
-    submit = SubmitField('GÃ¡Â»Â­i')
+    content = TextAreaField('Nội dung', validators=[DataRequired(), Length(1,1000)])
+    submit = SubmitField('Gửi')
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -391,45 +390,45 @@ def psychology_rating(percent):
     if percent <= 20:
         return {
             'level': 1,
-            'title': 'BÃƒÂ¬nh thÃ†Â°Ã¡Â»Âng',
-            'range': 'Ã„ÂiÃ¡Â»Æ’m 0Ã¢â‚¬â€œ20',
-            'description': 'CÃ¡ÂºÂ£m xÃƒÂºc Ã¡Â»â€¢n Ã„â€˜Ã¡Â»â€¹nh, khÃƒÂ´ng cÃƒÂ³ dÃ¡ÂºÂ¥u hiÃ¡Â»â€¡u bÃ¡ÂºÂ¥t thÃ†Â°Ã¡Â»Âng',
-            'badge': 'Ã¡Â»â€n Ã„â€˜Ã¡Â»â€¹nh',
+            'title': 'Bình thường',
+            'range': 'Điểm 0–20',
+            'description': 'Cảm xúc ổn định, không có dấu hiệu bất thường',
+            'badge': 'Ổn định',
             'class': 'level-1',
         }
     if percent <= 40:
         return {
             'level': 2,
-            'title': 'ChÃƒÂº ÃƒÂ½ nhÃ¡ÂºÂ¹',
-            'range': 'Ã„ÂiÃ¡Â»Æ’m 21Ã¢â‚¬â€œ40',
-            'description': 'CÃƒÂ³ mÃ¡Â»â„¢t sÃ¡Â»â€˜ lo lÃ¡ÂºÂ¯ng hoÃ¡ÂºÂ·c cÃ„Æ’ng thÃ¡ÂºÂ³ng nhÃ¡ÂºÂ¥t thÃ¡Â»Âi',
-            'badge': 'Theo dÃƒÂµi',
+            'title': 'Chú ý nhẹ',
+            'range': 'Điểm 21–40',
+            'description': 'Có một số lo lắng hoặc căng thẳng nhất thời',
+            'badge': 'Theo dõi',
             'class': 'level-2',
         }
     if percent <= 60:
         return {
             'level': 3,
-            'title': 'CÃ¡ÂºÂ§n hÃ¡Â»â€” trÃ¡Â»Â£',
-            'range': 'Ã„ÂiÃ¡Â»Æ’m 41Ã¢â‚¬â€œ60',
-            'description': 'Lo ÃƒÂ¢u hoÃ¡ÂºÂ·c buÃ¡Â»â€œn bÃƒÂ£ Ã„â€˜ÃƒÂ¡ng kÃ¡Â»Æ’, Ã¡ÂºÂ£nh hÃ†Â°Ã¡Â»Å¸ng sinh hoÃ¡ÂºÂ¡t',
-            'badge': 'HÃ¡Â»â€” trÃ¡Â»Â£',
+            'title': 'Cần hỗ trợ',
+            'range': 'Điểm 41–60',
+            'description': 'Lo âu hoặc buồn bã đáng kể, ảnh hưởng sinh hoạt',
+            'badge': 'Hỗ trợ',
             'class': 'level-3',
         }
     if percent <= 80:
         return {
             'level': 4,
-            'title': 'NghiÃƒÂªm trÃ¡Â»Âng',
-            'range': 'Ã„ÂiÃ¡Â»Æ’m 61Ã¢â‚¬â€œ80',
-            'description': 'DÃ¡ÂºÂ¥u hiÃ¡Â»â€¡u trÃ¡ÂºÂ§m cÃ¡ÂºÂ£m hoÃ¡ÂºÂ·c lo ÃƒÂ¢u nÃ¡ÂºÂ·ng, cÃ¡ÂºÂ§n can thiÃ¡Â»â€¡p',
-            'badge': 'Can thiÃ¡Â»â€¡p',
+            'title': 'Nghiêm trọng',
+            'range': 'Điểm 61–80',
+            'description': 'Dấu hiệu trầm cảm hoặc lo âu nặng, cần can thiệp',
+            'badge': 'Can thiệp',
             'class': 'level-4',
         }
     return {
         'level': 5,
-        'title': 'KhÃ¡Â»Â§ng hoÃ¡ÂºÂ£ng',
-        'range': 'Ã„ÂiÃ¡Â»Æ’m 81Ã¢â‚¬â€œ100',
-        'description': 'CÃƒÂ³ biÃ¡Â»Æ’u hiÃ¡Â»â€¡n tÃ¡Â»Â± hÃ¡ÂºÂ¡i hoÃ¡ÂºÂ·c nguy hiÃ¡Â»Æ’m tÃ¡Â»Â©c thÃ¡Â»Âi',
-        'badge': 'KhÃ¡ÂºÂ©n cÃ¡ÂºÂ¥p',
+        'title': 'Khủng hoảng',
+        'range': 'Điểm 81–100',
+        'description': 'Có biểu hiện tự hại hoặc nguy hiểm tức thời',
+        'badge': 'Khẩn cấp',
         'class': 'level-5',
     }
 
@@ -440,7 +439,7 @@ def all_psychology_ratings():
 
 def role_required(*roles):
     if current_user.role not in roles:
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p chÃ¡Â»Â©c nÃ„Æ’ng nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền truy cập chức năng này', 'danger')
         return False
     return True
 
@@ -566,7 +565,7 @@ def career_job_to_dict(job):
         'teacher_id': job.teacher_id,
         'name': job.name,
         'field': job.field,
-        'icon': job.icon or 'Ã¢â€”â€¡',
+        'icon': job.icon or '◇',
         'summary': job.summary,
         'skills': skills,
         'work': job.work,
@@ -606,61 +605,61 @@ def collect_career_job_form():
     }
 
 
-def default_learning_path_payload(title='LÃ¡ÂºÂ­p trÃƒÂ¬nh viÃƒÂªn'):
+def default_learning_path_payload(title='Lập trình viên'):
     stages = [
         {
-            'year_label': 'LÃ¡Â»â€ºp 10',
+            'year_label': 'Lớp 10',
             'subtitle': '',
-            'title': 'XÃƒÂ¢y nÃ¡Â»Ân tÃ¡ÂºÂ£ng',
-            'status': 'ChÃ†Â°a hoÃƒÂ n thÃƒÂ nh',
+            'title': 'Xây nền tảng',
+            'status': 'Chưa hoàn thành',
             'is_open': True,
             'tasks': [
-                {'title': 'HÃ¡Â»Âc tÃ¡Â»â€˜t ToÃƒÂ¡n, VÃ¡ÂºÂ­t lÃƒÂ½, Tin hÃ¡Â»Âc', 'subtitle': 'MÃƒÂ´n hÃ¡Â»Âc nÃ¡Â»Ân tÃ¡ÂºÂ£ng cho lÃ¡ÂºÂ­p trÃƒÂ¬nh', 'type': 'MÃƒÂ´n hÃ¡Â»Âc', 'done': False},
-                {'title': 'LÃƒÂ m quen vÃ¡Â»â€ºi tÃ†Â° duy logic', 'subtitle': 'GiÃ¡ÂºÂ£i bÃƒÂ i tÃ¡ÂºÂ­p thuÃ¡ÂºÂ­t toÃƒÂ¡n cÃ†Â¡ bÃ¡ÂºÂ£n', 'type': 'KÃ¡Â»Â¹ nÃ„Æ’ng', 'done': False},
-                {'title': 'ThÃ¡Â»Â­ viÃ¡ÂºÂ¿t chÃ†Â°Ã†Â¡ng trÃƒÂ¬nh Ã„â€˜Ã†Â¡n giÃ¡ÂºÂ£n', 'subtitle': 'Python hoÃ¡ÂºÂ·c Scratch', 'type': 'ThÃ¡Â»Â±c hÃƒÂ nh', 'done': False},
+                {'title': 'Học tốt Toán, Vật lý, Tin học', 'subtitle': 'Môn học nền tảng cho lập trình', 'type': 'Môn học', 'done': False},
+                {'title': 'Làm quen với tư duy logic', 'subtitle': 'Giải bài tập thuật toán cơ bản', 'type': 'Kỹ năng', 'done': False},
+                {'title': 'Thử viết chương trình đơn giản', 'subtitle': 'Python hoặc Scratch', 'type': 'Thực hành', 'done': False},
             ],
         },
         {
-            'year_label': 'LÃ¡Â»â€ºp 11',
-            'subtitle': 'Ã„Âang hÃ¡Â»Âc',
-            'title': 'PhÃƒÂ¡t triÃ¡Â»Æ’n kÃ¡Â»Â¹ nÃ„Æ’ng',
-            'status': 'Ã„Âang lÃƒÂ m',
+            'year_label': 'Lớp 11',
+            'subtitle': 'Đang học',
+            'title': 'Phát triển kỹ năng',
+            'status': 'Đang làm',
             'is_open': True,
             'tasks': [
-                {'title': 'HÃ¡Â»Âc Python cÃ†Â¡ bÃ¡ÂºÂ£n Ã„â€˜Ã¡ÂºÂ¿n nÃƒÂ¢ng cao', 'subtitle': 'BiÃ¡ÂºÂ¿n, vÃƒÂ²ng lÃ¡ÂºÂ·p, hÃƒÂ m, OOP', 'type': 'KÃ¡Â»Â¹ nÃ„Æ’ng', 'done': False},
-                {'title': 'Duy trÃƒÂ¬ Ã„â€˜iÃ¡Â»Æ’m ToÃƒÂ¡n trÃƒÂªn 8.0', 'subtitle': 'NÃ¡Â»Ân tÃ¡ÂºÂ£ng cho CNTT Ã„â€˜Ã¡ÂºÂ¡i hÃ¡Â»Âc', 'type': 'MÃƒÂ´n hÃ¡Â»Âc', 'done': False},
-                {'title': 'LÃƒÂ m 1 dÃ¡Â»Â± ÃƒÂ¡n nhÃ¡Â»Â hoÃƒÂ n chÃ¡Â»â€°nh', 'subtitle': 'Web Ã„â€˜Ã†Â¡n giÃ¡ÂºÂ£n hoÃ¡ÂºÂ·c app console', 'type': 'ThÃ¡Â»Â±c hÃƒÂ nh', 'done': False},
-                {'title': 'Tham gia cÃƒÂ¢u lÃ¡ÂºÂ¡c bÃ¡Â»â„¢ Tin hÃ¡Â»Âc', 'subtitle': 'TrÃ¡ÂºÂ£i nghiÃ¡Â»â€¡m lÃƒÂ m viÃ¡Â»â€¡c nhÃƒÂ³m', 'type': 'HoÃ¡ÂºÂ¡t Ã„â€˜Ã¡Â»â„¢ng', 'done': False},
+                {'title': 'Học Python cơ bản đến nâng cao', 'subtitle': 'Biến, vòng lặp, hàm, OOP', 'type': 'Kỹ năng', 'done': False},
+                {'title': 'Duy trì điểm Toán trên 8.0', 'subtitle': 'Nền tảng cho CNTT đại học', 'type': 'Môn học', 'done': False},
+                {'title': 'Làm 1 dự án nhỏ hoàn chỉnh', 'subtitle': 'Web đơn giản hoặc app console', 'type': 'Thực hành', 'done': False},
+                {'title': 'Tham gia câu lạc bộ Tin học', 'subtitle': 'Trải nghiệm làm việc nhóm', 'type': 'Hoạt động', 'done': False},
             ],
         },
         {
-            'year_label': 'LÃ¡Â»â€ºp 12',
+            'year_label': 'Lớp 12',
             'subtitle': '',
-            'title': 'ChuÃ¡ÂºÂ©n bÃ¡Â»â€¹ thi & hÃ¡Â»â€œ sÃ†Â¡',
-            'status': 'SÃ¡ÂºÂ¯p tÃ¡Â»â€ºi',
+            'title': 'Chuẩn bị thi & hồ sơ',
+            'status': 'Sắp tới',
             'is_open': False,
             'tasks': [
-                {'title': 'ChÃ¡Â»Ân tÃ¡Â»â€¢ hÃ¡Â»Â£p xÃƒÂ©t tuyÃ¡Â»Æ’n phÃƒÂ¹ hÃ¡Â»Â£p', 'subtitle': 'CNTT, khoa hÃ¡Â»Âc mÃƒÂ¡y tÃƒÂ­nh, kÃ¡Â»Â¹ thuÃ¡ÂºÂ­t phÃ¡ÂºÂ§n mÃ¡Â»Âm', 'type': 'MÃƒÂ´n hÃ¡Â»Âc', 'done': False},
-                {'title': 'HoÃƒÂ n thiÃ¡Â»â€¡n portfolio dÃ¡Â»Â± ÃƒÂ¡n', 'subtitle': 'LÃ†Â°u lÃ¡ÂºÂ¡i sÃ¡ÂºÂ£n phÃ¡ÂºÂ©m Ã„â€˜ÃƒÂ£ lÃƒÂ m', 'type': 'ThÃ¡Â»Â±c hÃƒÂ nh', 'done': False},
+                {'title': 'Chọn tổ hợp xét tuyển phù hợp', 'subtitle': 'CNTT, khoa học máy tính, kỹ thuật phần mềm', 'type': 'Môn học', 'done': False},
+                {'title': 'Hoàn thiện portfolio dự án', 'subtitle': 'Lưu lại sản phẩm đã làm', 'type': 'Thực hành', 'done': False},
             ],
         },
         {
-            'year_label': 'Ã„ÂÃ¡ÂºÂ¡i hÃ¡Â»Âc',
+            'year_label': 'Đại học',
             'subtitle': '',
-            'title': 'ChuyÃƒÂªn sÃƒÂ¢u & thÃ¡Â»Â±c tÃ¡ÂºÂ­p',
-            'status': 'TÃ†Â°Ã†Â¡ng lai',
+            'title': 'Chuyên sâu & thực tập',
+            'status': 'Tương lai',
             'is_open': False,
             'tasks': [
-                {'title': 'HÃ¡Â»Âc cÃ¡ÂºÂ¥u trÃƒÂºc dÃ¡Â»Â¯ liÃ¡Â»â€¡u vÃƒÂ  thuÃ¡ÂºÂ­t toÃƒÂ¡n', 'subtitle': 'NÃ¡Â»Ân tÃ¡ÂºÂ£ng Ã„â€˜i lÃƒÂ m lÃƒÂ¢u dÃƒÂ i', 'type': 'KÃ¡Â»Â¹ nÃ„Æ’ng', 'done': False},
-                {'title': 'TÃƒÂ¬m thÃ¡Â»Â±c tÃ¡ÂºÂ­p nÃ„Æ’m 3', 'subtitle': 'LÃƒÂ m quen mÃƒÂ´i trÃ†Â°Ã¡Â»Âng cÃƒÂ´ng ty', 'type': 'HoÃ¡ÂºÂ¡t Ã„â€˜Ã¡Â»â„¢ng', 'done': False},
+                {'title': 'Học cấu trúc dữ liệu và thuật toán', 'subtitle': 'Nền tảng đi làm lâu dài', 'type': 'Kỹ năng', 'done': False},
+                {'title': 'Tìm thực tập năm 3', 'subtitle': 'Làm quen môi trường công ty', 'type': 'Hoạt động', 'done': False},
             ],
         },
     ]
     skills = [
-        {'name': 'LÃ¡ÂºÂ­p trÃƒÂ¬nh Python', 'level': 'Trung cÃ¡ÂºÂ¥p', 'percent': 60, 'color': 'purple'},
-        {'name': 'ToÃƒÂ¡n tÃ†Â° duy', 'level': 'KhÃƒÂ¡ tÃ¡Â»â€˜t', 'percent': 75, 'color': 'green'},
-        {'name': 'TiÃ¡ÂºÂ¿ng Anh', 'level': 'CÃ†Â¡ bÃ¡ÂºÂ£n', 'percent': 45, 'color': 'yellow'},
-        {'name': 'LÃƒÂ m viÃ¡Â»â€¡c nhÃƒÂ³m', 'level': 'Ã„Âang rÃƒÂ¨n', 'percent': 40, 'color': 'pink'},
+        {'name': 'Lập trình Python', 'level': 'Trung cấp', 'percent': 60, 'color': 'purple'},
+        {'name': 'Toán tư duy', 'level': 'Khá tốt', 'percent': 75, 'color': 'green'},
+        {'name': 'Tiếng Anh', 'level': 'Cơ bản', 'percent': 45, 'color': 'yellow'},
+        {'name': 'Làm việc nhóm', 'level': 'Đang rèn', 'percent': 40, 'color': 'pink'},
     ]
     return json.dumps(stages, ensure_ascii=False, indent=2), json.dumps(skills, ensure_ascii=False, indent=2)
 
@@ -685,10 +684,10 @@ def replace_learning_path_details(path, stages, skills):
     for stage_index, stage_data in enumerate(stages, start=1):
         stage = CareerPathStage(
             path_id=path.id,
-            year_label=(stage_data.get('year_label') or f'Giai Ã„â€˜oÃ¡ÂºÂ¡n {stage_index}').strip(),
+            year_label=(stage_data.get('year_label') or f'Giai đoạn {stage_index}').strip(),
             subtitle=(stage_data.get('subtitle') or '').strip(),
-            title=(stage_data.get('title') or 'MÃ¡Â»Â¥c tiÃƒÂªu giai Ã„â€˜oÃ¡ÂºÂ¡n').strip(),
-            status=(stage_data.get('status') or 'SÃ¡ÂºÂ¯p tÃ¡Â»â€ºi').strip(),
+            title=(stage_data.get('title') or 'Mục tiêu giai đoạn').strip(),
+            status=(stage_data.get('status') or 'Sắp tới').strip(),
             is_open=bool(stage_data.get('is_open', True)),
             position=stage_index,
         )
@@ -697,17 +696,17 @@ def replace_learning_path_details(path, stages, skills):
         for task_index, task_data in enumerate(stage_data.get('tasks') or [], start=1):
             db.session.add(CareerPathTask(
                 stage_id=stage.id,
-                title=(task_data.get('title') or 'NhiÃ¡Â»â€¡m vÃ¡Â»Â¥').strip(),
+                title=(task_data.get('title') or 'Nhiệm vụ').strip(),
                 subtitle=(task_data.get('subtitle') or '').strip(),
-                task_type=(task_data.get('type') or 'KÃ¡Â»Â¹ nÃ„Æ’ng').strip(),
+                task_type=(task_data.get('type') or 'Kỹ năng').strip(),
                 is_done=bool(task_data.get('done')),
                 position=task_index,
             ))
     for skill_data in skills:
         db.session.add(CareerPathSkill(
             path_id=path.id,
-            name=(skill_data.get('name') or 'KÃ¡Â»Â¹ nÃ„Æ’ng').strip(),
-            level_label=(skill_data.get('level') or 'Ã„Âang rÃƒÂ¨n').strip(),
+            name=(skill_data.get('name') or 'Kỹ năng').strip(),
+            level_label=(skill_data.get('level') or 'Đang rèn').strip(),
             percent=int(skill_data.get('percent') or 0),
             color=(skill_data.get('color') or 'purple').strip(),
         ))
@@ -738,46 +737,46 @@ def career_insights(student_id):
             triggers = json.loads(entry.triggers_json or '[]')
         except json.JSONDecodeError:
             triggers = []
-        friend_tags += sum(1 for trigger in triggers if 'bÃ¡ÂºÂ¡n' in trigger.lower())
-        study_tags += sum(1 for trigger in triggers if 'hÃ¡Â»Âc' in trigger.lower())
+        friend_tags += sum(1 for trigger in triggers if 'bạn' in trigger.lower())
+        study_tags += sum(1 for trigger in triggers if 'học' in trigger.lower())
     if evening_stress:
         result.append({
-            'icon': 'Ã¢ËœÂ¾',
-            'title': 'CÃ¡ÂºÂ£m xÃƒÂºc thÃ†Â°Ã¡Â»Âng xuÃ¡Â»â€˜ng vÃƒÂ o buÃ¡Â»â€¢i tÃ¡Â»â€˜i',
-            'body': f'CÃƒÂ³ {evening_stress} lÃ¡ÂºÂ§n cÃ„Æ’ng thÃ¡ÂºÂ³ng/lo lÃ¡ÂºÂ¯ng sau 18:00 gÃ¡ÂºÂ§n Ã„â€˜ÃƒÂ¢y Ã¢â‚¬â€ cÃƒÂ³ thÃ¡Â»Æ’ liÃƒÂªn quan Ã„â€˜Ã¡ÂºÂ¿n lÃ¡Â»â€¹ch hÃ¡Â»Âc hoÃ¡ÂºÂ·c nghÃ¡Â»â€° ngÃ†Â¡i.',
-            'badge': 'MÃ¡Â»â€ºi phÃƒÂ¡t hiÃ¡Â»â€¡n',
+            'icon': '☾',
+            'title': 'Cảm xúc thường xuống vào buổi tối',
+            'body': f'Có {evening_stress} lần căng thẳng/lo lắng sau 18:00 gần đây — có thể liên quan đến lịch học hoặc nghỉ ngơi.',
+            'badge': 'Mới phát hiện',
             'tone': 'purple',
         })
     if friend_tags:
         result.append({
-            'icon': 'Ã¢â„¢Â§',
-            'title': 'BÃ¡ÂºÂ¡n bÃƒÂ¨ lÃƒÂ  nguÃ¡Â»â€œn vui lÃ¡Â»â€ºn nhÃ¡ÂºÂ¥t',
-            'body': f'CÃƒÂ³ {friend_tags} lÃ¡ÂºÂ§n nhÃ¡ÂºÂ­t kÃƒÂ½ nhÃ¡ÂºÂ¯c Ã„â€˜Ã¡ÂºÂ¿n bÃ¡ÂºÂ¡n bÃƒÂ¨ Ã¢â‚¬â€ bÃ¡ÂºÂ¡n lÃ¡ÂºÂ¥y nÃ„Æ’ng lÃ†Â°Ã¡Â»Â£ng tÃ¡Â»â€˜t tÃ¡Â»Â« kÃ¡ÂºÂ¿t nÃ¡Â»â€˜i xÃƒÂ£ hÃ¡Â»â„¢i.',
-            'badge': 'Ã„ÂÃƒÂ£ xÃƒÂ¡c nhÃ¡ÂºÂ­n',
+            'icon': '♧',
+            'title': 'Bạn bè là nguồn vui lớn nhất',
+            'body': f'Có {friend_tags} lần nhật ký nhắc đến bạn bè — bạn lấy năng lượng tốt từ kết nối xã hội.',
+            'badge': 'Đã xác nhận',
             'tone': 'green',
         })
     if study_tags:
         result.append({
-            'icon': 'Ã¢â€“Â¤',
-            'title': 'ÃƒÂp lÃ¡Â»Â±c hÃ¡Â»Âc tÃ¡ÂºÂ­p tÃ„Æ’ng trÃ†Â°Ã¡Â»â€ºc kÃ¡Â»Â³ kiÃ¡Â»Æ’m tra',
-            'body': f'CÃƒÂ³ {study_tags} ghi chÃƒÂº liÃƒÂªn quan hÃ¡Â»Âc tÃ¡ÂºÂ­p Ã¢â‚¬â€ nÃƒÂªn theo dÃƒÂµi lÃ¡Â»â€¹ch ÃƒÂ´n bÃƒÂ i vÃƒÂ  thÃ¡Â»Âi gian nghÃ¡Â»â€°.',
-            'badge': 'Ã„Âang theo dÃƒÂµi',
+            'icon': '▤',
+            'title': 'Áp lực học tập tăng trước kỳ kiểm tra',
+            'body': f'Có {study_tags} ghi chú liên quan học tập — nên theo dõi lịch ôn bài và thời gian nghỉ.',
+            'badge': 'Đang theo dõi',
             'tone': 'orange',
         })
     if not result:
         result = [
             {
-                'icon': 'Ã¢ËœÂ¾',
-                'title': 'BÃ¡ÂºÂ¯t Ã„â€˜Ã¡ÂºÂ§u ghi nhÃ¡ÂºÂ­t kÃƒÂ½ Ã„â€˜Ã¡Â»Æ’ thÃ¡ÂºÂ¥y pattern rÃƒÂµ hÃ†Â¡n',
-                'body': 'Sau vÃƒÂ i ngÃƒÂ y check-in, hÃ¡Â»â€¡ thÃ¡Â»â€˜ng sÃ¡ÂºÂ½ phÃƒÂ¡t hiÃ¡Â»â€¡n cÃ¡ÂºÂ£m xÃƒÂºc hay xuÃ¡ÂºÂ¥t hiÃ¡Â»â€¡n theo thÃ¡Â»Âi gian vÃƒÂ  nguyÃƒÂªn nhÃƒÂ¢n cÃ¡Â»Â¥ thÃ¡Â»Æ’.',
-                'badge': 'MÃ¡Â»â€ºi phÃƒÂ¡t hiÃ¡Â»â€¡n',
+                'icon': '☾',
+                'title': 'Bắt đầu ghi nhật ký để thấy pattern rõ hơn',
+                'body': 'Sau vài ngày check-in, hệ thống sẽ phát hiện cảm xúc hay xuất hiện theo thời gian và nguyên nhân cụ thể.',
+                'badge': 'Mới phát hiện',
                 'tone': 'purple',
             },
             {
-                'icon': 'Ã¢â„¢Â§',
-                'title': 'BÃƒÂ i khÃƒÂ¡m phÃƒÂ¡ sÃ¡ÂºÂ½ giÃƒÂºp hiÃ¡Â»Æ’u phong cÃƒÂ¡ch hÃ¡Â»Âc',
-                'body': 'LÃƒÂ m 1Ã¢â‚¬â€œ2 bÃƒÂ i ngÃ¡ÂºÂ¯n Ã„â€˜Ã¡Â»Æ’ hÃ¡Â»â€¡ thÃ¡Â»â€˜ng ghÃƒÂ©p dÃ¡Â»Â¯ liÃ¡Â»â€¡u nhÃ¡ÂºÂ­t kÃƒÂ½ vÃ¡Â»â€ºi sÃ¡Â»Å¸ thÃƒÂ­ch vÃƒÂ  Ã„â€˜iÃ¡Â»Æ’m mÃ¡ÂºÂ¡nh cÃ¡Â»Â§a bÃ¡ÂºÂ¡n.',
-                'badge': 'Ã„Âang theo dÃƒÂµi',
+                'icon': '♧',
+                'title': 'Bài khám phá sẽ giúp hiểu phong cách học',
+                'body': 'Làm 1–2 bài ngắn để hệ thống ghép dữ liệu nhật ký với sở thích và điểm mạnh của bạn.',
+                'badge': 'Đang theo dõi',
                 'tone': 'green',
             },
         ]
@@ -791,9 +790,9 @@ def career_emotion_trends(student_id):
     stress = sum(1 for entry in entries if entry.mood in ('cang_thang', 'lo_lang'))
     calm = sum(1 for entry in entries if entry.mood in ('binh_than', 'buon'))
     return [
-        {'label': 'Vui / PhÃ¡ÂºÂ¥n khÃƒÂ­ch', 'percent': round(excited / total * 100), 'color': '#8b7ce8'},
-        {'label': 'CÃ„Æ’ng thÃ¡ÂºÂ³ng / Lo lÃ¡ÂºÂ¯ng', 'percent': round(stress / total * 100), 'color': '#e56b3f'},
-        {'label': 'BÃƒÂ¬nh thÃ¡ÂºÂ£n / Trung lÃ¡ÂºÂ­p', 'percent': round(calm / total * 100), 'color': '#3aa77b'},
+        {'label': 'Vui / Phấn khích', 'percent': round(excited / total * 100), 'color': '#8b7ce8'},
+        {'label': 'Căng thẳng / Lo lắng', 'percent': round(stress / total * 100), 'color': '#e56b3f'},
+        {'label': 'Bình thản / Trung lập', 'percent': round(calm / total * 100), 'color': '#3aa77b'},
     ]
 
 
@@ -807,21 +806,21 @@ def career_personality_summary(student_id):
             triggers = json.loads(entry.triggers_json or '[]')
         except json.JSONDecodeError:
             triggers = []
-        friend_tags += sum(1 for trigger in triggers if 'bÃ¡ÂºÂ¡n' in trigger.lower())
-        study_tags += sum(1 for trigger in triggers if 'hÃ¡Â»Âc' in trigger.lower())
+        friend_tags += sum(1 for trigger in triggers if 'bạn' in trigger.lower())
+        study_tags += sum(1 for trigger in triggers if 'học' in trigger.lower())
     if friend_tags >= study_tags and friend_tags:
         return {
-            'title': 'NgÃ†Â°Ã¡Â»Âi kÃ¡ÂºÂ¿t nÃ¡Â»â€˜i tinh tÃ¡ÂºÂ¿',
-            'body': 'BÃ¡ÂºÂ¡n nhÃ¡ÂºÂ¡y vÃ¡Â»â€ºi cÃ¡ÂºÂ£m xÃƒÂºc xung quanh vÃƒÂ  thÃ†Â°Ã¡Â»Âng nÃ¡ÂºÂ¡p nÃ„Æ’ng lÃ†Â°Ã¡Â»Â£ng tÃ¡Â»Â« cÃƒÂ¡c mÃ¡Â»â€˜i quan hÃ¡Â»â€¡ tÃƒÂ­ch cÃ¡Â»Â±c.',
+            'title': 'Người kết nối tinh tế',
+            'body': 'Bạn nhạy với cảm xúc xung quanh và thường nạp năng lượng từ các mối quan hệ tích cực.',
         }
     if submission_count:
         return {
-            'title': 'NgÃ†Â°Ã¡Â»Âi quan sÃƒÂ¡t nhÃ¡ÂºÂ¡y cÃ¡ÂºÂ£m',
-            'body': 'BÃ¡ÂºÂ¡n chÃƒÂº ÃƒÂ½ Ã„â€˜Ã¡ÂºÂ¿n cÃ¡ÂºÂ£m xÃƒÂºc cÃ¡Â»Â§a mÃƒÂ¬nh vÃƒÂ  cÃƒÂ³ xu hÃ†Â°Ã¡Â»â€ºng suy nghÃ„Â© kÃ¡Â»Â¹ trÃ†Â°Ã¡Â»â€ºc khi hÃƒÂ nh Ã„â€˜Ã¡Â»â„¢ng.',
+            'title': 'Người quan sát nhạy cảm',
+            'body': 'Bạn chú ý đến cảm xúc của mình và có xu hướng suy nghĩ kỹ trước khi hành động.',
         }
     return {
-        'title': 'NgÃ†Â°Ã¡Â»Âi Ã„â€˜ang khÃƒÂ¡m phÃƒÂ¡',
-        'body': 'HÃƒÂ£y lÃƒÂ m vÃƒÂ i bÃƒÂ i khÃƒÂ¡m phÃƒÂ¡ vÃƒÂ  ghi nhÃ¡ÂºÂ­t kÃƒÂ½ Ã„â€˜Ã¡Â»Æ’ hÃ¡Â»â€¡ thÃ¡Â»â€˜ng gÃ¡Â»Âi tÃƒÂªn Ã„â€˜iÃ¡Â»Æ’m mÃ¡ÂºÂ¡nh nÃ¡Â»â€¢i bÃ¡ÂºÂ­t cÃ¡Â»Â§a bÃ¡ÂºÂ¡n rÃƒÂµ hÃ†Â¡n.',
+        'title': 'Người đang khám phá',
+        'body': 'Hãy làm vài bài khám phá và ghi nhật ký để hệ thống gọi tên điểm mạnh nổi bật của bạn rõ hơn.',
     }
 
 
@@ -886,7 +885,7 @@ def masked_gemini_error(text, api_key):
 def ask_kbot(prompt):
     api_key = os.environ.get('GEMINI_API_KEY')
     if not api_key:
-        return 'Kbot chÃ†Â°a Ã„â€˜Ã†Â°Ã¡Â»Â£c cÃ¡ÂºÂ¥u hÃƒÂ¬nh GEMINI_API_KEY. BÃ¡ÂºÂ¡n vÃ¡ÂºÂ«n cÃƒÂ³ thÃ¡Â»Æ’ ghi lÃ¡ÂºÂ¡i Ã„â€˜iÃ¡Â»Âu muÃ¡Â»â€˜n tÃƒÂ¢m sÃ¡Â»Â± Ã¡Â»Å¸ Ã„â€˜ÃƒÂ¢y.'
+        return 'Kbot chưa được cấu hình GEMINI_API_KEY. Bạn vẫn có thể ghi lại điều muốn tâm sự ở đây.'
     primary_model = os.environ.get('GEMINI_MODEL', 'gemini-2.5-flash').strip()
     fallback_model = os.environ.get('GEMINI_FALLBACK_MODEL', 'gemini-1.5-flash').strip()
     models = [model for model in [primary_model, fallback_model] if model]
@@ -895,10 +894,10 @@ def ask_kbot(prompt):
         'contents': [{
             'parts': [{
                 'text': (
-                    'BÃ¡ÂºÂ¡n lÃƒÂ  Kbot, trÃ¡Â»Â£ lÃƒÂ½ tÃƒÂ¢m lÃƒÂ½ hÃ¡Â»Âc Ã„â€˜Ã†Â°Ã¡Â»Âng thÃƒÂ¢n thiÃ¡Â»â€¡n cho hÃ¡Â»Âc sinh. '
-                    'HÃƒÂ£y phÃ¡ÂºÂ£n hÃ¡Â»â€œi ngÃ¡ÂºÂ¯n gÃ¡Â»Ân, Ã¡ÂºÂ¥m ÃƒÂ¡p, khÃƒÂ´ng chÃ¡ÂºÂ©n Ã„â€˜oÃƒÂ¡n y khoa. '
-                    'NÃ¡ÂºÂ¿u hÃ¡Â»Âc sinh cÃƒÂ³ nguy cÃ†Â¡ tÃ¡Â»Â± hÃ¡ÂºÂ¡i hoÃ¡ÂºÂ·c nguy hiÃ¡Â»Æ’m, khuyÃƒÂªn liÃƒÂªn hÃ¡Â»â€¡ ngay thÃ¡ÂºÂ§y cÃƒÂ´, phÃ¡Â»Â¥ huynh hoÃ¡ÂºÂ·c sÃ¡Â»â€˜ khÃ¡ÂºÂ©n cÃ¡ÂºÂ¥p Ã„â€˜Ã¡Â»â€¹a phÃ†Â°Ã†Â¡ng. '
-                    f'HÃ¡Â»Âc sinh nÃƒÂ³i: {prompt}'
+                    'Bạn là Kbot, trợ lý tâm lý học đường thân thiện cho học sinh. '
+                    'Hãy phản hồi ngắn gọn, ấm áp, không chẩn đoán y khoa. '
+                    'Nếu học sinh có nguy cơ tự hại hoặc nguy hiểm, khuyên liên hệ ngay thầy cô, phụ huynh hoặc số khẩn cấp địa phương. '
+                    f'Học sinh nói: {prompt}'
                 )
             }]
         }]
@@ -921,25 +920,25 @@ def ask_kbot(prompt):
                 if error.code in (429, 500, 502, 503, 504):
                     time.sleep(1 + attempt)
                     continue
-                return f'Kbot chÃ†Â°a kÃ¡ÂºÂ¿t nÃ¡Â»â€˜i Ã„â€˜Ã†Â°Ã¡Â»Â£c Gemini (HTTP {error.code}). KiÃ¡Â»Æ’m tra API key, quota hoÃ¡ÂºÂ·c model Gemini.'
+                return f'Kbot chưa kết nối được Gemini (HTTP {error.code}). Kiểm tra API key, quota hoặc model Gemini.'
             except urllib.error.URLError as error:
                 print(f'Gemini API network error ({model}): {error}')
-                return 'Kbot chÃ†Â°a kÃ¡ÂºÂ¿t nÃ¡Â»â€˜i Ã„â€˜Ã†Â°Ã¡Â»Â£c Gemini do lÃ¡Â»â€”i mÃ¡ÂºÂ¡ng. BÃ¡ÂºÂ¡n kiÃ¡Â»Æ’m tra internet hoÃ¡ÂºÂ·c thÃ¡Â»Â­ lÃ¡ÂºÂ¡i sau.'
+                return 'Kbot chưa kết nối được Gemini do lỗi mạng. Bạn kiểm tra internet hoặc thử lại sau.'
             except (KeyError, IndexError, TimeoutError, json.JSONDecodeError) as error:
                 print(f'Gemini API response parse error ({model}): {error}')
                 break
     if last_http_code in (429, 500, 502, 503, 504):
-        return 'Kbot Ã„â€˜ang quÃƒÂ¡ tÃ¡ÂºÂ£i tÃ¡ÂºÂ¡m thÃ¡Â»Âi. BÃ¡ÂºÂ¡n thÃ¡Â»Â­ gÃ¡Â»Â­i lÃ¡ÂºÂ¡i sau mÃ¡Â»â„¢t chÃƒÂºt nhÃƒÂ©.'
-    return 'Kbot Ã„â€˜ang hÃ†Â¡i bÃ¡ÂºÂ­n. BÃ¡ÂºÂ¡n thÃ¡Â»Â­ gÃ¡Â»Â­i lÃ¡ÂºÂ¡i sau mÃ¡Â»â„¢t chÃƒÂºt nhÃƒÂ©.'
+        return 'Kbot đang quá tải tạm thời. Bạn thử gửi lại sau một chút nhé.'
+    return 'Kbot đang hơi bận. Bạn thử gửi lại sau một chút nhé.'
 
 
 def daily_emotion_prompt():
     prompts = [
-        'HÃƒÂ´m nay Ã„â€˜iÃ¡Â»Âu gÃƒÂ¬ khiÃ¡ÂºÂ¿n bÃ¡ÂºÂ¡n mÃ¡Â»â€°m cÃ†Â°Ã¡Â»Âi?',
-        'Ã„ÂiÃ¡Â»Âu gÃƒÂ¬ hÃƒÂ´m nay lÃƒÂ m bÃ¡ÂºÂ¡n thÃ¡ÂºÂ¥y nhÃ¡ÂºÂ¹ lÃƒÂ²ng hÃ†Â¡n?',
-        'NÃ¡ÂºÂ¿u chÃ¡Â»Ân mÃ¡Â»â„¢t tÃ¡Â»Â« cho hÃƒÂ´m nay, bÃ¡ÂºÂ¡n sÃ¡ÂºÂ½ chÃ¡Â»Ân tÃ¡Â»Â« nÃƒÂ o?',
-        'BÃ¡ÂºÂ¡n muÃ¡Â»â€˜n cÃ¡ÂºÂ£m Ã†Â¡n bÃ¡ÂºÂ£n thÃƒÂ¢n vÃƒÂ¬ Ã„â€˜iÃ¡Â»Âu gÃƒÂ¬ hÃƒÂ´m nay?',
-        'CÃƒÂ³ Ã„â€˜iÃ¡Â»Âu gÃƒÂ¬ bÃ¡ÂºÂ¡n muÃ¡Â»â€˜n buÃƒÂ´ng xuÃ¡Â»â€˜ng trÃ†Â°Ã¡Â»â€ºc khi nghÃ¡Â»â€° ngÃ†Â¡i khÃƒÂ´ng?',
+        'Hôm nay điều gì khiến bạn mỉm cười?',
+        'Điều gì hôm nay làm bạn thấy nhẹ lòng hơn?',
+        'Nếu chọn một từ cho hôm nay, bạn sẽ chọn từ nào?',
+        'Bạn muốn cảm ơn bản thân vì điều gì hôm nay?',
+        'Có điều gì bạn muốn buông xuống trước khi nghỉ ngơi không?',
     ]
     return prompts[datetime.utcnow().timetuple().tm_yday % len(prompts)]
 
@@ -1016,10 +1015,10 @@ def emotion_risk_percent(entries):
 def chat_risk_percent(messages):
     if not messages:
         return None
-    severe_keywords = ['tÃ¡Â»Â± hÃ¡ÂºÂ¡i', 'muÃ¡Â»â€˜n chÃ¡ÂºÂ¿t', 'khÃƒÂ´ng muÃ¡Â»â€˜n sÃ¡Â»â€˜ng', 'tÃ¡Â»Â± tÃ¡Â»Â­', 'khÃ¡Â»Â§ng hoÃ¡ÂºÂ£ng']
+    severe_keywords = ['tự hại', 'muốn chết', 'không muốn sống', 'tự tử', 'khủng hoảng']
     watch_keywords = [
-        'ÃƒÂ¡p lÃ¡Â»Â±c', 'stress', 'cÃ„Æ’ng thÃ¡ÂºÂ³ng', 'lo lÃ¡ÂºÂ¯ng', 'buÃ¡Â»â€œn', 'mÃ¡Â»â€¡t', 'sÃ¡Â»Â£',
-        'khÃƒÂ³c', 'cÃƒÂ´ Ã„â€˜Ã†Â¡n', 'bÃ¡ÂºÂ¯t nÃ¡ÂºÂ¡t', 'khÃƒÂ´ng Ã¡Â»â€¢n', 'gia Ã„â€˜ÃƒÂ¬nh', 'tuyÃ¡Â»â€¡t vÃ¡Â»Âng',
+        'áp lực', 'stress', 'căng thẳng', 'lo lắng', 'buồn', 'mệt', 'sợ',
+        'khóc', 'cô đơn', 'bắt nạt', 'không ổn', 'gia đình', 'tuyệt vọng',
     ]
     student_messages = [message for message in messages if message.sender_role == 'student']
     if not student_messages:
@@ -1039,16 +1038,16 @@ def chat_risk_percent(messages):
 
 def psychology_status_label(percent):
     if percent is None:
-        return 'ChÃ†Â°a cÃƒÂ³ dÃ¡Â»Â¯ liÃ¡Â»â€¡u'
+        return 'Chưa có dữ liệu'
     if percent <= 20:
-        return 'Ã¡Â»â€n Ã„â€˜Ã¡Â»â€¹nh'
+        return 'Ổn định'
     if percent <= 40:
-        return 'Theo dÃƒÂµi nhÃ¡ÂºÂ¹'
+        return 'Theo dõi nhẹ'
     if percent <= 60:
-        return 'CÃ¡ÂºÂ§n hÃ¡Â»â€” trÃ¡Â»Â£'
+        return 'Cần hỗ trợ'
     if percent <= 80:
-        return 'CÃ¡ÂºÂ§n can thiÃ¡Â»â€¡p'
-    return 'KhÃ¡ÂºÂ©n cÃ¡ÂºÂ¥p'
+        return 'Cần can thiệp'
+    return 'Khẩn cấp'
 
 
 def student_psychology_status(student_id):
@@ -1072,7 +1071,7 @@ def student_psychology_status(student_id):
         components.append((chat_score, 0.2))
 
     if not components:
-        return {'percent': None, 'label': 'ChÃ†Â°a cÃƒÂ³ dÃ¡Â»Â¯ liÃ¡Â»â€¡u', 'class': 'muted'}
+        return {'percent': None, 'label': 'Chưa có dữ liệu', 'class': 'muted'}
     total_weight = sum(weight for _, weight in components)
     percent = round(sum(score * weight for score, weight in components) / total_weight)
     label = psychology_status_label(percent)
@@ -1100,7 +1099,7 @@ def teacher_student_rows():
             'student_id': student.id,
             'full_name': full_name,
             'is_active': student.is_active,
-            'account_status': 'Ã„ÂÃƒÂ£ kÃƒÂ­ch hoÃ¡ÂºÂ¡t' if student.is_active else 'ChÃ†Â°a kÃƒÂ­ch hoÃ¡ÂºÂ¡t',
+            'account_status': 'Đã kích hoạt' if student.is_active else 'Chưa kích hoạt',
             'psychology': status,
         })
     return rows
@@ -1148,14 +1147,14 @@ def build_teacher_students_pdf(rows):
 
     data = [[
         Paragraph('STT', header_style),
-        Paragraph('MÃƒÂ£ hÃ¡Â»Âc sinh', header_style),
-        Paragraph('HÃ¡Â»Â vÃƒÂ  tÃƒÂªn', header_style),
-        Paragraph('TrÃ¡ÂºÂ¡ng thÃƒÂ¡i', header_style),
-        Paragraph('TrÃ¡ÂºÂ¡ng thÃƒÂ¡i tÃƒÂ¢m lÃƒÂ­', header_style),
+        Paragraph('Mã học sinh', header_style),
+        Paragraph('Họ và tên', header_style),
+        Paragraph('Trạng thái', header_style),
+        Paragraph('Trạng thái tâm lí', header_style),
     ]]
     for row in rows:
         psychology = row['psychology']
-        psychology_text = 'ChÃ†Â°a cÃƒÂ³ dÃ¡Â»Â¯ liÃ¡Â»â€¡u' if psychology['percent'] is None else f"{psychology['percent']}% - {psychology['label']}"
+        psychology_text = 'Chưa có dữ liệu' if psychology['percent'] is None else f"{psychology['percent']}% - {psychology['label']}"
         data.append([
             Paragraph(str(row['stt']), cell_style),
             Paragraph(str(row['student_id']), cell_style),
@@ -1176,9 +1175,9 @@ def build_teacher_students_pdf(rows):
         ('BOTTOMPADDING', (0, 0), (-1, -1), 7),
     ]))
     story = [
-        Paragraph('BÃ¡ÂºÂ£ng quÃ¡ÂºÂ£n lÃƒÂ½ hÃ¡Â»Âc sinh', title_style),
+        Paragraph('Bảng quản lý học sinh', title_style),
         Spacer(1, 8),
-        Paragraph(f'XuÃ¡ÂºÂ¥t lÃƒÂºc: {datetime.now().strftime("%d/%m/%Y %H:%M")}', cell_style),
+        Paragraph(f'Xuất lúc: {datetime.now().strftime("%d/%m/%Y %H:%M")}', cell_style),
         Spacer(1, 12),
         table,
     ]
@@ -1198,14 +1197,14 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if User.query.filter((User.username==form.username.data)|(User.email==form.email.data)).first():
-            flash('TÃƒÂªn Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p hoÃ¡ÂºÂ·c email Ã„â€˜ÃƒÂ£ tÃ¡Â»â€œn tÃ¡ÂºÂ¡i', 'danger')
+            flash('Tên đăng nhập hoặc email đã tồn tại', 'danger')
             return render_template('register.html', form=form)
         u = User(username=form.username.data, email=form.email.data, role=form.role.data)
         u.account_id = User.next_account_id()
         u.set_password(form.password.data)
         db.session.add(u)
         db.session.commit()
-        flash('Ã„ÂÃ„Æ’ng kÃƒÂ½ thÃƒÂ nh cÃƒÂ´ng. Vui lÃƒÂ²ng Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p.', 'success')
+        flash('Đăng ký thành công. Vui lòng đăng nhập.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
@@ -1215,23 +1214,23 @@ def login():
     if form.validate_on_submit():
         selected_role = form.role.data or request.form.get('role')
         if not selected_role:
-            flash('Vui lÃƒÂ²ng chÃ¡Â»Ân loÃ¡ÂºÂ¡i tÃƒÂ i khoÃ¡ÂºÂ£n trÃ†Â°Ã¡Â»â€ºc khi Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p', 'warning')
+            flash('Vui lòng chọn loại tài khoản trước khi đăng nhập', 'warning')
             return render_template('login.html', form=form)
         user = User.query.filter_by(email=form.email.data).first()
         if not user:
-            flash('TÃƒÂ i khoÃ¡ÂºÂ£n hoÃ¡ÂºÂ·c mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u khÃƒÂ´ng Ã„â€˜ÃƒÂºng', 'danger')
+            flash('Tài khoản hoặc mật khẩu không đúng', 'danger')
             return render_template('login.html', form=form)
         if user.role != selected_role:
-            flash('LoÃ¡ÂºÂ¡i tÃƒÂ i khoÃ¡ÂºÂ£n khÃƒÂ´ng khÃ¡Â»â€ºp. Vui lÃƒÂ²ng chÃ¡Â»Ân Ã„â€˜ÃƒÂºng loÃ¡ÂºÂ¡i.', 'danger')
+            flash('Loại tài khoản không khớp. Vui lòng chọn đúng loại.', 'danger')
             return render_template('login.html', form=form)
         if not user.is_active:
-            flash('TÃƒÂ i khoÃ¡ÂºÂ£n Ã„â€˜ÃƒÂ£ bÃ¡Â»â€¹ thu hÃ¡Â»â€œi. Vui lÃƒÂ²ng liÃƒÂªn hÃ¡Â»â€¡ quÃ¡ÂºÂ£n trÃ¡Â»â€¹.', 'danger')
+            flash('Tài khoản đã bị thu hồi. Vui lòng liên hệ quản trị.', 'danger')
             return render_template('login.html', form=form)
         if user and user.check_password(form.password.data):
             login_user(user)
-            flash('Ã„ÂÃ„Æ’ng nhÃ¡ÂºÂ­p thÃƒÂ nh cÃƒÂ´ng', 'success')
+            flash('Đăng nhập thành công', 'success')
             return redirect(url_for('dashboard'))
-        flash('TÃƒÂ i khoÃ¡ÂºÂ£n hoÃ¡ÂºÂ·c mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u khÃƒÂ´ng Ã„â€˜ÃƒÂºng', 'danger')
+        flash('Tài khoản hoặc mật khẩu không đúng', 'danger')
     return render_template('login.html', form=form)
 
 @app.route('/dashboard')
@@ -1283,7 +1282,7 @@ def teacher_students_pdf():
     try:
         pdf_buffer = build_teacher_students_pdf(rows)
     except ImportError:
-        flash('ChÃ†Â°a cÃƒÂ i thÃ†Â° viÃ¡Â»â€¡n reportlab Ã„â€˜Ã¡Â»Æ’ xuÃ¡ÂºÂ¥t PDF. Vui lÃƒÂ²ng cÃƒÂ i reportlab rÃ¡Â»â€œi thÃ¡Â»Â­ lÃ¡ÂºÂ¡i.', 'warning')
+        flash('Chưa cài thư viện reportlab để xuất PDF. Vui lòng cài reportlab rồi thử lại.', 'warning')
         return redirect(url_for('teacher_students'))
     return send_file(
         pdf_buffer,
@@ -1298,18 +1297,18 @@ def teacher_students_pdf():
 def contact_admin():
     # only teacher and student can contact admin
     if current_user.role not in ('teacher','student'):
-        flash('ChÃ¡Â»Â©c nÃ„Æ’ng nÃƒÂ y chÃ¡Â»â€° dÃƒÂ nh cho giÃƒÂ¡o viÃƒÂªn vÃƒÂ  hÃ¡Â»Âc sinh', 'warning')
+        flash('Chức năng này chỉ dành cho giáo viên và học sinh', 'warning')
         return redirect(url_for('dashboard'))
     form = MessageForm()
     admin = User.query.filter_by(role='admin').first()
     if not admin:
-        flash('KhÃƒÂ´ng cÃƒÂ³ quÃ¡ÂºÂ£n trÃ¡Â»â€¹ viÃƒÂªn trong hÃ¡Â»â€¡ thÃ¡Â»â€˜ng', 'danger')
+        flash('Không có quản trị viên trong hệ thống', 'danger')
         return redirect(url_for('dashboard'))
     if form.validate_on_submit():
         m = Message(sender_id=current_user.id, recipient_id=admin.id, content=form.content.data)
         db.session.add(m)
         db.session.commit()
-        flash('Ã„ÂÃƒÂ£ gÃ¡Â»Â­i tin nhÃ¡ÂºÂ¯n tÃ¡Â»â€ºi quÃ¡ÂºÂ£n trÃ¡Â»â€¹', 'success')
+        flash('Đã gửi tin nhắn tới quản trị', 'success')
         return redirect(url_for('contact_admin'))
     messages = Message.query.filter_by(
         sender_id=current_user.id,
@@ -1329,7 +1328,7 @@ def contact_admin():
 @login_required
 def admin_users():
     if current_user.role != 'admin':
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p trang nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền truy cập trang này', 'danger')
         return redirect(url_for('dashboard'))
     users = User.query.order_by(User.role, User.id).all()
     return render_template('admin_users.html', users=users)
@@ -1339,24 +1338,24 @@ def admin_users():
 @login_required
 def admin_user_manage(user_id):
     if current_user.role != 'admin':
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p trang nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền truy cập trang này', 'danger')
         return redirect(url_for('dashboard'))
     user = User.query.get_or_404(user_id)
     form = ChangePasswordForm()
     if request.method == 'POST' and request.form.get('action') == 'deactivate':
         user.is_active = False
         db.session.commit()
-        flash('TÃƒÂ i khoÃ¡ÂºÂ£n Ã„â€˜ÃƒÂ£ bÃ¡Â»â€¹ thu hÃ¡Â»â€œi (deactivated)', 'info')
+        flash('Tài khoản đã bị thu hồi (deactivated)', 'info')
         return redirect(url_for('admin_user_manage', user_id=user.id))
     if request.method == 'POST' and request.form.get('action') == 'activate':
         user.is_active = True
         db.session.commit()
-        flash('TÃƒÂ i khoÃ¡ÂºÂ£n Ã„â€˜ÃƒÂ£ Ã„â€˜Ã†Â°Ã¡Â»Â£c cÃ¡ÂºÂ¥p lÃ¡ÂºÂ¡i (activated)', 'success')
+        flash('Tài khoản đã được cấp lại (activated)', 'success')
         return redirect(url_for('admin_user_manage', user_id=user.id))
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flash('MÃ¡ÂºÂ­t khÃ¡ÂºÂ©u Ã„â€˜ÃƒÂ£ Ã„â€˜Ã†Â°Ã¡Â»Â£c cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t cho ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng', 'success')
+        flash('Mật khẩu đã được cập nhật cho người dùng', 'success')
         return redirect(url_for('admin_user_manage', user_id=user.id))
     return render_template('admin_user_manage.html', user=user, form=form)
 
@@ -1365,7 +1364,7 @@ def admin_user_manage(user_id):
 @login_required
 def admin_stats():
     if current_user.role != 'admin':
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p trang nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền truy cập trang này', 'danger')
         return redirect(url_for('dashboard'))
     roles = ['admin','teacher','student','parent']
     counts = {r: User.query.filter_by(role=r).count() for r in roles}
@@ -1406,7 +1405,7 @@ def admin_stats():
 @login_required
 def admin_chat():
     if current_user.role != 'admin':
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p trang nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền truy cập trang này', 'danger')
         return redirect(url_for('dashboard'))
     messages = Message.query.join(User, Message.sender_id == User.id).filter(
         User.role.in_(['teacher', 'student']),
@@ -1433,36 +1432,36 @@ def admin_chat():
 @login_required
 def admin_reply(message_id):
     if current_user.role != 'admin':
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân gÃ¡Â»Â­i trÃ¡ÂºÂ£ lÃ¡Â»Âi', 'danger')
+        flash('Bạn không có quyền gửi trả lời', 'danger')
         return redirect(url_for('admin_chat'))
     original = Message.query.get_or_404(message_id)
     content = (request.form.get('reply') or '').strip()
     if not content:
-        flash('NÃ¡Â»â„¢i dung trÃ¡ÂºÂ£ lÃ¡Â»Âi rÃ¡Â»â€”ng', 'warning')
+        flash('Nội dung trả lời rỗng', 'warning')
         return redirect(url_for('admin_chat'))
     reply = Message(sender_id=current_user.id, recipient_id=original.sender_id, content=content, reply_to=original.id)
     db.session.add(reply)
     db.session.commit()
-    flash('Ã„ÂÃƒÂ£ gÃ¡Â»Â­i trÃ¡ÂºÂ£ lÃ¡Â»Âi', 'success')
+    flash('Đã gửi trả lời', 'success')
     return redirect(url_for('admin_chat'))
 
 @app.route('/admin/create-teacher', methods=['GET','POST'])
 @login_required
 def create_teacher():
     if current_user.role != 'admin':
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p trang nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền truy cập trang này', 'danger')
         return redirect(url_for('dashboard'))
     form = CreateTeacherForm()
     if form.validate_on_submit():
         if User.query.filter((User.username==form.username.data)|(User.email==form.email.data)).first():
-            flash('TÃƒÂªn Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p hoÃ¡ÂºÂ·c email Ã„â€˜ÃƒÂ£ tÃ¡Â»â€œn tÃ¡ÂºÂ¡i', 'danger')
+            flash('Tên đăng nhập hoặc email đã tồn tại', 'danger')
             return render_template('admin_create_teacher.html', form=form)
         u = User(username=form.username.data, email=form.email.data, role='teacher')
         u.account_id = User.next_account_id()
         u.set_password(form.password.data)
         db.session.add(u)
         db.session.commit()
-        flash('TÃ¡ÂºÂ¡o tÃƒÂ i khoÃ¡ÂºÂ£n giÃƒÂ¡o viÃƒÂªn thÃƒÂ nh cÃƒÂ´ng', 'success')
+        flash('Tạo tài khoản giáo viên thành công', 'success')
         return redirect(url_for('dashboard'))
     return render_template('admin_create_teacher.html', form=form)
 
@@ -1474,7 +1473,7 @@ def psychology_quizzes():
         return redirect(url_for('teacher_quizzes'))
     if current_user.role == 'student':
         return redirect(url_for('student_quizzes'))
-    flash('ChÃ¡Â»Â©c nÃ„Æ’ng trÃ¡ÂºÂ¯c nghiÃ¡Â»â€¡m tÃƒÂ¢m lÃƒÂ½ dÃƒÂ nh cho giÃƒÂ¡o viÃƒÂªn vÃƒÂ  hÃ¡Â»Âc sinh', 'warning')
+    flash('Chức năng trắc nghiệm tâm lý dành cho giáo viên và học sinh', 'warning')
     return redirect(url_for('dashboard'))
 
 
@@ -1509,11 +1508,11 @@ def teacher_quiz_new():
         description = (request.form.get('description') or '').strip()
         questions = collect_quiz_questions()
         if not title:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p chÃ¡Â»Â§ Ã„â€˜Ã¡Â»Â trÃ¡ÂºÂ¯c nghiÃ¡Â»â€¡m', 'warning')
+            flash('Vui lòng nhập chủ đề trắc nghiệm', 'warning')
         elif questions is None:
-            flash('MÃ¡Â»â€”i cÃƒÂ¢u hÃ¡Â»Âi cÃ¡ÂºÂ§n Ã„â€˜Ã¡Â»Â§ nÃ¡Â»â„¢i dung vÃƒÂ  4 Ã„â€˜ÃƒÂ¡p ÃƒÂ¡n A/B/C/D', 'warning')
+            flash('Mỗi câu hỏi cần đủ nội dung và 4 đáp án A/B/C/D', 'warning')
         elif not questions:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p ÃƒÂ­t nhÃ¡ÂºÂ¥t mÃ¡Â»â„¢t cÃƒÂ¢u hÃ¡Â»Âi', 'warning')
+            flash('Vui lòng nhập ít nhất một câu hỏi', 'warning')
         else:
             topic = PsychologyTopic(title=title, description=description, teacher_id=current_user.id)
             db.session.add(topic)
@@ -1521,7 +1520,7 @@ def teacher_quiz_new():
             for question in questions:
                 db.session.add(PsychologyQuestion(topic_id=topic.id, **question))
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ upload chÃ¡Â»Â§ Ã„â€˜Ã¡Â»Â trÃ¡ÂºÂ¯c nghiÃ¡Â»â€¡m cho hÃ¡Â»Âc sinh', 'success')
+            flash('Đã upload chủ đề trắc nghiệm cho học sinh', 'success')
             return redirect(url_for('teacher_quizzes'))
     return render_template('teacher_quiz_form.html', topic=None, questions=[])
 
@@ -1533,18 +1532,18 @@ def teacher_quiz_edit(topic_id):
         return redirect(url_for('dashboard'))
     topic = PsychologyTopic.query.get_or_404(topic_id)
     if topic.teacher_id != current_user.id:
-        flash('BÃ¡ÂºÂ¡n chÃ¡Â»â€° cÃƒÂ³ thÃ¡Â»Æ’ chÃ¡Â»â€°nh sÃ¡Â»Â­a chÃ¡Â»Â§ Ã„â€˜Ã¡Â»Â cÃ¡Â»Â§a mÃƒÂ¬nh', 'danger')
+        flash('Bạn chỉ có thể chỉnh sửa chủ đề của mình', 'danger')
         return redirect(url_for('teacher_quizzes'))
     if request.method == 'POST':
         title = (request.form.get('title') or '').strip()
         description = (request.form.get('description') or '').strip()
         questions = collect_quiz_questions()
         if not title:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p chÃ¡Â»Â§ Ã„â€˜Ã¡Â»Â trÃ¡ÂºÂ¯c nghiÃ¡Â»â€¡m', 'warning')
+            flash('Vui lòng nhập chủ đề trắc nghiệm', 'warning')
         elif questions is None:
-            flash('MÃ¡Â»â€”i cÃƒÂ¢u hÃ¡Â»Âi cÃ¡ÂºÂ§n Ã„â€˜Ã¡Â»Â§ nÃ¡Â»â„¢i dung vÃƒÂ  4 Ã„â€˜ÃƒÂ¡p ÃƒÂ¡n A/B/C/D', 'warning')
+            flash('Mỗi câu hỏi cần đủ nội dung và 4 đáp án A/B/C/D', 'warning')
         elif not questions:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p ÃƒÂ­t nhÃ¡ÂºÂ¥t mÃ¡Â»â„¢t cÃƒÂ¢u hÃ¡Â»Âi', 'warning')
+            flash('Vui lòng nhập ít nhất một câu hỏi', 'warning')
         else:
             topic.title = title
             topic.description = description
@@ -1553,7 +1552,7 @@ def teacher_quiz_edit(topic_id):
             for question in questions:
                 db.session.add(PsychologyQuestion(topic_id=topic.id, **question))
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t chÃ¡Â»Â§ Ã„â€˜Ã¡Â»Â trÃ¡ÂºÂ¯c nghiÃ¡Â»â€¡m', 'success')
+            flash('Đã cập nhật chủ đề trắc nghiệm', 'success')
             return redirect(url_for('teacher_quizzes'))
     questions = PsychologyQuestion.query.filter_by(topic_id=topic.id).order_by(PsychologyQuestion.position, PsychologyQuestion.id).all()
     return render_template('teacher_quiz_form.html', topic=topic, questions=questions)
@@ -1610,7 +1609,7 @@ def student_quiz_take(topic_id):
     topic = PsychologyTopic.query.get_or_404(topic_id)
     questions = PsychologyQuestion.query.filter_by(topic_id=topic.id).order_by(PsychologyQuestion.position, PsychologyQuestion.id).all()
     if not topic.is_published or not questions:
-        flash('BÃƒÂ i trÃ¡ÂºÂ¯c nghiÃ¡Â»â€¡m nÃƒÂ y chÃ†Â°a sÃ¡ÂºÂµn sÃƒÂ ng', 'warning')
+        flash('Bài trắc nghiệm này chưa sẵn sàng', 'warning')
         return redirect(url_for('student_quizzes'))
     if request.method == 'POST':
         answer_scores = {'a': 0, 'b': 1, 'c': 2, 'd': 3}
@@ -1619,7 +1618,7 @@ def student_quiz_take(topic_id):
         for question in questions:
             answer = (request.form.get(f'question_{question.id}') or '').lower()
             if answer not in answer_scores:
-                flash('Vui lÃƒÂ²ng trÃ¡ÂºÂ£ lÃ¡Â»Âi Ã„â€˜Ã¡ÂºÂ§y Ã„â€˜Ã¡Â»Â§ tÃ¡ÂºÂ¥t cÃ¡ÂºÂ£ cÃƒÂ¢u hÃ¡Â»Âi', 'warning')
+                flash('Vui lòng trả lời đầy đủ tất cả câu hỏi', 'warning')
                 return render_template('student_quiz_take.html', topic=topic, questions=questions)
             answers[str(question.id)] = answer
             total += answer_scores[answer]
@@ -1636,7 +1635,7 @@ def student_quiz_take(topic_id):
         )
         db.session.add(submission)
         db.session.commit()
-        flash('Ã„ÂÃƒÂ£ nÃ¡Â»â„¢p bÃƒÂ i trÃ¡ÂºÂ¯c nghiÃ¡Â»â€¡m', 'success')
+        flash('Đã nộp bài trắc nghiệm', 'success')
         return redirect(url_for('student_quiz_result', submission_id=submission.id))
     return render_template('student_quiz_take.html', topic=topic, questions=questions)
 
@@ -1648,7 +1647,7 @@ def student_quiz_result(submission_id):
         return redirect(url_for('dashboard'))
     submission = PsychologySubmission.query.get_or_404(submission_id)
     if submission.student_id != current_user.id:
-        flash('BÃ¡ÂºÂ¡n chÃ¡Â»â€° cÃƒÂ³ thÃ¡Â»Æ’ xem kÃ¡ÂºÂ¿t quÃ¡ÂºÂ£ cÃ¡Â»Â§a mÃƒÂ¬nh', 'danger')
+        flash('Bạn chỉ có thể xem kết quả của mình', 'danger')
         return redirect(url_for('student_quizzes'))
     topic = PsychologyTopic.query.get_or_404(submission.topic_id)
     return render_template(
@@ -1667,7 +1666,7 @@ def career_home():
         return redirect(url_for('teacher_career_tests'))
     if current_user.role == 'student':
         return redirect(url_for('student_self_discovery'))
-    flash('ChÃ¡Â»Â©c nÃ„Æ’ng hÃ†Â°Ã¡Â»â€ºng nghiÃ¡Â»â€¡p dÃƒÂ nh cho giÃƒÂ¡o viÃƒÂªn vÃƒÂ  hÃ¡Â»Âc sinh', 'warning')
+    flash('Chức năng hướng nghiệp dành cho giáo viên và học sinh', 'warning')
     return redirect(url_for('dashboard'))
 
 
@@ -1709,7 +1708,7 @@ def student_career_test_take(test_id):
     test = CareerTest.query.get_or_404(test_id)
     questions = CareerQuestion.query.filter_by(test_id=test.id).order_by(CareerQuestion.position, CareerQuestion.id).all()
     if not test.is_published or not questions:
-        flash('BÃƒÂ i khÃƒÂ¡m phÃƒÂ¡ nÃƒÂ y chÃ†Â°a sÃ¡ÂºÂµn sÃƒÂ ng', 'warning')
+        flash('Bài khám phá này chưa sẵn sàng', 'warning')
         return redirect(url_for('student_self_discovery'))
     if request.method == 'POST':
         answer_scores = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
@@ -1718,7 +1717,7 @@ def student_career_test_take(test_id):
         for question in questions:
             answer = (request.form.get(f'question_{question.id}') or '').lower()
             if answer not in answer_scores:
-                flash('Vui lÃƒÂ²ng trÃ¡ÂºÂ£ lÃ¡Â»Âi Ã„â€˜Ã¡ÂºÂ§y Ã„â€˜Ã¡Â»Â§ tÃ¡ÂºÂ¥t cÃ¡ÂºÂ£ cÃƒÂ¢u hÃ¡Â»Âi', 'warning')
+                flash('Vui lòng trả lời đầy đủ tất cả câu hỏi', 'warning')
                 return render_template('student_career_test_take.html', test=test, questions=questions)
             answers[str(question.id)] = answer
             total += answer_scores[answer]
@@ -1733,7 +1732,7 @@ def student_career_test_take(test_id):
         )
         db.session.add(submission)
         db.session.commit()
-        flash('Ã„ÂÃƒÂ£ lÃ†Â°u kÃ¡ÂºÂ¿t quÃ¡ÂºÂ£ khÃƒÂ¡m phÃƒÂ¡', 'success')
+        flash('Đã lưu kết quả khám phá', 'success')
         return redirect(url_for('student_self_discovery'))
     return render_template('student_career_test_take.html', test=test, questions=questions)
 
@@ -1744,7 +1743,7 @@ def student_career_library():
     if not role_required('student'):
         return redirect(url_for('dashboard'))
     jobs = career_library_data()
-    fields = ['TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£'] + sorted({job['field'] for job in jobs})
+    fields = ['Tất cả'] + sorted({job['field'] for job in jobs})
     return render_template('student_career_library.html', jobs=jobs, fields=fields)
 
 
@@ -1757,10 +1756,10 @@ def student_career_ask():
     question = (request.form.get('question') or '').strip()
     job = CareerJob.query.filter_by(id=job_id, is_published=True).first()
     if not job:
-        flash('NghÃ¡Â»Â nÃƒÂ y chÃ†Â°a sÃ¡ÂºÂµn sÃƒÂ ng Ã„â€˜Ã¡Â»Æ’ gÃ¡Â»Â­i cÃƒÂ¢u hÃ¡Â»Âi', 'warning')
+        flash('Nghề này chưa sẵn sàng để gửi câu hỏi', 'warning')
         return redirect(url_for('student_career_library'))
     if not question:
-        flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p cÃƒÂ¢u hÃ¡Â»Âi trÃ†Â°Ã¡Â»â€ºc khi gÃ¡Â»Â­i', 'warning')
+        flash('Vui lòng nhập câu hỏi trước khi gửi', 'warning')
         return redirect(url_for('student_career_library'))
     inquiry = CareerInquiry(
         job_id=job.id,
@@ -1770,7 +1769,7 @@ def student_career_ask():
     )
     db.session.add(inquiry)
     db.session.commit()
-    flash('Ã„ÂÃƒÂ£ gÃ¡Â»Â­i cÃƒÂ¢u hÃ¡Â»Âi Ã„â€˜Ã¡ÂºÂ¿n giÃƒÂ¡o viÃƒÂªn phÃ¡Â»Â¥ trÃƒÂ¡ch nghÃ¡Â»Â nÃƒÂ y', 'success')
+    flash('Đã gửi câu hỏi đến giáo viên phụ trách nghề này', 'success')
     return redirect(url_for('student_inbox'))
 
 
@@ -1844,9 +1843,9 @@ def teacher_learning_path_new():
         completion_percent = request.form.get('completion_percent', type=int) or 0
         stages, skills = parse_learning_path_payload(request.form.get('stages_json'), request.form.get('skills_json'))
         if not title or not summary:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tÃƒÂªn ngÃƒÂ nh vÃƒÂ  mÃƒÂ´ tÃ¡ÂºÂ£ ngÃ¡ÂºÂ¯n', 'warning')
+            flash('Vui lòng nhập tên ngành và mô tả ngắn', 'warning')
         elif stages is None or skills is None:
-            flash('DÃ¡Â»Â¯ liÃ¡Â»â€¡u giai Ã„â€˜oÃ¡ÂºÂ¡n/kÃ¡Â»Â¹ nÃ„Æ’ng phÃ¡ÂºÂ£i lÃƒÂ  JSON hÃ¡Â»Â£p lÃ¡Â»â€¡', 'warning')
+            flash('Dữ liệu giai đoạn/kỹ năng phải là JSON hợp lệ', 'warning')
         else:
             path = CareerLearningPath(
                 teacher_id=current_user.id,
@@ -1862,7 +1861,7 @@ def teacher_learning_path_new():
             db.session.flush()
             replace_learning_path_details(path, stages, skills)
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ upload lÃ¡Â»â„¢ trÃƒÂ¬nh hÃ¡Â»Âc tÃ¡ÂºÂ­p', 'success')
+            flash('Đã upload lộ trình học tập', 'success')
             return redirect(url_for('teacher_learning_paths'))
     return render_template('teacher_learning_path_form.html', path=None, stages_json=default_stages, skills_json=default_skills)
 
@@ -1874,7 +1873,7 @@ def teacher_learning_path_edit(path_id):
         return redirect(url_for('dashboard'))
     path = CareerLearningPath.query.get_or_404(path_id)
     if path.teacher_id != current_user.id:
-        flash('BÃ¡ÂºÂ¡n chÃ¡Â»â€° cÃƒÂ³ thÃ¡Â»Æ’ chÃ¡Â»â€°nh sÃ¡Â»Â­a lÃ¡Â»â„¢ trÃƒÂ¬nh mÃƒÂ¬nh upload', 'danger')
+        flash('Bạn chỉ có thể chỉnh sửa lộ trình mình upload', 'danger')
         return redirect(url_for('teacher_learning_paths'))
     if request.method == 'POST':
         title = (request.form.get('title') or '').strip()
@@ -1885,9 +1884,9 @@ def teacher_learning_path_edit(path_id):
         completion_percent = request.form.get('completion_percent', type=int) or 0
         stages, skills = parse_learning_path_payload(request.form.get('stages_json'), request.form.get('skills_json'))
         if not title or not summary:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tÃƒÂªn ngÃƒÂ nh vÃƒÂ  mÃƒÂ´ tÃ¡ÂºÂ£ ngÃ¡ÂºÂ¯n', 'warning')
+            flash('Vui lòng nhập tên ngành và mô tả ngắn', 'warning')
         elif stages is None or skills is None:
-            flash('DÃ¡Â»Â¯ liÃ¡Â»â€¡u giai Ã„â€˜oÃ¡ÂºÂ¡n/kÃ¡Â»Â¹ nÃ„Æ’ng phÃ¡ÂºÂ£i lÃƒÂ  JSON hÃ¡Â»Â£p lÃ¡Â»â€¡', 'warning')
+            flash('Dữ liệu giai đoạn/kỹ năng phải là JSON hợp lệ', 'warning')
         else:
             path.title = title
             path.summary = summary
@@ -1898,7 +1897,7 @@ def teacher_learning_path_edit(path_id):
             path.updated_at = datetime.utcnow()
             replace_learning_path_details(path, stages, skills)
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t lÃ¡Â»â„¢ trÃƒÂ¬nh hÃ¡Â»Âc tÃ¡ÂºÂ­p', 'success')
+            flash('Đã cập nhật lộ trình học tập', 'success')
             return redirect(url_for('teacher_learning_paths'))
     stages, tasks_by_stage, skills, _, _ = learning_path_details(path.id)
     stages_data = []
@@ -1936,19 +1935,19 @@ def teacher_learning_path_edit(path_id):
 def student_forum():
     if not role_required('student', 'teacher'):
         return redirect(url_for('dashboard'))
-    categories = ['TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£', 'HÃ¡Â»Âc tÃ¡ÂºÂ­p', 'CÃ¡ÂºÂ£m xÃƒÂºc', 'HÃ†Â°Ã¡Â»â€ºng nghiÃ¡Â»â€¡p', 'CuÃ¡Â»â„¢c sÃ¡Â»â€˜ng']
+    categories = ['Tất cả', 'Học tập', 'Cảm xúc', 'Hướng nghiệp', 'Cuộc sống']
     can_interact = current_user.role == 'student'
     if request.method == 'POST' and not can_interact:
-        flash('GiÃƒÂ¡o viÃƒÂªn cÃƒÂ³ thÃ¡Â»Æ’ xem diÃ¡Â»â€¦n Ã„â€˜ÃƒÂ n hÃ¡Â»Âc sinh nhÃ†Â°ng khÃƒÂ´ng Ã„â€˜Ã„Æ’ng bÃƒÂ i tÃ¡ÂºÂ¡i Ã„â€˜ÃƒÂ¢y', 'warning')
+        flash('Giáo viên có thể xem diễn đàn học sinh nhưng không đăng bài tại đây', 'warning')
         return redirect(url_for('student_forum'))
     if request.method == 'POST':
         title = (request.form.get('title') or '').strip()
         content = (request.form.get('content') or '').strip()
-        category = (request.form.get('category') or 'CuÃ¡Â»â„¢c sÃ¡Â»â€˜ng').strip()
+        category = (request.form.get('category') or 'Cuộc sống').strip()
         if category not in categories[1:]:
-            category = 'CuÃ¡Â»â„¢c sÃ¡Â»â€˜ng'
+            category = 'Cuộc sống'
         if not title or not content:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tiÃƒÂªu Ã„â€˜Ã¡Â»Â vÃƒÂ  nÃ¡Â»â„¢i dung bÃƒÂ i viÃ¡ÂºÂ¿t', 'warning')
+            flash('Vui lòng nhập tiêu đề và nội dung bài viết', 'warning')
         else:
             post = ForumPost(
                 student_id=current_user.id,
@@ -1959,9 +1958,9 @@ def student_forum():
             )
             db.session.add(post)
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ Ã„â€˜Ã„Æ’ng bÃƒÂ i vÃƒÂ o diÃ¡Â»â€¦n Ã„â€˜ÃƒÂ n hÃ¡Â»Âc sinh', 'success')
+            flash('Đã đăng bài vào diễn đàn học sinh', 'success')
             return redirect(url_for('student_forum'))
-    active_category = request.args.get('category', 'TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£')
+    active_category = request.args.get('category', 'Tất cả')
     query = ForumPost.query
     if active_category in categories[1:]:
         query = query.filter_by(category=active_category)
@@ -2001,7 +2000,7 @@ def student_forum_react(post_id):
         return redirect(url_for('dashboard'))
     reaction_type = (request.form.get('reaction_type') or '').strip()
     if reaction_type not in ('empathy', 'useful'):
-        flash('PhÃ¡ÂºÂ£n Ã¡Â»Â©ng khÃƒÂ´ng hÃ¡Â»Â£p lÃ¡Â»â€¡', 'warning')
+        flash('Phản ứng không hợp lệ', 'warning')
         return redirect(url_for('student_forum'))
     post = ForumPost.query.get_or_404(post_id)
     reaction = ForumReaction.query.filter_by(post_id=post.id, student_id=current_user.id).first()
@@ -2012,7 +2011,7 @@ def student_forum_react(post_id):
     else:
         db.session.add(ForumReaction(post_id=post.id, student_id=current_user.id, reaction_type=reaction_type))
     db.session.commit()
-    return redirect(url_for('student_forum', category=request.form.get('active_category') or 'TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£'))
+    return redirect(url_for('student_forum', category=request.form.get('active_category') or 'Tất cả'))
 
 
 @app.route('/student/community/forum/<int:post_id>/comment', methods=['POST'])
@@ -2023,7 +2022,7 @@ def student_forum_comment(post_id):
     post = ForumPost.query.get_or_404(post_id)
     content = (request.form.get('content') or '').strip()
     if not content:
-        flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p bÃƒÂ¬nh luÃ¡ÂºÂ­n', 'warning')
+        flash('Vui lòng nhập bình luận', 'warning')
     else:
         comment = ForumComment(
             post_id=post.id,
@@ -2033,7 +2032,7 @@ def student_forum_comment(post_id):
         )
         db.session.add(comment)
         db.session.commit()
-    return redirect(url_for('student_forum', category=request.form.get('active_category') or 'TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£'))
+    return redirect(url_for('student_forum', category=request.form.get('active_category') or 'Tất cả'))
 
 
 @app.route('/student/community/forum/<int:post_id>/report', methods=['POST'])
@@ -2047,12 +2046,12 @@ def student_forum_report(post_id):
         report = ForumReport(
             post_id=post.id,
             student_id=current_user.id,
-            reason=(request.form.get('reason') or 'CÃ¡ÂºÂ§n kiÃ¡Â»Æ’m tra').strip(),
+            reason=(request.form.get('reason') or 'Cần kiểm tra').strip(),
         )
         db.session.add(report)
         db.session.commit()
-    flash('Ã„ÂÃƒÂ£ ghi nhÃ¡ÂºÂ­n bÃƒÂ¡o cÃƒÂ¡o bÃƒÂ i viÃ¡ÂºÂ¿t', 'info')
-    return redirect(url_for('student_forum', category=request.form.get('active_category') or 'TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£'))
+    flash('Đã ghi nhận báo cáo bài viết', 'info')
+    return redirect(url_for('student_forum', category=request.form.get('active_category') or 'Tất cả'))
 
 
 @app.route('/teacher/career/tests')
@@ -2092,7 +2091,7 @@ def teacher_career_job_new():
         data = collect_career_job_form()
         required = [data['name'], data['field'], data['summary'], data['work'], data['study'], data['salary'], data['demand'], data['personality']]
         if not all(required):
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p Ã„â€˜Ã¡ÂºÂ§y Ã„â€˜Ã¡Â»Â§ thÃƒÂ´ng tin nghÃ¡Â»Â', 'warning')
+            flash('Vui lòng nhập đầy đủ thông tin nghề', 'warning')
         else:
             job = CareerJob(
                 teacher_id=current_user.id,
@@ -2111,7 +2110,7 @@ def teacher_career_job_new():
             )
             db.session.add(job)
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ upload nghÃ¡Â»Â vÃƒÂ o thÃ†Â° viÃ¡Â»â€¡n nghÃ¡Â»Â nghiÃ¡Â»â€¡p', 'success')
+            flash('Đã upload nghề vào thư viện nghề nghiệp', 'success')
             return redirect(url_for('teacher_career_jobs'))
     return render_template('teacher_career_job_form.html', job=None, skills_text='')
 
@@ -2123,13 +2122,13 @@ def teacher_career_job_edit(job_id):
         return redirect(url_for('dashboard'))
     job = CareerJob.query.get_or_404(job_id)
     if job.teacher_id != current_user.id:
-        flash('BÃ¡ÂºÂ¡n chÃ¡Â»â€° cÃƒÂ³ thÃ¡Â»Æ’ chÃ¡Â»â€°nh sÃ¡Â»Â­a nghÃ¡Â»Â mÃƒÂ¬nh upload', 'danger')
+        flash('Bạn chỉ có thể chỉnh sửa nghề mình upload', 'danger')
         return redirect(url_for('teacher_career_jobs'))
     if request.method == 'POST':
         data = collect_career_job_form()
         required = [data['name'], data['field'], data['summary'], data['work'], data['study'], data['salary'], data['demand'], data['personality']]
         if not all(required):
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p Ã„â€˜Ã¡ÂºÂ§y Ã„â€˜Ã¡Â»Â§ thÃƒÂ´ng tin nghÃ¡Â»Â', 'warning')
+            flash('Vui lòng nhập đầy đủ thông tin nghề', 'warning')
         else:
             job.name = data['name']
             job.field = data['field']
@@ -2145,7 +2144,7 @@ def teacher_career_job_edit(job_id):
             job.is_featured = data['is_featured']
             job.updated_at = datetime.utcnow()
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t nghÃ¡Â»Â', 'success')
+            flash('Đã cập nhật nghề', 'success')
             return redirect(url_for('teacher_career_jobs'))
     try:
         skills = json.loads(job.skills_json or '[]')
@@ -2164,14 +2163,14 @@ def teacher_career_inquiries():
         reply = (request.form.get('reply') or '').strip()
         inquiry = CareerInquiry.query.filter_by(id=inquiry_id, teacher_id=current_user.id).first()
         if not inquiry:
-            flash('KhÃƒÂ´ng tÃƒÂ¬m thÃ¡ÂºÂ¥y cÃƒÂ¢u hÃ¡Â»Âi cÃ¡ÂºÂ§n phÃ¡ÂºÂ£n hÃ¡Â»â€œi', 'warning')
+            flash('Không tìm thấy câu hỏi cần phản hồi', 'warning')
         elif not reply:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p nÃ¡Â»â„¢i dung phÃ¡ÂºÂ£n hÃ¡Â»â€œi', 'warning')
+            flash('Vui lòng nhập nội dung phản hồi', 'warning')
         else:
             inquiry.reply = reply
             inquiry.replied_at = datetime.utcnow()
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ gÃ¡Â»Â­i phÃ¡ÂºÂ£n hÃ¡Â»â€œi vÃƒÂ o hÃ¡Â»â„¢p thÃ†Â° hÃ¡Â»Âc sinh', 'success')
+            flash('Đã gửi phản hồi vào hộp thư học sinh', 'success')
         return redirect(url_for('teacher_career_inquiries'))
     inquiries = CareerInquiry.query.filter_by(teacher_id=current_user.id).order_by(CareerInquiry.created_at.desc()).all()
     student_ids = sorted({item.student_id for item in inquiries})
@@ -2196,11 +2195,11 @@ def teacher_career_test_new():
         description = (request.form.get('description') or '').strip()
         questions = collect_career_questions()
         if not title:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tÃƒÂªn bÃƒÂ i khÃƒÂ¡m phÃƒÂ¡', 'warning')
+            flash('Vui lòng nhập tên bài khám phá', 'warning')
         elif questions is None:
-            flash('MÃ¡Â»â€”i cÃƒÂ¢u hÃ¡Â»Âi cÃ¡ÂºÂ§n Ã„â€˜Ã¡Â»Â§ nÃ¡Â»â„¢i dung vÃƒÂ  4 Ã„â€˜ÃƒÂ¡p ÃƒÂ¡n A/B/C/D', 'warning')
+            flash('Mỗi câu hỏi cần đủ nội dung và 4 đáp án A/B/C/D', 'warning')
         elif not questions:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p ÃƒÂ­t nhÃ¡ÂºÂ¥t mÃ¡Â»â„¢t cÃƒÂ¢u hÃ¡Â»Âi', 'warning')
+            flash('Vui lòng nhập ít nhất một câu hỏi', 'warning')
         else:
             test = CareerTest(title=title, description=description, teacher_id=current_user.id)
             db.session.add(test)
@@ -2208,7 +2207,7 @@ def teacher_career_test_new():
             for question in questions:
                 db.session.add(CareerQuestion(test_id=test.id, **question))
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ upload bÃƒÂ i khÃƒÂ¡m phÃƒÂ¡ hÃ†Â°Ã¡Â»â€ºng nghiÃ¡Â»â€¡p', 'success')
+            flash('Đã upload bài khám phá hướng nghiệp', 'success')
             return redirect(url_for('teacher_career_tests'))
     return render_template('teacher_career_test_form.html', test=None, questions=[])
 
@@ -2220,18 +2219,18 @@ def teacher_career_test_edit(test_id):
         return redirect(url_for('dashboard'))
     test = CareerTest.query.get_or_404(test_id)
     if test.teacher_id != current_user.id:
-        flash('BÃ¡ÂºÂ¡n chÃ¡Â»â€° cÃƒÂ³ thÃ¡Â»Æ’ chÃ¡Â»â€°nh sÃ¡Â»Â­a bÃƒÂ i khÃƒÂ¡m phÃƒÂ¡ cÃ¡Â»Â§a mÃƒÂ¬nh', 'danger')
+        flash('Bạn chỉ có thể chỉnh sửa bài khám phá của mình', 'danger')
         return redirect(url_for('teacher_career_tests'))
     if request.method == 'POST':
         title = (request.form.get('title') or '').strip()
         description = (request.form.get('description') or '').strip()
         questions = collect_career_questions()
         if not title:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tÃƒÂªn bÃƒÂ i khÃƒÂ¡m phÃƒÂ¡', 'warning')
+            flash('Vui lòng nhập tên bài khám phá', 'warning')
         elif questions is None:
-            flash('MÃ¡Â»â€”i cÃƒÂ¢u hÃ¡Â»Âi cÃ¡ÂºÂ§n Ã„â€˜Ã¡Â»Â§ nÃ¡Â»â„¢i dung vÃƒÂ  4 Ã„â€˜ÃƒÂ¡p ÃƒÂ¡n A/B/C/D', 'warning')
+            flash('Mỗi câu hỏi cần đủ nội dung và 4 đáp án A/B/C/D', 'warning')
         elif not questions:
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p ÃƒÂ­t nhÃ¡ÂºÂ¥t mÃ¡Â»â„¢t cÃƒÂ¢u hÃ¡Â»Âi', 'warning')
+            flash('Vui lòng nhập ít nhất một câu hỏi', 'warning')
         else:
             test.title = title
             test.description = description
@@ -2240,7 +2239,7 @@ def teacher_career_test_edit(test_id):
             for question in questions:
                 db.session.add(CareerQuestion(test_id=test.id, **question))
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t bÃƒÂ i khÃƒÂ¡m phÃƒÂ¡ hÃ†Â°Ã¡Â»â€ºng nghiÃ¡Â»â€¡p', 'success')
+            flash('Đã cập nhật bài khám phá hướng nghiệp', 'success')
             return redirect(url_for('teacher_career_tests'))
     questions = CareerQuestion.query.filter_by(test_id=test.id).order_by(CareerQuestion.position, CareerQuestion.id).all()
     return render_template('teacher_career_test_form.html', test=test, questions=questions)
@@ -2268,12 +2267,12 @@ def teacher_life_skill_new():
         data = collect_life_skill_lesson_form()
         required = [data['title'], data['skill_category'], data['video_url'], data['description']]
         if not all(required):
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tiÃƒÂªu Ã„â€˜Ã¡Â»Â, kÃ¡Â»Â¹ nÃ„Æ’ng, link video vÃƒÂ  mÃƒÂ´ tÃ¡ÂºÂ£', 'warning')
+            flash('Vui lòng nhập tiêu đề, kỹ năng, link video và mô tả', 'warning')
         else:
             lesson = LifeSkillLesson(teacher_id=current_user.id, **data)
             db.session.add(lesson)
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ upload bÃƒÂ i hÃ¡Â»Âc kÃ¡Â»Â¹ nÃ„Æ’ng sÃ¡Â»â€˜ng', 'success')
+            flash('Đã upload bài học kỹ năng sống', 'success')
             return redirect(url_for('teacher_life_skills'))
     return render_template('teacher_life_skill_form.html', lesson=None)
 
@@ -2285,19 +2284,19 @@ def teacher_life_skill_edit(lesson_id):
         return redirect(url_for('dashboard'))
     lesson = LifeSkillLesson.query.get_or_404(lesson_id)
     if lesson.teacher_id != current_user.id:
-        flash('BÃ¡ÂºÂ¡n chÃ¡Â»â€° cÃƒÂ³ thÃ¡Â»Æ’ chÃ¡Â»â€°nh sÃ¡Â»Â­a bÃƒÂ i hÃ¡Â»Âc cÃ¡Â»Â§a mÃƒÂ¬nh', 'danger')
+        flash('Bạn chỉ có thể chỉnh sửa bài học của mình', 'danger')
         return redirect(url_for('teacher_life_skills'))
     if request.method == 'POST':
         data = collect_life_skill_lesson_form()
         required = [data['title'], data['skill_category'], data['video_url'], data['description']]
         if not all(required):
-            flash('Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p tiÃƒÂªu Ã„â€˜Ã¡Â»Â, kÃ¡Â»Â¹ nÃ„Æ’ng, link video vÃƒÂ  mÃƒÂ´ tÃ¡ÂºÂ£', 'warning')
+            flash('Vui lòng nhập tiêu đề, kỹ năng, link video và mô tả', 'warning')
         else:
             for key, value in data.items():
                 setattr(lesson, key, value)
             lesson.updated_at = datetime.utcnow()
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t bÃƒÂ i hÃ¡Â»Âc kÃ¡Â»Â¹ nÃ„Æ’ng sÃ¡Â»â€˜ng', 'success')
+            flash('Đã cập nhật bài học kỹ năng sống', 'success')
             return redirect(url_for('teacher_life_skills'))
     return render_template('teacher_life_skill_form.html', lesson=lesson)
 
@@ -2308,9 +2307,9 @@ def student_life_skills():
     if not role_required('student'):
         return redirect(url_for('dashboard'))
     lessons = LifeSkillLesson.query.filter_by(is_published=True).order_by(LifeSkillLesson.is_featured.desc(), LifeSkillLesson.updated_at.desc()).all()
-    categories = ['TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£'] + sorted({lesson.skill_category for lesson in lessons})
-    active_category = request.args.get('category', 'TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£')
-    if active_category != 'TÃ¡ÂºÂ¥t cÃ¡ÂºÂ£':
+    categories = ['Tất cả'] + sorted({lesson.skill_category for lesson in lessons})
+    active_category = request.args.get('category', 'Tất cả')
+    if active_category != 'Tất cả':
         lessons = [lesson for lesson in lessons if lesson.skill_category == active_category]
     progress_items = LifeSkillProgress.query.filter_by(student_id=current_user.id).all()
     progress_by_lesson = {item.lesson_id: item for item in progress_items}
@@ -2340,7 +2339,7 @@ def student_life_skill_detail(lesson_id):
         progress.reflection = (request.form.get('reflection') or '').strip()
         progress.updated_at = datetime.utcnow()
         db.session.commit()
-        flash('Ã„ÂÃƒÂ£ lÃ†Â°u tiÃ¡ÂºÂ¿n Ã„â€˜Ã¡Â»â„¢ bÃƒÂ i hÃ¡Â»Âc', 'success')
+        flash('Đã lưu tiến độ bài học', 'success')
         return redirect(url_for('student_life_skill_detail', lesson_id=lesson.id))
     return render_template(
         'student_life_skill_detail.html',
@@ -2364,7 +2363,7 @@ def student_profile():
             if avatar_filename:
                 profile.avatar_filename = avatar_filename
             else:
-                flash('Ã¡ÂºÂ¢nh hÃ¡Â»â€œ sÃ†Â¡ chÃ¡Â»â€° hÃ¡Â»â€” trÃ¡Â»Â£ PNG, JPG, JPEG hoÃ¡ÂºÂ·c WEBP', 'warning')
+                flash('Ảnh hồ sơ chỉ hỗ trợ PNG, JPG, JPEG hoặc WEBP', 'warning')
                 return redirect(url_for('student_profile'))
         profile.full_name = (request.form.get('full_name') or '').strip()
         profile.class_name = (request.form.get('class_name') or '').strip()
@@ -2375,7 +2374,7 @@ def student_profile():
         profile.emergency_contact = (request.form.get('emergency_contact') or '').strip()
         profile.updated_at = datetime.utcnow()
         db.session.commit()
-        flash('Ã„ÂÃƒÂ£ cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t hÃ¡Â»â€œ sÃ†Â¡ hÃ¡Â»Âc sinh', 'success')
+        flash('Đã cập nhật hồ sơ học sinh', 'success')
         return redirect(url_for('student_profile'))
     return render_template('student_profile.html', profile=profile)
 
@@ -2393,7 +2392,7 @@ def teacher_profile():
             if avatar_filename:
                 profile.avatar_filename = avatar_filename
             else:
-                flash('Ã¡ÂºÂ¢nh hÃ¡Â»â€œ sÃ†Â¡ chÃ¡Â»â€° hÃ¡Â»â€” trÃ¡Â»Â£ PNG, JPG, JPEG hoÃ¡ÂºÂ·c WEBP', 'warning')
+                flash('Ảnh hồ sơ chỉ hỗ trợ PNG, JPG, JPEG hoặc WEBP', 'warning')
                 return redirect(url_for('teacher_profile'))
         profile.full_name = (request.form.get('full_name') or '').strip()
         profile.department = (request.form.get('department') or '').strip()
@@ -2405,7 +2404,7 @@ def teacher_profile():
         profile.bio = (request.form.get('bio') or '').strip()
         profile.updated_at = datetime.utcnow()
         db.session.commit()
-        flash('Ã„ÂÃƒÂ£ cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t hÃ¡Â»â€œ sÃ†Â¡ giÃƒÂ¡o viÃƒÂªn', 'success')
+        flash('Đã cập nhật hồ sơ giáo viên', 'success')
         return redirect(url_for('teacher_profile'))
     return render_template('teacher_profile.html', profile=profile)
 
@@ -2470,11 +2469,11 @@ def teacher_chat_room(conversation_id):
         return redirect(url_for('dashboard'))
     conversation = ChatConversation.query.get_or_404(conversation_id)
     if not can_access_conversation(conversation):
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân xem cuÃ¡Â»â„¢c trÃƒÂ² chuyÃ¡Â»â€¡n nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền xem cuộc trò chuyện này', 'danger')
         return redirect(url_for('teacher_chat_list'))
     student = User.query.get(conversation.student_id)
     messages = ChatMessage.query.filter_by(conversation_id=conversation.id).order_by(ChatMessage.created_at.asc()).all()
-    return render_template('chat_room.html', conversation=conversation, messages=messages, peer_name=student.username if student else 'HÃ¡Â»Âc sinh', mode='teacher')
+    return render_template('chat_room.html', conversation=conversation, messages=messages, peer_name=student.username if student else 'Học sinh', mode='teacher')
 
 
 @app.route('/parent/teacher-chat')
@@ -2547,7 +2546,7 @@ def teacher_parent_chat_room(conversation_id):
         return redirect(url_for('dashboard'))
     conversation = ChatConversation.query.filter_by(id=conversation_id, room_type='parent').first_or_404()
     if not can_access_conversation(conversation):
-        flash('BÃ¡ÂºÂ¡n khÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân xem cuÃ¡Â»â„¢c trÃƒÂ² chuyÃ¡Â»â€¡n nÃƒÂ y', 'danger')
+        flash('Bạn không có quyền xem cuộc trò chuyện này', 'danger')
         return redirect(url_for('teacher_parent_chat_list'))
     parent = User.query.get(conversation.student_id)
     messages = ChatMessage.query.filter_by(conversation_id=conversation.id).order_by(ChatMessage.created_at.asc()).all()
@@ -2555,7 +2554,7 @@ def teacher_parent_chat_room(conversation_id):
         'chat_room.html',
         conversation=conversation,
         messages=messages,
-        peer_name=parent.username if parent else 'PhÃ¡Â»Â¥ huynh',
+        peer_name=parent.username if parent else 'Phụ huynh',
         mode='parent',
         back_url=url_for('teacher_parent_chat_list'),
     )
@@ -2573,7 +2572,7 @@ def emotion_journal():
         triggers = request.form.getlist('triggers')
         note = (request.form.get('note') or '').strip()
         if not mood or not intensity or intensity < 1 or intensity > 5:
-            flash('Vui lÃƒÂ²ng chÃ¡Â»Ân cÃ¡ÂºÂ£m xÃƒÂºc vÃƒÂ  mÃ¡Â»Â©c Ã„â€˜Ã¡Â»â„¢ 1Ã¢â‚¬â€œ5', 'warning')
+            flash('Vui lòng chọn cảm xúc và mức độ 1–5', 'warning')
         else:
             entry = EmotionEntry(
                 student_id=current_user.id,
@@ -2585,7 +2584,7 @@ def emotion_journal():
             )
             db.session.add(entry)
             db.session.commit()
-            flash('Ã„ÂÃƒÂ£ lÃ†Â°u nhÃ¡ÂºÂ­t kÃƒÂ½ cÃ¡ÂºÂ£m xÃƒÂºc hÃƒÂ´m nay', 'success')
+            flash('Đã lưu nhật ký cảm xúc hôm nay', 'success')
             return redirect(url_for('emotion_journal'))
     entries = emotion_weekly_entries(current_user.id)
     recent_entries = recent_emotion_entries(current_user.id)
@@ -2664,7 +2663,7 @@ def chat_api_send_message(conversation_id):
 @login_required
 def logout():
     logout_user()
-    flash('Ã„ÂÃƒÂ£ Ã„â€˜Ã„Æ’ng xuÃ¡ÂºÂ¥t', 'info')
+    flash('Đã đăng xuất', 'info')
     return redirect(url_for('login'))
 
 
