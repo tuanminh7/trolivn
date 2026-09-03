@@ -4893,11 +4893,341 @@
         box-shadow: 0 14px 34px rgba(236, 72, 153, 0.24) !important;
       }
 
+      /* Teacher/admin contrast lock: dark surface = light text, light surface = dark text. */
+      .teacher-app-body,
+      .admin-app-body {
+        background:
+          radial-gradient(circle at 6% 12%, rgba(219, 39, 119, 0.22), transparent 30rem),
+          radial-gradient(circle at 88% 18%, rgba(37, 99, 235, 0.2), transparent 28rem),
+          linear-gradient(135deg, #070819 0%, #120D2E 48%, #1A0827 100%) !important;
+        color: #F8FAFC !important;
+      }
+
+      .teacher-app-body .topbar,
+      .admin-app-body .topbar {
+        background: linear-gradient(135deg, #2B174D 0%, #2D2168 100%) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+      }
+
+      .teacher-app-body .navbar-brand,
+      .teacher-app-body .navbar-brand *,
+      .teacher-app-body .navbar-nav .nav-link,
+      .teacher-app-body .nav-link.text-muted,
+      .admin-app-body .navbar-brand,
+      .admin-app-body .navbar-brand *,
+      .admin-app-body .navbar-nav .nav-link,
+      .admin-app-body .nav-link.text-muted {
+        color: #FFFFFF !important;
+      }
+
+      .teacher-app-body .app-shell,
+      .teacher-app-body .main-area,
+      .teacher-app-body .page-frame,
+      .teacher-app-body .content-panel,
+      .teacher-app-body .content-body,
+      .admin-app-body .app-shell,
+      .admin-app-body .main-area,
+      .admin-app-body .page-frame,
+      .admin-app-body .content-panel,
+      .admin-app-body .content-body {
+        background: transparent !important;
+        color: #F8FAFC !important;
+        box-shadow: none !important;
+      }
+
+      .teacher-app-body .content-body > .d-flex:first-child,
+      .admin-app-body .content-body > .d-flex:first-child {
+        margin-bottom: 24px !important;
+        padding: 28px 34px !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 24px !important;
+        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 24px 64px rgba(124, 58, 237, 0.24) !important;
+      }
+
+      .teacher-app-body .content-body > .d-flex:first-child *,
+      .admin-app-body .content-body > .d-flex:first-child * {
+        color: #fff !important;
+      }
+
+      .teacher-app-body .section-title,
+      .teacher-app-body h1,
+      .teacher-app-body h2,
+      .teacher-app-body h3,
+      .teacher-app-body h4,
+      .teacher-app-body h5,
+      .teacher-app-body h6,
+      .teacher-app-body strong,
+      .teacher-app-body .fw-bold,
+      .admin-app-body .section-title,
+      .admin-app-body h1,
+      .admin-app-body h2,
+      .admin-app-body h3,
+      .admin-app-body h4,
+      .admin-app-body h5,
+      .admin-app-body h6,
+      .admin-app-body strong,
+      .admin-app-body .fw-bold {
+        color: #FFFFFF !important;
+      }
+
+      .teacher-app-body p,
+      .teacher-app-body span,
+      .teacher-app-body small,
+      .teacher-app-body em,
+      .teacher-app-body label,
+      .teacher-app-body .text-muted,
+      .teacher-app-body .section-subtitle,
+      .admin-app-body p,
+      .admin-app-body span,
+      .admin-app-body small,
+      .admin-app-body em,
+      .admin-app-body label,
+      .admin-app-body .text-muted,
+      .admin-app-body .section-subtitle {
+        color: rgba(248, 250, 252, 0.78) !important;
+      }
+
+      .teacher-app-body .card,
+      .teacher-app-body .feature-card,
+      .teacher-app-body .stat-card,
+      .teacher-app-body .room-card,
+      .teacher-app-body .life-card,
+      .teacher-app-body .life-detail-card,
+      .teacher-app-body .life-side-panel,
+      .teacher-app-body .profile-preview-card,
+      .teacher-app-body .teacher-student-summary > div,
+      .teacher-app-body .teacher-student-table,
+      .teacher-app-body .table-responsive,
+      .teacher-app-body .chat-workspace,
+      .teacher-app-body .chat-sidebar-panel,
+      .teacher-app-body .chat-sidebar-header,
+      .teacher-app-body .chat-thread-panel,
+      .teacher-app-body .chat-thread-list,
+      .teacher-app-body .chat-thread,
+      .teacher-app-body .chat-thread-title,
+      .teacher-app-body .chat-history,
+      .teacher-app-body .chat-composer,
+      .teacher-app-body .realtime-chat,
+      .teacher-app-body .realtime-chat-header,
+      .teacher-app-body .realtime-chat-body,
+      .teacher-app-body .realtime-composer,
+      .teacher-app-body .bg-white,
+      .teacher-app-body .bg-light,
+      .teacher-app-body .border.rounded,
+      .admin-app-body .card,
+      .admin-app-body .feature-card,
+      .admin-app-body .stat-card,
+      .admin-app-body .admin-chart-card,
+      .admin-app-body .admin-chart-row,
+      .admin-app-body .chat-workspace,
+      .admin-app-body .chat-sidebar-panel,
+      .admin-app-body .chat-sidebar-header,
+      .admin-app-body .chat-thread-panel,
+      .admin-app-body .chat-thread-list,
+      .admin-app-body .chat-thread,
+      .admin-app-body .chat-thread-title,
+      .admin-app-body .chat-history,
+      .admin-app-body .chat-composer,
+      .admin-app-body .bg-white,
+      .admin-app-body .bg-light,
+      .admin-app-body .border.rounded {
+        border-color: rgba(255, 255, 255, 0.18) !important;
+        background:
+          radial-gradient(circle at 10% 0%, rgba(236, 72, 153, 0.14), transparent 22rem),
+          linear-gradient(135deg, #32216A 0%, #211843 100%) !important;
+        color: #F8FAFC !important;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+      }
+
+      .teacher-app-body .feature-card:hover,
+      .teacher-app-body .room-card:hover,
+      .teacher-app-body .life-card:hover,
+      .admin-app-body .feature-card:hover,
+      .admin-app-body .card:hover {
+        border-color: rgba(236, 72, 153, 0.48) !important;
+        transform: translateY(-4px);
+        box-shadow: 0 28px 72px rgba(219, 39, 119, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+      }
+
+      .teacher-app-body .life-card:nth-child(3n + 1),
+      .teacher-app-body .row > div:nth-child(3n + 1) > .life-card,
+      .teacher-app-body .row > div:nth-child(3n + 1) > .feature-card {
+        background: linear-gradient(135deg, #2563EB 0%, #312E81 62%, #111827 100%) !important;
+      }
+
+      .teacher-app-body .life-card:nth-child(3n + 2),
+      .teacher-app-body .row > div:nth-child(3n + 2) > .life-card,
+      .teacher-app-body .row > div:nth-child(3n + 2) > .feature-card {
+        background: linear-gradient(135deg, #DB2777 0%, #7C3AED 58%, #251443 100%) !important;
+      }
+
+      .teacher-app-body .life-card:nth-child(3n + 3),
+      .teacher-app-body .row > div:nth-child(3n + 3) > .life-card,
+      .teacher-app-body .row > div:nth-child(3n + 3) > .feature-card {
+        background: linear-gradient(135deg, #F59E0B 0%, #EA580C 48%, #451A03 100%) !important;
+      }
+
+      .teacher-app-body .life-card *,
+      .teacher-app-body .feature-card *,
+      .teacher-app-body .room-card *,
+      .teacher-app-body .profile-preview-card *,
+      .teacher-app-body .teacher-student-summary *,
+      .teacher-app-body .chat-workspace *,
+      .teacher-app-body .realtime-chat *,
+      .admin-app-body .card *,
+      .admin-app-body .feature-card *,
+      .admin-app-body .stat-card *,
+      .admin-app-body .admin-chart-card *,
+      .admin-app-body .chat-workspace * {
+        color: #F8FAFC !important;
+      }
+
+      .teacher-app-body .form-control,
+      .teacher-app-body .form-select,
+      .teacher-app-body textarea,
+      .teacher-app-body input:not([type="checkbox"]):not([type="radio"]),
+      .teacher-app-body select,
+      .admin-app-body .form-control,
+      .admin-app-body .form-select,
+      .admin-app-body textarea,
+      .admin-app-body input:not([type="checkbox"]):not([type="radio"]),
+      .admin-app-body select {
+        border: 1px solid rgba(196, 181, 253, 0.36) !important;
+        background: #10112F !important;
+        color: #F8FAFC !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 28px rgba(0, 0, 0, 0.22) !important;
+      }
+
+      .teacher-app-body .form-control::placeholder,
+      .teacher-app-body textarea::placeholder,
+      .teacher-app-body input::placeholder,
+      .admin-app-body .form-control::placeholder,
+      .admin-app-body textarea::placeholder,
+      .admin-app-body input::placeholder {
+        color: rgba(248, 250, 252, 0.58) !important;
+      }
+
+      .teacher-app-body .table,
+      .teacher-app-body table,
+      .admin-app-body .table,
+      .admin-app-body table {
+        --bs-table-bg: transparent;
+        --bs-table-color: #F8FAFC;
+        --bs-table-hover-bg: rgba(236, 72, 153, 0.14);
+        --bs-table-border-color: rgba(255, 255, 255, 0.16);
+        color: #F8FAFC !important;
+        background: transparent !important;
+      }
+
+      .teacher-app-body thead,
+      .teacher-app-body .table-light,
+      .teacher-app-body tr,
+      .teacher-app-body th,
+      .teacher-app-body td,
+      .admin-app-body thead,
+      .admin-app-body .table-light,
+      .admin-app-body tr,
+      .admin-app-body th,
+      .admin-app-body td {
+        border-color: rgba(255, 255, 255, 0.16) !important;
+        background: transparent !important;
+        color: #F8FAFC !important;
+      }
+
+      .teacher-app-body .badge,
+      .teacher-app-body .life-pill,
+      .teacher-app-body .psych-status,
+      .admin-app-body .badge {
+        border: 1px solid rgba(255, 255, 255, 0.24) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 12px 28px rgba(245, 158, 11, 0.2);
+      }
+
+      .teacher-app-body .text-bg-success,
+      .admin-app-body .text-bg-success {
+        background: linear-gradient(135deg, #059669 0%, #0D9488 100%) !important;
+        color: #fff !important;
+      }
+
+      .teacher-app-body .btn-primary,
+      .admin-app-body .btn-primary {
+        border: 0 !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+        color: #fff !important;
+        font-weight: 800 !important;
+        box-shadow: 0 16px 36px rgba(236, 72, 153, 0.28) !important;
+      }
+
+      .teacher-app-body .btn-outline-primary,
+      .teacher-app-body .btn-outline-secondary,
+      .admin-app-body .btn-outline-primary,
+      .admin-app-body .btn-outline-secondary {
+        border-color: rgba(255, 255, 255, 0.38) !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #FFFFFF !important;
+        font-weight: 750 !important;
+      }
+
+      .teacher-app-body .btn-outline-primary:hover,
+      .teacher-app-body .btn-outline-secondary:hover,
+      .admin-app-body .btn-outline-primary:hover,
+      .admin-app-body .btn-outline-secondary:hover {
+        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%) !important;
+        color: #fff !important;
+      }
+
+      .teacher-app-body .life-thumb {
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        background: rgba(9, 10, 31, 0.48) !important;
+      }
+
+      .teacher-app-body .life-thumb img {
+        opacity: 0.96;
+      }
+
+      .teacher-app-body .sidebar,
+      .admin-app-body .sidebar {
+        background: rgba(8, 13, 30, 0.94) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .teacher-app-body .sidebar-link,
+      .admin-app-body .sidebar-link {
+        color: rgba(248, 250, 252, 0.88) !important;
+      }
+
+      .teacher-app-body .sidebar-link.active,
+      .teacher-app-body .sidebar-link:hover,
+      .admin-app-body .sidebar-link.active,
+      .admin-app-body .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.14) !important;
+        color: #fff !important;
+      }
+
+      .teacher-app-body .bg-white.text-dark,
+      .teacher-app-body .bg-light.text-dark,
+      .admin-app-body .bg-white.text-dark,
+      .admin-app-body .bg-light.text-dark {
+        background: #FFFFFF !important;
+        color: #111827 !important;
+      }
+
+      .teacher-app-body .bg-white.text-dark *,
+      .teacher-app-body .bg-light.text-dark *,
+      .admin-app-body .bg-white.text-dark *,
+      .admin-app-body .bg-light.text-dark * {
+        color: #111827 !important;
+      }
+
     </style>
 
   </head>
 
-  <body class="{% if current_user.is_authenticated and current_user.role == 'student' %}student-app-body endpoint-{{ request.endpoint }}{% elif current_user.is_authenticated and current_user.role == 'parent' %}parent-app-body endpoint-{{ request.endpoint }}{% endif %}">
+  <body class="{% if current_user.is_authenticated %}role-{{ current_user.role }} endpoint-{{ request.endpoint }}{% endif %}{% if current_user.is_authenticated and current_user.role == 'student' %} student-app-body{% elif current_user.is_authenticated and current_user.role == 'parent' %} parent-app-body{% elif current_user.is_authenticated and current_user.role == 'teacher' %} teacher-app-body{% elif current_user.is_authenticated and current_user.role == 'admin' %} admin-app-body{% endif %}">
     <nav class="navbar navbar-expand-lg topbar">
 
       <div class="container-fluid px-3 px-lg-4">
