@@ -4788,6 +4788,111 @@
         background: rgba(255, 255, 255, 0.18) !important;
       }
 
+      /* Realtime chat dark lock: Kbot, teacher chat and shared chat rooms. */
+      body:has(.realtime-chat) .content-body > .d-flex:first-child {
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        background: var(--gradient-primary, linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)) !important;
+        color: #fff !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.22) !important;
+      }
+
+      body:has(.realtime-chat) .content-body > .d-flex:first-child * {
+        color: #fff !important;
+      }
+
+      body:has(.realtime-chat) .realtime-chat {
+        overflow: hidden;
+        min-height: 660px;
+        border: 1px solid rgba(236, 72, 153, 0.34) !important;
+        border-radius: 24px !important;
+        background:
+          radial-gradient(circle at 10% 0%, rgba(236, 72, 153, 0.18), transparent 26rem),
+          linear-gradient(135deg, rgba(31, 24, 76, 0.98) 0%, rgba(17, 13, 46, 0.98) 100%) !important;
+        box-shadow: 0 28px 76px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-chat-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+        background:
+          radial-gradient(circle at 95% 0%, rgba(236, 72, 153, 0.18), transparent 20rem),
+          linear-gradient(135deg, #2E1A5F 0%, #251443 100%) !important;
+        color: #fff !important;
+      }
+
+      body:has(.realtime-chat) .realtime-chat-header * {
+        color: #fff !important;
+      }
+
+      body:has(.realtime-chat) .realtime-chat-body {
+        padding: 28px 22px !important;
+        background:
+          radial-gradient(circle at 18% 18%, rgba(37, 99, 235, 0.2), transparent 24rem),
+          radial-gradient(circle at 88% 12%, rgba(219, 39, 119, 0.16), transparent 26rem),
+          linear-gradient(135deg, #090A1F 0%, #151038 52%, #220A2E 100%) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-message {
+        margin-bottom: 18px !important;
+      }
+
+      body:has(.realtime-chat) .realtime-bubble {
+        max-width: min(72%, 760px) !important;
+        padding: 16px 18px !important;
+        border: 1px solid rgba(196, 181, 253, 0.24) !important;
+        border-radius: 18px !important;
+        background:
+          radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.18), transparent 18rem),
+          linear-gradient(135deg, #312E81 0%, #1F1A4C 100%) !important;
+        color: #F8FAFC !important;
+        box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-message.mine .realtime-bubble {
+        border-color: rgba(251, 113, 133, 0.46) !important;
+        background: linear-gradient(135deg, #2563EB 0%, #7C3AED 48%, #DB2777 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 20px 52px rgba(219, 39, 119, 0.28) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-bubble *,
+      body:has(.realtime-chat) .realtime-message.mine .realtime-bubble * {
+        color: #F8FAFC !important;
+      }
+
+      body:has(.realtime-chat) .realtime-meta,
+      body:has(.realtime-chat) .realtime-message.mine .realtime-meta {
+        color: rgba(248, 250, 252, 0.68) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-composer {
+        border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
+        background:
+          radial-gradient(circle at 0% 100%, rgba(236, 72, 153, 0.14), transparent 20rem),
+          linear-gradient(135deg, #17123B 0%, #251443 100%) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-composer .form-control,
+      body:has(.realtime-chat) .realtime-composer input {
+        min-height: 52px;
+        border: 1px solid rgba(196, 181, 253, 0.34) !important;
+        border-radius: 999px 0 0 999px !important;
+        background: #10112F !important;
+        color: #F8FAFC !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-composer .form-control::placeholder,
+      body:has(.realtime-chat) .realtime-composer input::placeholder {
+        color: rgba(248, 250, 252, 0.58) !important;
+      }
+
+      body:has(.realtime-chat) .realtime-composer .btn-primary {
+        min-height: 52px;
+        border-radius: 0 999px 999px 0 !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+        box-shadow: 0 14px 34px rgba(236, 72, 153, 0.24) !important;
+      }
+
     </style>
 
   </head>
