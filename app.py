@@ -79,23 +79,32 @@ def load_user(user_id):
         return user
     return None
 
+
+def strip_input(value):
+    return value.strip() if isinstance(value, str) else value
+
+
+def normalize_email_input(value):
+    return value.strip().lower() if isinstance(value, str) else value
+
+
 class RegisterForm(FlaskForm):
-    username = StringField('Tên đăng nhập', validators=[DataRequired(), Length(3,80)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Tên đăng nhập', filters=[strip_input], validators=[DataRequired(), Length(3,80)])
+    email = StringField('Email', filters=[normalize_email_input], validators=[DataRequired(), Email()])
     password = PasswordField('Mật khẩu', validators=[DataRequired(), Length(6,128)])
     password2 = PasswordField('Xác nhận mật khẩu', validators=[DataRequired(), EqualTo('password')])
     role = SelectField('Vai trò', choices=[('student','Học sinh'),('parent','Phụ huynh')], validators=[DataRequired()])
     submit = SubmitField('Đăng ký')
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', filters=[normalize_email_input], validators=[DataRequired(), Email()])
     password = PasswordField('Mật khẩu', validators=[DataRequired()])
     role = HiddenField('role')
     submit = SubmitField('Đăng nhập')
 
 class CreateTeacherForm(FlaskForm):
-    username = StringField('Tên đăng nhập', validators=[DataRequired(), Length(3,80)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Tên đăng nhập', filters=[strip_input], validators=[DataRequired(), Length(3,80)])
+    email = StringField('Email', filters=[normalize_email_input], validators=[DataRequired(), Email()])
     password = PasswordField('Mật khẩu', validators=[DataRequired(), Length(6,128)])
     password2 = PasswordField('Xác nhận mật khẩu', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Tạo tài khoản giáo viên')
@@ -1194,29 +1203,36 @@ def index():
 
 @app.route('/register', methods=['GET','POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     form = RegisterForm()
     if form.validate_on_submit():
-        if User.query.filter((User.username==form.username.data)|(User.email==form.email.data)).first():
+        username = form.username.data.strip()
+        email = form.email.data.strip().lower()
+        role = form.role.data.strip()
+        if User.query.filter((User.username==username)|(User.email==email)).first():
             flash('Tên đăng nhập hoặc email đã tồn tại', 'danger')
             return render_template('register.html', form=form)
-        u = User(username=form.username.data, email=form.email.data, role=form.role.data)
+        u = User(username=username, email=email, role=role, is_active=True)
         u.account_id = User.next_account_id()
         u.set_password(form.password.data)
         db.session.add(u)
         db.session.commit()
         flash('Đăng ký thành công. Vui lòng đăng nhập.', 'success')
-        return redirect(url_for('login'))
+        login_user(u)
+        return redirect(url_for('dashboard'))
     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        selected_role = form.role.data or request.form.get('role')
+        selected_role = (form.role.data or request.form.get('role') or '').strip()
         if not selected_role:
             flash('Vui lòng chọn loại tài khoản trước khi đăng nhập', 'warning')
             return render_template('login.html', form=form)
-        user = User.query.filter_by(email=form.email.data).first()
+        email = form.email.data.strip().lower()
+        user = User.query.filter_by(email=email).first()
         if not user:
             flash('Tài khoản hoặc mật khẩu không đúng', 'danger')
             return render_template('login.html', form=form)
@@ -1453,10 +1469,12 @@ def create_teacher():
         return redirect(url_for('dashboard'))
     form = CreateTeacherForm()
     if form.validate_on_submit():
-        if User.query.filter((User.username==form.username.data)|(User.email==form.email.data)).first():
+        username = form.username.data.strip()
+        email = form.email.data.strip().lower()
+        if User.query.filter((User.username==username)|(User.email==email)).first():
             flash('Tên đăng nhập hoặc email đã tồn tại', 'danger')
             return render_template('admin_create_teacher.html', form=form)
-        u = User(username=form.username.data, email=form.email.data, role='teacher')
+        u = User(username=username, email=email, role='teacher', is_active=True)
         u.account_id = User.next_account_id()
         u.set_password(form.password.data)
         db.session.add(u)
