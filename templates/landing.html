@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Trường THCS Ngô Quyền</title>
+    <title>Hỗ trợ học sinh</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -22,17 +22,356 @@
       };
     </script>
     <style>
+      :root {
+        --gradient-primary: linear-gradient(135deg, #7C3AED 0%, #DB2777 58%, #EA580C 100%);
+        --gradient-header: linear-gradient(135deg, #2B174D 0%, #2D2168 100%);
+        --card-shadow-purple: 0 22px 58px rgba(124, 58, 237, 0.26);
+      }
+
       body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 8% 10%, rgba(219, 39, 119, 0.42), transparent 28rem),
+          radial-gradient(circle at 82% 12%, rgba(124, 58, 237, 0.36), transparent 30rem),
+          linear-gradient(135deg, #5B21B6 0%, #A21CAF 42%, #E11D48 100%) !important;
         font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      header.sticky {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+        background: var(--gradient-header) !important;
+        box-shadow: 0 18px 48px rgba(30, 27, 75, 0.28);
+      }
+
+      header nav {
+        max-width: 1500px !important;
+        min-height: 88px;
+      }
+
+      header a,
+      header .text-primary,
+      header .text-slate-700 {
+        color: rgba(255, 255, 255, 0.78) !important;
+      }
+
+      header a:first-child span {
+        color: #fff !important;
+        font-size: 28px;
+        font-weight: 900;
+      }
+
+      header nav > a:last-child {
+        border-color: rgba(255, 255, 255, 0.42) !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #fff !important;
+        font-size: 16px;
+        font-weight: 900;
+        box-shadow: 0 14px 34px rgba(17, 24, 39, 0.16);
+        backdrop-filter: blur(14px);
+      }
+
+      main > section:first-child {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        background: var(--gradient-primary) !important;
+        color: #fff !important;
+      }
+
+      main > section:first-child::before,
+      main > section:first-child::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        width: 560px;
+        height: 560px;
+        border-radius: 999px;
+        filter: blur(96px);
+        opacity: 0.52;
+        pointer-events: none;
+      }
+
+      main > section:first-child::before {
+        left: -180px;
+        top: -160px;
+        background: #EC4899;
+      }
+
+      main > section:first-child::after {
+        right: -150px;
+        bottom: -190px;
+        background: #111827;
+      }
+
+      main > section:first-child > div {
+        max-width: 1500px !important;
+        min-height: calc(100vh - 88px);
+      }
+
+      main > section:first-child h1 {
+        color: #fff !important;
+        font-size: clamp(54px, 6vw, 86px) !important;
+        line-height: 0.98 !important;
+        letter-spacing: 0 !important;
+      }
+
+      main > section:first-child p {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 22px !important;
+        font-weight: 700;
+      }
+
+      main > section:first-child .mb-5 {
+        border: 1px solid rgba(255, 255, 255, 0.38) !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: #FEF08A !important;
+        box-shadow: 0 18px 42px rgba(17, 24, 39, 0.14);
+        backdrop-filter: blur(14px);
+      }
+
+      main > section:first-child .mt-8 a {
+        min-height: 58px;
+        border-radius: 999px !important;
+        padding: 14px 28px !important;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      main > section:first-child .mt-8 a:first-child {
+        background: linear-gradient(135deg, #7C3AED, #DB2777, #EA580C) !important;
+        color: #fff !important;
+        box-shadow: 0 18px 42px rgba(219, 39, 119, 0.36) !important;
+      }
+
+      main > section:first-child .mt-8 a:last-child {
+        border: 1px solid rgba(255, 255, 255, 0.42) !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #fff !important;
+        box-shadow: 0 18px 42px rgba(17, 24, 39, 0.12) !important;
+        backdrop-filter: blur(14px);
+      }
+
+      main > section:first-child .relative.overflow-hidden {
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        background: rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 34px 84px rgba(17, 24, 39, 0.36) !important;
+        backdrop-filter: blur(18px);
+      }
+
+      .landing-photo-frame {
+        min-height: clamp(320px, 34vw, 500px);
+      }
+
+      .landing-hero-photo {
+        min-height: clamp(292px, 31vw, 468px);
+        box-shadow: 0 22px 52px rgba(17, 24, 39, 0.32);
+      }
+
+      main > section:nth-child(2),
+      main > section:nth-child(4) {
+        background:
+          radial-gradient(circle at 12% 12%, rgba(236, 72, 153, 0.14), transparent 26rem),
+          radial-gradient(circle at 86% 10%, rgba(6, 182, 212, 0.14), transparent 28rem),
+          #FAFAFA !important;
+      }
+
+      main > section:nth-child(2) article,
+      main > section:nth-child(3) article,
+      main > section:nth-child(4) article {
+        border-radius: 28px !important;
+        box-shadow: var(--card-shadow-purple) !important;
+      }
+
+      main > section:nth-child(2) article {
+        background: var(--gradient-primary) !important;
+      }
+
+      main > section:nth-child(2) article:nth-child(2) {
+        background: linear-gradient(135deg, #DB2777 0%, #C026D3 100%) !important;
+      }
+
+      main > section:nth-child(2) article:nth-child(3) {
+        background: linear-gradient(135deg, #0D9488 0%, #06B6D4 48%, #4F46E5 100%) !important;
+      }
+
+      main > section:nth-child(2) article:nth-child(4) {
+        background: linear-gradient(135deg, #059669 0%, #0D9488 52%, #F59E0B 100%) !important;
+      }
+
+      #features {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #6D28D9 0%, #7C3AED 55%, #4F46E5 100%) !important;
+        color: #fff !important;
+      }
+
+      #features h2,
+      #features h3,
+      #features p {
+        color: #fff !important;
+      }
+
+      #features article {
+        border: 1px solid rgba(255, 255, 255, 0.24) !important;
+        background: rgba(255, 255, 255, 0.13) !important;
+        color: #fff !important;
+        backdrop-filter: blur(16px);
+      }
+
+      #features article div:first-child {
+        background: var(--gradient-primary) !important;
+        color: #fff !important;
+      }
+
+      #features a {
+        color: #FEF08A !important;
+      }
+
+      main > section:nth-child(5) {
+        background: linear-gradient(135deg, #111827 0%, #312E81 48%, #581C87 100%) !important;
+      }
+
+      footer {
+        background: linear-gradient(135deg, #111827 0%, #312E81 48%, #581C87 100%) !important;
+      }
+
+      @media (max-width: 768px) {
+        main > section:first-child h1 {
+          font-size: clamp(42px, 14vw, 62px) !important;
+        }
+
+        main > section:first-child p {
+          font-size: 17px !important;
+        }
+      }
+
+      /* Final landing dark lock: no large white/pastel bands. */
+      body {
+        background:
+          radial-gradient(circle at 8% 8%, rgba(219, 39, 119, 0.3), transparent 28rem),
+          radial-gradient(circle at 88% 14%, rgba(124, 58, 237, 0.26), transparent 30rem),
+          linear-gradient(135deg, #090A1F 0%, #151038 48%, #250B33 100%) !important;
+        color: #F8FAFC !important;
+      }
+
+      main,
+      main > section,
+      main > section:nth-child(2),
+      main > section:nth-child(3),
+      main > section:nth-child(4),
+      main > section:nth-child(5) {
+        background:
+          radial-gradient(circle at 12% 10%, rgba(219, 39, 119, 0.13), transparent 24rem),
+          radial-gradient(circle at 84% 24%, rgba(6, 182, 212, 0.1), transparent 26rem),
+          linear-gradient(135deg, #090A1F 0%, #151038 52%, #250B33 100%) !important;
+        color: #F8FAFC !important;
+      }
+
+      main > section:first-child {
+        background: var(--gradient-primary) !important;
+      }
+
+      main h1,
+      main h2,
+      main h3,
+      main .text-ink,
+      main .font-black,
+      main .font-extrabold {
+        color: #F8FAFC !important;
+      }
+
+      main p,
+      main .text-slate-600,
+      main .text-slate-700,
+      main .text-slate-500,
+      main .text-sm {
+        color: rgba(248, 250, 252, 0.72) !important;
+      }
+
+      main > section:first-child p,
+      main > section:first-child .text-slate-600 {
+        color: rgba(255, 255, 255, 0.9) !important;
+      }
+
+      main article,
+      main .bg-white,
+      main .bg-white\/80,
+      main .bg-white\/70,
+      main .bg-violet-50\/70,
+      main .rounded-2xl,
+      main .rounded-\[2rem\] {
+        border-color: rgba(255, 255, 255, 0.14) !important;
+        background: linear-gradient(135deg, rgba(30, 27, 58, 0.96), rgba(37, 24, 75, 0.9)) !important;
+        color: #F8FAFC !important;
+        box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(124, 58, 237, 0.08) !important;
+      }
+
+      main > section:nth-child(2) article,
+      main > section:nth-child(2) article:nth-child(2),
+      main > section:nth-child(2) article:nth-child(3),
+      main > section:nth-child(2) article:nth-child(4) {
+        background: var(--gradient-primary) !important;
+      }
+
+      #features {
+        background: linear-gradient(135deg, #111827 0%, #312E81 48%, #581C87 100%) !important;
+      }
+
+      #features article {
+        background: linear-gradient(135deg, rgba(30, 27, 58, 0.82), rgba(88, 28, 135, 0.58)) !important;
+      }
+
+      #features article:nth-child(1) {
+        background: linear-gradient(135deg, #7C3AED 0%, #4C1D95 100%) !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.28) !important;
+      }
+
+      #features article:nth-child(2) {
+        background: linear-gradient(135deg, #DB2777 0%, #831843 100%) !important;
+        box-shadow: 0 22px 58px rgba(219, 39, 119, 0.28) !important;
+      }
+
+      #features article:nth-child(3) {
+        background: linear-gradient(135deg, #0D9488 0%, #164E63 100%) !important;
+        box-shadow: 0 22px 58px rgba(13, 148, 136, 0.28) !important;
+      }
+
+      #features article:nth-child(4) {
+        background: linear-gradient(135deg, #059669 0%, #064E3B 100%) !important;
+        box-shadow: 0 22px 58px rgba(5, 150, 105, 0.28) !important;
+      }
+
+      #features article:nth-child(5) {
+        background: linear-gradient(135deg, #F59E0B 0%, #9A3412 100%) !important;
+        box-shadow: 0 22px 58px rgba(245, 158, 11, 0.26) !important;
+      }
+
+      #features article:nth-child(6) {
+        background: linear-gradient(135deg, #4F46E5 0%, #312E81 100%) !important;
+        box-shadow: 0 22px 58px rgba(79, 70, 229, 0.28) !important;
+      }
+
+      main a:not(header a) {
+        color: #FEF08A !important;
+      }
+
+      main > section:first-child .mt-8 a:first-child,
+      main > section:nth-child(5) a:first-child {
+        background: var(--gradient-primary) !important;
+        color: #fff !important;
+      }
+
+      footer {
+        background: linear-gradient(135deg, #060716 0%, #171133 52%, #2B0B3A 100%) !important;
       }
     </style>
   </head>
-  <body class="bg-white text-ink antialiased">
-    <header class="sticky top-0 z-50 border-b border-violet-100 bg-white/90 backdrop-blur-xl">
+  <body class="text-ink antialiased">
+    <header class="sticky top-0 z-50 backdrop-blur-xl">
       <nav class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
         <a href="{{ url_for('index') }}" class="flex items-center gap-3 text-xl font-extrabold text-primary">
-          <img class="h-11 w-11 rounded-2xl object-cover shadow-sm ring-1 ring-violet-100" src="{{ url_for('static', filename='images/anhnen.jpg') }}" alt="Logo Trường THCS Ngô Quyền">
-          <span>Trường THCS Ngô Quyền</span>
+          <span>Hỗ trợ học sinh</span>
         </a>
 
         <div class="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
@@ -49,7 +388,7 @@
     </header>
 
     <main>
-      <section class="overflow-hidden bg-[#F5F3FF]">
+      <section class="overflow-hidden">
         <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
           <div>
             <div class="mb-5 inline-flex items-center rounded-full border border-violet-200 bg-white/70 px-4 py-2 text-sm font-bold text-primary shadow-sm">
@@ -73,83 +412,15 @@
           </div>
 
           <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
-            <div class="absolute left-4 top-8 z-20 rounded-2xl bg-white px-4 py-2 text-sm font-extrabold text-primary shadow-xl shadow-violet-200">
+            <div class="hidden absolute left-4 top-8 z-20 rounded-2xl bg-white px-4 py-2 text-sm font-extrabold text-primary shadow-xl shadow-violet-200">
               Tâm lý
             </div>
-            <div class="absolute right-4 top-20 z-20 rounded-2xl bg-white px-4 py-2 text-sm font-extrabold text-emerald-600 shadow-xl shadow-emerald-100">
+            <div class="hidden absolute right-4 top-20 z-20 rounded-2xl bg-white px-4 py-2 text-sm font-extrabold text-emerald-600 shadow-xl shadow-emerald-100">
               Nghề
             </div>
 
-            <div class="relative overflow-hidden rounded-[2rem] border border-violet-100 bg-white/80 p-8 shadow-2xl shadow-violet-200/60">
-              <div class="absolute left-8 top-10 h-28 w-28 rounded-full bg-violet-200/40 blur-2xl"></div>
-              <div class="absolute bottom-12 right-8 h-32 w-32 rounded-full bg-pink-200/40 blur-2xl"></div>
-              <svg viewBox="0 0 420 360" class="relative mx-auto h-auto w-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Friendly owl counselor mascot">
-                <defs>
-                  <linearGradient id="owlBody" x1="142" y1="82" x2="282" y2="298" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#A78BFA"/>
-                    <stop offset="0.48" stop-color="#7C3AED"/>
-                    <stop offset="1" stop-color="#6D28D9"/>
-                  </linearGradient>
-                  <linearGradient id="owlWing" x1="98" y1="156" x2="324" y2="260" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#C4B5FD"/>
-                    <stop offset="1" stop-color="#8B5CF6"/>
-                  </linearGradient>
-                  <filter id="owlShadow" x="56" y="42" width="314" height="290" filterUnits="userSpaceOnUse">
-                    <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#6D28D9" flood-opacity="0.18"/>
-                  </filter>
-                </defs>
-
-                <ellipse cx="210" cy="314" rx="132" ry="22" fill="#DDD6FE"/>
-
-                <g filter="url(#owlShadow)">
-                  <path d="M126 206C102 204 84 185 84 162C84 137 104 118 129 118C156 118 176 139 176 166V207H126Z" fill="url(#owlWing)"/>
-                  <path d="M294 206C318 204 336 185 336 162C336 137 316 118 291 118C264 118 244 139 244 166V207H294Z" fill="url(#owlWing)"/>
-
-                  <path d="M132 148C132 92 166 62 210 62C254 62 288 92 288 148V216C288 270 255 302 210 302C165 302 132 270 132 216V148Z" fill="url(#owlBody)"/>
-                  <path d="M151 101C168 70 191 54 210 54C229 54 252 70 269 101C247 92 228 91 210 102C192 91 173 92 151 101Z" fill="#312E81"/>
-                  <path d="M132 150C148 116 176 94 210 94C244 94 272 116 288 150C264 134 236 126 210 126C184 126 156 134 132 150Z" fill="#8B5CF6"/>
-
-                  <rect x="141" y="124" width="138" height="108" rx="45" fill="#F8FAFC"/>
-                  <circle cx="180" cy="168" r="28" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="8"/>
-                  <circle cx="240" cy="168" r="28" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="8"/>
-                  <path d="M208 169H212" stroke="#DDD6FE" stroke-width="8" stroke-linecap="round"/>
-                  <circle cx="180" cy="168" r="10" fill="#7C3AED"/>
-                  <circle cx="240" cy="168" r="10" fill="#7C3AED"/>
-                  <path d="M188 203C199 216 221 216 232 203" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
-
-                  <path d="M198 184L210 194L222 184" fill="#F59E0B"/>
-                  <path d="M198 184L210 194L222 184" stroke="#F59E0B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-
-                  <path d="M150 238C170 255 250 255 270 238" stroke="#F5F3FF" stroke-width="12" stroke-linecap="round"/>
-                  <path d="M168 262C185 272 235 272 252 262" stroke="#C4B5FD" stroke-width="10" stroke-linecap="round"/>
-                </g>
-
-                <g>
-                  <rect x="55" y="126" width="104" height="66" rx="24" fill="#FFFFFF" stroke="#E9D5FF" stroke-width="2"/>
-                  <path d="M82 152H128M82 168H116" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
-                  <circle cx="64" cy="132" r="7" fill="#EC4899"/>
-                </g>
-
-                <g>
-                  <rect x="264" y="116" width="104" height="70" rx="24" fill="#ECFDF5" stroke="#BBF7D0" stroke-width="2"/>
-                  <circle cx="316" cy="151" r="22" fill="#D1FAE5"/>
-                  <path d="M316 134V151L330 158" stroke="#059669" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="316" cy="151" r="5" fill="#059669"/>
-                </g>
-
-                <g>
-                  <rect x="78" y="226" width="86" height="54" rx="20" fill="#FDF2F8" stroke="#FBCFE8" stroke-width="2"/>
-                  <path d="M103 250C110 241 124 241 131 250C124 260 110 260 103 250Z" fill="#EC4899"/>
-                  <path d="M117 244V256" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
-                  <path d="M111 250H123" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
-                </g>
-
-                <g>
-                  <rect x="256" y="232" width="90" height="54" rx="20" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="2"/>
-                  <path d="M301 246L311 260L294 268L301 246Z" fill="#7C3AED"/>
-                  <circle cx="301" cy="260" r="20" stroke="#8B5CF6" stroke-width="5"/>
-                </g>
-              </svg>
+            <div class="landing-photo-frame relative overflow-hidden rounded-[2rem] border border-violet-100 bg-white/80 p-4 shadow-2xl shadow-violet-200/60">
+              <img class="landing-hero-photo relative z-10 h-full w-full rounded-[1.5rem] object-cover" src="{{ url_for('static', filename='images/anh3.jpg') }}" alt="Ảnh minh họa hướng nghiệp">
             </div>
           </div>
         </div>
@@ -159,7 +430,7 @@
         <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <p class="text-sm font-black uppercase tracking-[0.18em] text-primary">TỔNG QUAN</p>
           <h2 class="mt-3 text-3xl font-black tracking-tight text-ink sm:text-4xl">Học sinh đã tin dùng</h2>
-          <p class="mt-3 text-lg text-slate-600">Các con số từ cộng đồng Trường THCS Ngô Quyền</p>
+          <p class="mt-3 text-lg text-slate-600">Các con số từ cộng đồng học sinh</p>
 
           <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <article class="rounded-2xl bg-[#7C3AED] p-7 text-left text-white shadow-xl shadow-violet-200 transition hover:-translate-y-1">
@@ -256,7 +527,7 @@
             </article>
             <article class="rounded-2xl border border-violet-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
               <div class="text-yellow-400">★★★★★</div>
-              <p class="mt-4 italic leading-7 text-slate-700">"Chat với chuyên gia tâm lý giúp mình vượt qua áp lực thi cử. Cảm ơn Trường THCS Ngô Quyền rất nhiều!"</p>
+              <p class="mt-4 italic leading-7 text-slate-700">"Chat với chuyên gia tâm lý giúp mình vượt qua áp lực thi cử. Cảm ơn nền tảng rất nhiều!"</p>
               <div class="mt-6 flex items-center gap-3">
                 <div class="grid h-12 w-12 place-items-center rounded-full bg-pink-500 font-black text-white">MH</div>
                 <div>
@@ -299,8 +570,7 @@
     <footer class="bg-[#1E1B4B] text-white">
       <div class="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
         <a href="{{ url_for('index') }}" class="flex items-center gap-3 text-lg font-black">
-          <img class="h-10 w-10 rounded-2xl object-cover ring-2 ring-white/15" src="{{ url_for('static', filename='images/anhnen.jpg') }}" alt="Logo Trường THCS Ngô Quyền">
-          <span>Trường THCS Ngô Quyền</span>
+          <span>Hỗ trợ học sinh</span>
         </a>
         <div class="flex flex-wrap items-center gap-6 text-sm font-semibold text-white/75">
           <a class="transition hover:text-white" href="#features">Giới thiệu</a>

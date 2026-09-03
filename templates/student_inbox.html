@@ -12,7 +12,7 @@
     {% for inquiry in inquiries %}
       {% set job = jobs_by_id.get(inquiry.job_id) %}
       {% set teacher = teachers_by_id.get(inquiry.teacher_id) %}
-      <article class="border rounded p-3">
+      <article class="career-inbox-card" data-field="{{ job.field if job else 'Khác' }}">
         <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mb-3">
           <div>
             <h5 class="fw-bold mb-1">{{ job.name if job else 'Nghề đã xóa' }}</h5>
@@ -27,12 +27,12 @@
         </div>
         <div class="mb-3">
           <div class="fw-semibold mb-1">Câu hỏi của bạn</div>
-          <div class="p-3 rounded bg-light">{{ inquiry.question }}</div>
+          <div class="career-inbox-message career-inbox-question">{{ inquiry.question }}</div>
         </div>
         <div>
           <div class="fw-semibold mb-1">Phản hồi giáo viên</div>
           {% if inquiry.reply %}
-            <div class="p-3 rounded border">{{ inquiry.reply }}</div>
+            <div class="career-inbox-message career-inbox-reply">{{ inquiry.reply }}</div>
           {% else %}
             <div class="text-muted">Giáo viên chưa phản hồi.</div>
           {% endif %}

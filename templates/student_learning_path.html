@@ -2,6 +2,18 @@
 {% block title %}Lộ trình học tập{% endblock %}
 {% block content %}
   <div class="learning-page">
+    {% set path_domains = {
+      'Lập trình viên': 'tech',
+      'Thiết kế UX/UI': 'design',
+      'Khoa học dữ liệu': 'data',
+      'Kinh doanh': 'business',
+      'Y tế': 'health',
+      'Giáo dục': 'education',
+      'Truyền thông': 'media',
+      'Tâm lý học': 'psychology',
+      'Kỹ thuật cơ khí': 'engineering',
+      'Du lịch khách sạn': 'travel'
+    } %}
     <div class="career-topbar">
       <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">← Trang chủ</a>
       <h2 class="section-title mb-0">Lộ trình học tập</h2>
@@ -16,8 +28,9 @@
 
       <div class="learning-career-grid">
         {% for path in paths %}
-          <button type="button" class="learning-career-card" data-path-url="{{ url_for('student_learning_path', path_id=path.id) }}">
-            <span class="learning-career-icon {{ path.color }}">{{ path.icon or '◇' }}</span>
+          {% set path_domain = path_domains.get(path.title, path.color) %}
+          <button type="button" class="learning-career-card" data-domain="{{ path_domain }}" data-path-url="{{ url_for('student_learning_path', path_id=path.id) }}">
+            <span class="learning-career-icon {{ path.color }}" data-domain="{{ path_domain }}">{{ path.icon or '◇' }}</span>
             <strong>{{ path.title }}</strong>
             <em>{{ path.summary }}</em>
           </button>
@@ -41,6 +54,7 @@
         });
       </script>
     {% else %}
+      {% set selected_domain = path_domains.get(selected_path.title, selected_path.color) %}
       <section class="learning-goal-card">
         <div>
           <div class="career-kicker">Đang hướng tới</div>
@@ -48,7 +62,7 @@
           <div class="learning-main-progress"><i style="width: {{ selected_path.completion_percent }}%"></i></div>
           <span>{{ selected_path.completion_percent }}% hoàn thành</span>
         </div>
-        <div class="learning-goal-icon {{ selected_path.color }}">{{ selected_path.icon or '◇' }}</div>
+        <div class="learning-goal-icon {{ selected_path.color }}" data-domain="{{ selected_domain }}">{{ selected_path.icon or '◇' }}</div>
       </section>
 
       <div class="career-stat-grid">

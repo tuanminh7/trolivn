@@ -22,7 +22,7 @@
     </div>
     <div class="career-featured-strip">
       {% for job in jobs if job.featured %}
-        <button type="button" class="career-job-card {{ job.color }}" data-job='{{ job|tojson|forceescape }}'>
+        <button type="button" class="career-job-card {{ job.color }}" data-field="{{ job.field }}" data-job='{{ job|tojson|forceescape }}'>
           <div class="career-job-icon">{{ job.icon }}</div>
           <strong>{{ job.name }}</strong>
           <span>{{ job.field }} · {{ job.demand }}</span>
@@ -44,7 +44,7 @@
     <div class="career-job-list">
       {% for job in jobs %}
         <button type="button" class="career-job-row" data-field="{{ job.field }}" data-keywords="{{ (job.name ~ ' ' ~ job.field ~ ' ' ~ job.summary ~ ' ' ~ job.skills|join(' '))|lower }}" data-job='{{ job|tojson|forceescape }}'>
-          <span class="career-row-icon {{ job.color }}">{{ job.icon }}</span>
+          <span class="career-row-icon {{ job.color }}" data-field="{{ job.field }}">{{ job.icon }}</span>
           <span class="career-row-body">
             <strong>{{ job.name }}</strong>
             <em>{{ job.summary }}</em>
@@ -54,7 +54,7 @@
               {% endfor %}
             </span>
           </span>
-          <span class="career-save">♡</span>
+          <span class="career-save" data-field="{{ job.field }}">♡</span>
         </button>
       {% else %}
         <div class="career-empty">Chưa có nghề nào trong thư viện. Giáo viên cần upload nghề trước.</div>
@@ -123,7 +123,12 @@
     searchInput.addEventListener('input', filterJobs);
 
     function openJob(job) {
-      document.getElementById('sheet-icon').textContent = job.icon;
+      const sheetIcon = document.getElementById('sheet-icon');
+      const sheetSkills = document.getElementById('sheet-skills');
+      sheetIcon.textContent = job.icon;
+      sheetIcon.className = 'career-row-icon';
+      sheetIcon.dataset.field = job.field;
+      sheetSkills.dataset.field = job.field;
       document.getElementById('sheet-name').textContent = job.name;
       document.getElementById('sheet-field').textContent = job.field;
       document.getElementById('sheet-work').textContent = job.work;
@@ -131,7 +136,7 @@
       document.getElementById('sheet-study').textContent = job.study;
       document.getElementById('sheet-demand').textContent = job.demand;
       document.getElementById('sheet-personality').textContent = job.personality;
-      document.getElementById('sheet-skills').innerHTML = job.skills.map((skill) => `<small>${skill}</small>`).join('');
+      sheetSkills.innerHTML = job.skills.map((skill) => `<small>${skill}</small>`).join('');
       document.getElementById('ask-job-id').value = job.id;
       askForm.classList.remove('show');
       sheet.classList.add('show');

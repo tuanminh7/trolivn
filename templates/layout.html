@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}Trường THCS Ngô Quyền{% endblock %}</title>
+    <title>{% block title %}Hỗ trợ học sinh{% endblock %}</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -69,6 +69,9 @@
         --color-border-focus: #7C3AED;
         --color-footer-bg: #1E1B4B;
         --color-footer-text: #C4B5FD;
+        --gradient-primary: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%);
+        --gradient-header: linear-gradient(135deg, #2B174D 0%, #2D2168 100%);
+        --gradient-dashboard: linear-gradient(135deg, #7C3AED 0%, #DB2777 56%, #EA580C 100%);
       }
 
 
@@ -3215,6 +3218,95 @@
         padding: 0;
       }
 
+      .student-app-body {
+        background:
+          radial-gradient(circle at 10% 8%, rgba(219, 39, 119, 0.42), transparent 28rem),
+          radial-gradient(circle at 78% 22%, rgba(124, 58, 237, 0.36), transparent 30rem),
+          linear-gradient(135deg, #5B21B6 0%, #A21CAF 42%, #E11D48 100%) !important;
+      }
+
+      .student-app-body .topbar {
+        min-height: 88px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+        background: var(--gradient-header) !important;
+        box-shadow: 0 18px 48px rgba(30, 27, 75, 0.28);
+      }
+
+      .student-app-body .brand-title .fw-bold {
+        color: #fff !important;
+        font-size: 26px;
+        font-weight: 900 !important;
+        letter-spacing: 0;
+      }
+
+      .student-app-body .navbar-nav {
+        gap: 14px !important;
+      }
+
+      .student-app-body .student-nav-link,
+      .student-app-body .nav-link {
+        color: rgba(255, 255, 255, 0.74) !important;
+        font-size: 17px;
+        font-weight: 850;
+      }
+
+      .student-app-body .student-nav-link:hover,
+      .student-app-body .student-nav-link.active {
+        color: #fff !important;
+      }
+
+      .student-app-body .student-avatar-nav {
+        width: 50px;
+        height: 50px;
+        border: 2px solid rgba(255, 255, 255, 0.62);
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 14px 34px rgba(17, 24, 39, 0.24);
+      }
+
+      .student-app-body .btn-primary,
+      .student-app-body .btn-outline-primary,
+      .student-app-body .btn-outline-secondary {
+        min-height: 44px;
+        border-radius: 999px !important;
+        font-weight: 900 !important;
+      }
+
+      .student-app-body .btn-primary {
+        border: 0 !important;
+        background: linear-gradient(135deg, #7C3AED, #DB2777, #EA580C) !important;
+        color: #fff !important;
+        box-shadow: 0 18px 40px rgba(219, 39, 119, 0.34);
+      }
+
+      .student-app-body .btn-outline-primary,
+      .student-app-body .btn-outline-secondary {
+        border: 1px solid rgba(255, 255, 255, 0.42) !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #fff !important;
+        backdrop-filter: blur(14px);
+      }
+
+      .student-app-body .main-area {
+        padding: 52px 16px 0 !important;
+      }
+
+      .student-app-body .page-frame {
+        max-width: 1500px !important;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body {
+        overflow: hidden;
+        padding: 0 0 46px !important;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        border-radius: 34px;
+        background:
+          radial-gradient(circle at 12% 28%, rgba(124, 58, 237, 0.14), transparent 28rem),
+          radial-gradient(circle at 54% 86%, rgba(6, 182, 212, 0.18), transparent 26rem),
+          rgba(255, 255, 255, 0.78);
+        box-shadow: 0 34px 100px rgba(49, 46, 129, 0.25);
+        backdrop-filter: blur(20px);
+      }
+
       .parent-app-body .app-footer {
         margin-top: 14vh;
       }
@@ -3371,6 +3463,1331 @@
 
       }
 
+      /* Final dark theme lock: remove large white surfaces across every app page. */
+      :root {
+        --dark-page: #090A1F;
+        --dark-page-2: #151038;
+        --dark-surface: #1E1B3A;
+        --dark-surface-2: #25184B;
+        --dark-border: rgba(255, 255, 255, 0.14);
+        --dark-text: #F8FAFC;
+        --dark-muted: rgba(248, 250, 252, 0.72);
+        --dark-card-gradient: linear-gradient(135deg, rgba(30, 27, 58, 0.96), rgba(37, 24, 75, 0.94));
+      }
+
+      body,
+      .student-app-body,
+      .parent-app-body {
+        background:
+          radial-gradient(circle at 8% 8%, rgba(219, 39, 119, 0.28), transparent 28rem),
+          radial-gradient(circle at 88% 14%, rgba(124, 58, 237, 0.24), transparent 30rem),
+          linear-gradient(135deg, var(--dark-page) 0%, var(--dark-page-2) 48%, #250B33 100%) !important;
+        color: var(--dark-text) !important;
+      }
+
+      .app-shell,
+      .student-app-body .app-shell,
+      .parent-app-body .app-shell,
+      .main-area,
+      .student-app-body .main-area,
+      .parent-app-body .main-area,
+      .page-frame,
+      .student-app-body .page-frame,
+      .parent-app-body .page-frame,
+      .content-panel,
+      .student-app-body .content-panel,
+      .parent-app-body .content-panel,
+      .content-body,
+      .student-app-body .content-body,
+      .parent-app-body .content-body {
+        background: transparent !important;
+        color: var(--dark-text) !important;
+        box-shadow: none;
+      }
+
+      .student-app-body.endpoint-dashboard .content-body {
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        background:
+          radial-gradient(circle at 12% 18%, rgba(219, 39, 119, 0.18), transparent 28rem),
+          radial-gradient(circle at 72% 82%, rgba(6, 182, 212, 0.12), transparent 24rem),
+          rgba(9, 10, 31, 0.52) !important;
+      }
+
+      .student-app-body .topbar,
+      .parent-app-body .topbar,
+      .topbar {
+        background: var(--gradient-header, linear-gradient(135deg, #2B174D 0%, #2D2168 100%)) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.14) !important;
+      }
+
+      .student-app-body .content-body > .mb-4:first-child,
+      .student-app-body .content-body > .d-flex.flex-column.flex-lg-row:first-child,
+      .student-app-body .career-topbar,
+      .student-app-body .career-hero,
+      .student-app-body .learning-goal-card,
+      .student-app-body .life-hero,
+      .student-app-body .forum-topbar,
+      .student-app-body .forum-safe-banner,
+      .student-app-body .journal-top,
+      .parent-app-body.endpoint-dashboard .parent-hero {
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        background: var(--gradient-primary, linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)) !important;
+        color: #fff !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.22) !important;
+      }
+
+      .student-app-body .card,
+      .student-app-body .feature-card,
+      .student-app-body .stat-card,
+      .student-app-body .room-card,
+      .student-app-body .life-card,
+      .student-app-body .life-detail-card,
+      .student-app-body .life-side-panel,
+      .student-app-body .life-video-box,
+      .student-app-body .life-video-fallback,
+      .student-app-body .learning-select-head,
+      .student-app-body .learning-career-card,
+      .student-app-body .learning-stage-card,
+      .student-app-body .learning-skill-card,
+      .student-app-body .learning-task,
+      .student-app-body .forum-composer,
+      .student-app-body .forum-post,
+      .student-app-body .forum-comment,
+      .student-app-body .journal-prompt,
+      .student-app-body .journal-section,
+      .student-app-body .journal-history-item,
+      .student-app-body .profile-preview-card,
+      .student-app-body .alert,
+      .student-app-body .assessment-highlight,
+      .student-app-body .assessment-level,
+      .student-app-body .career-job-card,
+      .student-app-body .career-test-card,
+      .student-app-body .career-insight,
+      .student-app-body .career-stat,
+      .student-app-body .career-trend-box,
+      .student-app-body .career-job-row,
+      .student-app-body .career-sheet,
+      .student-app-body .career-empty,
+      .student-app-body .realtime-chat,
+      .student-app-body .realtime-chat-header,
+      .student-app-body .realtime-composer,
+      .student-app-body .border.rounded,
+      .student-app-body .text-center.border.rounded,
+      .student-app-body .bg-white,
+      .parent-app-body .parent-panel,
+      .parent-app-body .parent-stat,
+      .parent-app-body .parent-teacher-card,
+      .parent-app-body .parent-side-card,
+      .parent-app-body .parent-empty,
+      body:has(.app-shell) .feature-card,
+      body:has(.app-shell) .stat-card,
+      body:has(.app-shell) .card,
+      body:has(.app-shell) .alert {
+        border-color: var(--dark-border) !important;
+        background: var(--dark-card-gradient) !important;
+        color: var(--dark-text) !important;
+        box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(124, 58, 237, 0.08) !important;
+      }
+
+      .student-app-body .student-feature-modern {
+        background: linear-gradient(135deg, rgba(30, 27, 58, 0.98), rgba(88, 28, 135, 0.72)) !important;
+        color: var(--dark-text) !important;
+      }
+
+      .student-app-body h1,
+      .student-app-body h2,
+      .student-app-body h3,
+      .student-app-body h4,
+      .student-app-body h5,
+      .student-app-body h6,
+      .student-app-body strong,
+      .student-app-body .fw-bold,
+      .student-app-body .section-title,
+      .student-app-body .feature-title,
+      .student-app-body .forum-post-title,
+      .student-app-body .parent-teacher-name,
+      .parent-app-body h1,
+      .parent-app-body h2,
+      .parent-app-body h3,
+      .parent-app-body h4,
+      .parent-app-body h5,
+      .parent-app-body h6,
+      .parent-app-body strong {
+        color: var(--dark-text) !important;
+      }
+
+      .student-app-body p,
+      .student-app-body span,
+      .student-app-body em,
+      .student-app-body small,
+      .student-app-body .text-muted,
+      .student-app-body .section-subtitle,
+      .student-app-body .feature-kicker,
+      .student-app-body .parent-teacher-email,
+      .parent-app-body p,
+      .parent-app-body span,
+      .parent-app-body small,
+      .parent-app-body .text-muted {
+        color: var(--dark-muted) !important;
+      }
+
+      .student-app-body .content-body > .mb-4:first-child *,
+      .student-app-body .content-body > .d-flex.flex-column.flex-lg-row:first-child *,
+      .student-app-body .career-topbar *,
+      .student-app-body .career-hero *,
+      .student-app-body .learning-goal-card *,
+      .student-app-body .life-hero *,
+      .student-app-body .forum-topbar *,
+      .student-app-body .forum-safe-banner *,
+      .student-app-body .journal-top *,
+      .student-app-body .student-dashboard-hero *,
+      .parent-app-body.endpoint-dashboard .parent-hero * {
+        color: #fff !important;
+      }
+
+      .student-app-body .form-control,
+      .student-app-body .form-select,
+      .student-app-body .career-search,
+      .student-app-body textarea,
+      .student-app-body input,
+      .student-app-body select,
+      .student-app-body .quiz-option span,
+      .student-app-body .mood-box,
+      .student-app-body .trigger-pill,
+      .student-app-body .intensity-dot,
+      .student-app-body .career-detail-grid div,
+      .student-app-body .career-trend-track,
+      .student-app-body .realtime-bubble,
+      .parent-app-body .form-control,
+      .parent-app-body .form-select {
+        border-color: rgba(255, 255, 255, 0.14) !important;
+        background: rgba(9, 10, 31, 0.72) !important;
+        color: var(--dark-text) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px rgba(0, 0, 0, 0.18) !important;
+      }
+
+      body:has(.app-shell) .form-control,
+      body:has(.app-shell) .form-select,
+      body:has(.app-shell) textarea,
+      body:has(.app-shell) input,
+      body:has(.app-shell) select,
+      body:has(.app-shell) .list-group-item,
+      body:has(.app-shell) .dropdown-menu,
+      body:has(.app-shell) .table,
+      body:has(.app-shell) table,
+      body:has(.app-shell) tr,
+      body:has(.app-shell) td,
+      body:has(.app-shell) th {
+        border-color: rgba(255, 255, 255, 0.14) !important;
+        background-color: rgba(9, 10, 31, 0.72) !important;
+        background: rgba(9, 10, 31, 0.72) !important;
+        color: var(--dark-text) !important;
+      }
+
+      .student-app-body .form-control::placeholder,
+      .student-app-body textarea::placeholder,
+      .student-app-body input::placeholder {
+        color: rgba(248, 250, 252, 0.52) !important;
+      }
+
+      .student-app-body .badge,
+      .student-app-body .life-pill,
+      .student-app-body .life-status,
+      .student-app-body .life-filter-pill,
+      .student-app-body .forum-filter-pill,
+      .student-app-body .forum-topic,
+      .student-app-body .career-filter-pill,
+      .student-app-body .career-badge,
+      .student-app-body .career-chip-row small,
+      .student-app-body .assessment-badge,
+      .student-app-body .learning-status,
+      .student-app-body .learning-task-type,
+      .student-app-body .journal-history-tag {
+        border-color: rgba(255, 255, 255, 0.16) !important;
+        background: rgba(124, 58, 237, 0.28) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body .life-filter-pill.active,
+      .student-app-body .forum-filter-pill.active,
+      .student-app-body .career-filter-pill.active,
+      .student-app-body .quiz-option input:checked + span,
+      .student-app-body .mood-option input:checked + .mood-box,
+      .student-app-body .trigger-option input:checked + .trigger-pill,
+      .student-app-body .intensity-option input:checked + .intensity-dot {
+        background: var(--gradient-primary, linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body .table,
+      .student-app-body table {
+        --bs-table-bg: transparent;
+        --bs-table-color: var(--dark-text);
+        color: var(--dark-text) !important;
+      }
+
+      body:has(.app-shell) .table,
+      body:has(.app-shell) table {
+        --bs-table-bg: transparent;
+        --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+        --bs-table-hover-bg: rgba(124, 58, 237, 0.16);
+        --bs-table-color: var(--dark-text);
+        --bs-table-border-color: rgba(255, 255, 255, 0.14);
+      }
+
+      .student-app-body .modal-content,
+      .parent-app-body .modal-content {
+        border-color: var(--dark-border) !important;
+        background: var(--dark-card-gradient) !important;
+        color: var(--dark-text) !important;
+      }
+
+      .auth-shell {
+        background:
+          radial-gradient(circle at 8% 8%, rgba(219, 39, 119, 0.28), transparent 28rem),
+          radial-gradient(circle at 88% 14%, rgba(124, 58, 237, 0.24), transparent 30rem),
+          linear-gradient(135deg, var(--dark-page) 0%, var(--dark-page-2) 48%, #250B33 100%) !important;
+        color: var(--dark-text) !important;
+      }
+
+      .auth-panel,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel,
+      body:not(.student-app-body):not(.parent-app-body) .content-body {
+        border-color: var(--dark-border) !important;
+        background: var(--dark-card-gradient) !important;
+        color: var(--dark-text) !important;
+        box-shadow: 0 22px 58px rgba(0, 0, 0, 0.3) !important;
+      }
+
+      .auth-panel h1,
+      .auth-panel h2,
+      .auth-panel h3,
+      .auth-panel h4,
+      .auth-panel h5,
+      .auth-panel label,
+      .auth-panel .section-title,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel h1,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel h2,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel h3,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel h4,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel h5,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel label {
+        color: var(--dark-text) !important;
+      }
+
+      .auth-panel p,
+      .auth-panel span,
+      .auth-panel .text-muted,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel p,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel span,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel .text-muted {
+        color: var(--dark-muted) !important;
+      }
+
+      .auth-panel .form-control,
+      .auth-panel .form-select,
+      .auth-panel input,
+      .auth-panel select,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel .form-control,
+      body:not(.student-app-body):not(.parent-app-body) .content-panel .form-select {
+        border-color: rgba(255, 255, 255, 0.14) !important;
+        background: rgba(9, 10, 31, 0.72) !important;
+        color: var(--dark-text) !important;
+      }
+
+      .student-app-body .app-footer,
+      .parent-app-body .app-footer {
+        background: linear-gradient(135deg, #060716 0%, #171133 52%, #2B0B3A 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_quizzes .feature-card,
+      .student-app-body.endpoint-student_quiz_take .border.rounded,
+      .student-app-body.endpoint-student_quiz_result .assessment-highlight,
+      .student-app-body.endpoint-student_quiz_result .assessment-level {
+        background: linear-gradient(135deg, #7C3AED 0%, #4C1D95 100%) !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_chat_rooms .room-card,
+      .student-app-body.endpoint-student_kbot_chat .realtime-chat,
+      .student-app-body.endpoint-student_teacher_chat .realtime-chat {
+        background: linear-gradient(135deg, #DB2777 0%, #831843 100%) !important;
+        box-shadow: 0 22px 58px rgba(219, 39, 119, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-stat,
+      .student-app-body.endpoint-student_self_discovery .career-insight,
+      .student-app-body.endpoint-student_self_discovery .career-test-card,
+      .student-app-body.endpoint-student_self_discovery .career-trend-box,
+      .student-app-body.endpoint-student_career_library .career-job-card,
+      .student-app-body.endpoint-student_career_library .career-job-row,
+      .student-app-body.endpoint-student_career_library .career-sheet,
+      .student-app-body.endpoint-student_learning_path .learning-career-card,
+      .student-app-body.endpoint-student_learning_path .learning-stage-card,
+      .student-app-body.endpoint-student_learning_path .learning-skill-card,
+      .student-app-body.endpoint-student_inbox .border.rounded {
+        background: linear-gradient(135deg, #0D9488 0%, #164E63 100%) !important;
+        box-shadow: 0 22px 58px rgba(13, 148, 136, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_life_skills .life-card,
+      .student-app-body.endpoint-student_life_skill_detail .life-detail-card,
+      .student-app-body.endpoint-student_life_skill_detail .life-side-panel {
+        background: linear-gradient(135deg, #059669 0%, #064E3B 100%) !important;
+        box-shadow: 0 22px 58px rgba(5, 150, 105, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-emotion_journal .journal-prompt,
+      .student-app-body.endpoint-emotion_journal .journal-section,
+      .student-app-body.endpoint-emotion_journal .journal-history-item {
+        background: linear-gradient(135deg, #F59E0B 0%, #9A3412 100%) !important;
+        box-shadow: 0 22px 58px rgba(245, 158, 11, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_forum .forum-composer,
+      .student-app-body.endpoint-student_forum .forum-post {
+        background: linear-gradient(135deg, #4F46E5 0%, #312E81 100%) !important;
+        box-shadow: 0 22px 58px rgba(79, 70, 229, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_profile .profile-preview-card,
+      .student-app-body.endpoint-contact_admin .content-body > form,
+      .student-app-body.endpoint-contact_admin .alert {
+        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%) !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.24) !important;
+      }
+
+      body:has(.app-shell) .dropdown-menu,
+      .student-app-body .dropdown-menu,
+      .parent-app-body .dropdown-menu {
+        overflow: hidden;
+        padding: 8px !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 16px !important;
+        background: linear-gradient(135deg, rgba(9, 10, 31, 0.98), rgba(37, 24, 75, 0.96)) !important;
+        box-shadow: 0 22px 58px rgba(0, 0, 0, 0.42) !important;
+        backdrop-filter: blur(18px);
+      }
+
+      body:has(.app-shell) .dropdown-item,
+      .student-app-body .dropdown-item,
+      .parent-app-body .dropdown-item {
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        border-radius: 12px;
+        color: rgba(248, 250, 252, 0.9) !important;
+        font-weight: 800;
+      }
+
+      body:has(.app-shell) .dropdown-item:hover,
+      body:has(.app-shell) .dropdown-item:focus,
+      body:has(.app-shell) .dropdown-item.active,
+      .student-app-body .dropdown-item:hover,
+      .student-app-body .dropdown-item:focus,
+      .student-app-body .dropdown-item.active,
+      .parent-app-body .dropdown-item:hover,
+      .parent-app-body .dropdown-item:focus,
+      .parent-app-body .dropdown-item.active {
+        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%) !important;
+        color: #fff !important;
+      }
+
+      body:has(.app-shell) .dropdown-divider,
+      .student-app-body .dropdown-divider,
+      .parent-app-body .dropdown-divider {
+        border-color: rgba(255, 255, 255, 0.14) !important;
+      }
+
+      /* Contrast pass: surfaces are brighter than page, inputs are darker than cards, accents are warm. */
+      :root {
+        --contrast-page: #090A1F;
+        --contrast-surface: #32216A;
+        --contrast-surface-2: #3D2A82;
+        --contrast-input: #141332;
+        --contrast-border: rgba(255, 255, 255, 0.22);
+        --contrast-hot: linear-gradient(135deg, #F59E0B 0%, #EC4899 58%, #EA580C 100%);
+        --contrast-warm-soft: #FFF7ED;
+        --contrast-warm-text: #1F2937;
+      }
+
+      body,
+      .student-app-body,
+      .parent-app-body {
+        background:
+          radial-gradient(circle at 8% 8%, rgba(219, 39, 119, 0.22), transparent 28rem),
+          radial-gradient(circle at 86% 14%, rgba(124, 58, 237, 0.2), transparent 30rem),
+          linear-gradient(135deg, var(--contrast-page) 0%, #120D2E 48%, #1A0827 100%) !important;
+      }
+
+      .student-app-body .forum-composer,
+      .student-app-body .forum-post,
+      .student-app-body .journal-section,
+      .student-app-body .journal-prompt,
+      .student-app-body .career-stat,
+      .student-app-body .career-insight,
+      .student-app-body .career-test-card,
+      .student-app-body .career-job-card,
+      .student-app-body .career-job-row,
+      .student-app-body .life-card,
+      .student-app-body .life-detail-card,
+      .student-app-body .life-side-panel,
+      .student-app-body .room-card,
+      .student-app-body .feature-card,
+      .student-app-body .profile-preview-card,
+      .student-app-body .assessment-highlight,
+      .student-app-body .assessment-level,
+      .student-app-body .border.rounded {
+        border: 1px solid var(--contrast-border) !important;
+        background:
+          radial-gradient(circle at 10% 0%, rgba(236, 72, 153, 0.16), transparent 22rem),
+          linear-gradient(135deg, var(--contrast-surface-2) 0%, var(--contrast-surface) 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+      }
+
+      .student-app-body .forum-composer .form-control,
+      .student-app-body .forum-composer .form-select,
+      .student-app-body .forum-comment-form .form-control,
+      .student-app-body .journal-section .form-control,
+      .student-app-body .journal-section .form-select,
+      .student-app-body .career-search,
+      .student-app-body .career-ask-form .form-control,
+      .student-app-body .life-side-panel .form-control,
+      .student-app-body .life-side-panel .form-select,
+      .student-app-body .profile-preview-card + * .form-control,
+      .student-app-body .quiz-option span,
+      .student-app-body textarea,
+      .student-app-body input:not([type="checkbox"]):not([type="radio"]),
+      .student-app-body select {
+        border: 1px solid rgba(196, 181, 253, 0.34) !important;
+        background: var(--contrast-input) !important;
+        color: #F8FAFC !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px rgba(0, 0, 0, 0.22) !important;
+      }
+
+      .student-app-body .form-control::placeholder,
+      .student-app-body textarea::placeholder,
+      .student-app-body input::placeholder {
+        color: rgba(248, 250, 252, 0.56) !important;
+      }
+
+      .student-app-body .forum-comment {
+        border: 1px solid rgba(245, 158, 11, 0.24) !important;
+        background: var(--contrast-warm-soft) !important;
+        color: var(--contrast-warm-text) !important;
+        box-shadow: 0 12px 28px rgba(245, 158, 11, 0.16) !important;
+      }
+
+      .student-app-body .forum-comment *,
+      .student-app-body .forum-comment strong,
+      .student-app-body .forum-comment p,
+      .student-app-body .forum-comment span {
+        color: var(--contrast-warm-text) !important;
+      }
+
+      .student-app-body .forum-comment .forum-avatar {
+        background: var(--contrast-hot) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body .forum-action-btn,
+      .student-app-body .forum-action-btn.active,
+      .student-app-body .forum-filter-pill.active,
+      .student-app-body .forum-topic,
+      .student-app-body .forum-post .badge,
+      .student-app-body .forum-post .btn-outline-secondary,
+      .student-app-body .forum-post .btn-outline-primary,
+      .student-app-body .career-filter-pill.active,
+      .student-app-body .life-filter-pill.active,
+      .student-app-body .badge.text-bg-warning,
+      .student-app-body .badge.text-bg-success,
+      .student-app-body .assessment-badge,
+      .student-app-body .career-badge,
+      .student-app-body .life-status {
+        border: 1px solid rgba(255, 255, 255, 0.24) !important;
+        background: var(--contrast-hot) !important;
+        color: #fff !important;
+        box-shadow: 0 14px 32px rgba(245, 158, 11, 0.24) !important;
+      }
+
+      .student-app-body .forum-filter-pill,
+      .student-app-body .career-filter-pill,
+      .student-app-body .life-filter-pill {
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        background: linear-gradient(135deg, rgba(61, 42, 130, 0.96), rgba(50, 33, 106, 0.94)) !important;
+        color: rgba(248, 250, 252, 0.86) !important;
+      }
+
+      .student-app-body .forum-report-btn {
+        color: #FDBA74 !important;
+      }
+
+      .student-app-body .text-muted,
+      .student-app-body .section-subtitle,
+      .student-app-body .forum-post-content,
+      .student-app-body .forum-section-head span {
+        color: rgba(248, 250, 252, 0.78) !important;
+      }
+
+      .student-app-body .bg-light,
+      .student-app-body .alert-light {
+        background: #241B4B !important;
+        color: #F8FAFC !important;
+        border-color: rgba(255, 255, 255, 0.18) !important;
+      }
+
+      /* Admin/contact chat dark lock: remove remaining white chat panels. */
+      body:has(.app-shell) .chat-workspace,
+      body:has(.app-shell) .chat-thread-panel,
+      body:has(.app-shell) .chat-thread-list,
+      body:has(.app-shell) .chat-history,
+      body:has(.app-shell) .chat-sidebar-panel,
+      body:has(.app-shell) .chat-sidebar-header,
+      body:has(.app-shell) .chat-thread,
+      body:has(.app-shell) .chat-thread-title,
+      body:has(.app-shell) .chat-composer,
+      .student-app-body.endpoint-contact_admin .chat-thread,
+      .student-app-body.endpoint-contact_admin .chat-history {
+        border-color: rgba(255, 255, 255, 0.16) !important;
+        background:
+          radial-gradient(circle at 12% 0%, rgba(236, 72, 153, 0.14), transparent 20rem),
+          linear-gradient(135deg, rgba(42, 28, 92, 0.96) 0%, rgba(22, 18, 54, 0.98) 100%) !important;
+        color: #F8FAFC !important;
+        box-shadow: 0 20px 52px rgba(0, 0, 0, 0.28) !important;
+      }
+
+      body:has(.app-shell) .chat-workspace {
+        overflow: hidden;
+        border-radius: 24px !important;
+      }
+
+      body:has(.app-shell) .chat-thread-list,
+      body:has(.app-shell) .chat-history {
+        gap: 16px !important;
+      }
+
+      body:has(.app-shell) .chat-list-item {
+        border-color: rgba(255, 255, 255, 0.12) !important;
+        background: transparent !important;
+        color: #F8FAFC !important;
+      }
+
+      body:has(.app-shell) .chat-list-item:hover {
+        background: rgba(236, 72, 153, 0.16) !important;
+      }
+
+      body:has(.app-shell) .chat-avatar {
+        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 28px rgba(219, 39, 119, 0.26);
+      }
+
+      body:has(.app-shell) .chat-bubble,
+      .student-app-body.endpoint-contact_admin .chat-bubble {
+        border: 1px solid rgba(196, 181, 253, 0.28) !important;
+        background: linear-gradient(135deg, rgba(49, 39, 112, 0.96), rgba(31, 26, 76, 0.96)) !important;
+        color: #F8FAFC !important;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24) !important;
+      }
+
+      body:has(.app-shell) .chat-bubble *,
+      .student-app-body.endpoint-contact_admin .chat-bubble * {
+        color: #F8FAFC !important;
+      }
+
+      body:has(.app-shell) .chat-row.outgoing .chat-bubble,
+      .student-app-body.endpoint-contact_admin .chat-row.outgoing .chat-bubble {
+        border-color: rgba(251, 113, 133, 0.44) !important;
+        background: linear-gradient(135deg, #2563EB 0%, #7C3AED 46%, #DB2777 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 18px 42px rgba(219, 39, 119, 0.28) !important;
+      }
+
+      body:has(.app-shell) .chat-time,
+      body:has(.app-shell) .chat-row.outgoing .chat-time,
+      .student-app-body.endpoint-contact_admin .chat-time {
+        color: rgba(248, 250, 252, 0.76) !important;
+      }
+
+      body:has(.app-shell) .chat-composer .form-control,
+      body:has(.app-shell) .chat-composer input,
+      .student-app-body.endpoint-contact_admin form textarea {
+        border-color: rgba(196, 181, 253, 0.34) !important;
+        background: #141332 !important;
+        color: #F8FAFC !important;
+      }
+
+      body:has(.app-shell) .chat-composer .form-control::placeholder,
+      body:has(.app-shell) .chat-composer input::placeholder,
+      .student-app-body.endpoint-contact_admin form textarea::placeholder {
+        color: rgba(248, 250, 252, 0.58) !important;
+      }
+
+      body:has(.app-shell) .badge.text-bg-light,
+      body:has(.app-shell) .border-top {
+        border-color: rgba(255, 255, 255, 0.18) !important;
+      }
+
+      body:has(.app-shell) .badge.text-bg-light {
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 28px rgba(245, 158, 11, 0.2);
+      }
+
+      /* Learning path palette: career choices are separated by domain, detail uses blue/indigo instead of flat green. */
+      .student-app-body.endpoint-student_learning_path .learning-page {
+        max-width: 1224px !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-select-head {
+        overflow: hidden;
+        margin: 22px 0 34px !important;
+        padding: 24px 28px !important;
+        border: 1px solid rgba(96, 165, 250, 0.26) !important;
+        border-radius: 0 !important;
+        background:
+          radial-gradient(circle at 18% 0%, rgba(14, 165, 233, 0.2), transparent 24rem),
+          linear-gradient(135deg, rgba(30, 41, 120, 0.82) 0%, rgba(38, 23, 90, 0.9) 100%) !important;
+        box-shadow: 0 18px 48px rgba(37, 99, 235, 0.16) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-select-head h3,
+      .student-app-body.endpoint-student_learning_path .learning-select-head p {
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-grid {
+        gap: 18px !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 178px !important;
+        padding: 22px !important;
+        border-width: 1px !important;
+        border-radius: 22px !important;
+        color: #fff !important;
+        box-shadow: 0 22px 58px rgba(0, 0, 0, 0.26) !important;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card::after {
+        content: "";
+        position: absolute;
+        inset: auto -24px -42px auto;
+        width: 180px;
+        height: 180px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        filter: blur(10px);
+        pointer-events: none;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card:hover,
+      .student-app-body.endpoint-student_learning_path .learning-career-card.active {
+        transform: translateY(-5px);
+        border-color: rgba(255, 255, 255, 0.52) !important;
+        box-shadow: 0 28px 72px rgba(37, 99, 235, 0.28), 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card strong,
+      .student-app-body.endpoint-student_learning_path .learning-career-card em {
+        position: relative;
+        z-index: 1;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card em {
+        color: rgba(248, 250, 252, 0.82) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-icon,
+      .student-app-body.endpoint-student_learning_path .learning-goal-icon {
+        position: relative;
+        z-index: 1;
+        width: 56px !important;
+        height: 56px !important;
+        border: 1px solid rgba(255, 255, 255, 0.34) !important;
+        border-radius: 10px !important;
+        color: #fff !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 14px 30px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="tech"] {
+        border-color: rgba(34, 211, 238, 0.42) !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #0891B2 58%, #164E63 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="design"] {
+        border-color: rgba(251, 113, 133, 0.46) !important;
+        background: linear-gradient(135deg, #DB2777 0%, #EA580C 58%, #7C2D12 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="data"] {
+        border-color: rgba(96, 165, 250, 0.44) !important;
+        background: linear-gradient(135deg, #2563EB 0%, #06B6D4 52%, #312E81 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="business"] {
+        border-color: rgba(251, 191, 36, 0.5) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 58%, #78350F 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="health"] {
+        border-color: rgba(45, 212, 191, 0.44) !important;
+        background: linear-gradient(135deg, #0F766E 0%, #2563EB 56%, #1E3A8A 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="education"] {
+        border-color: rgba(167, 139, 250, 0.5) !important;
+        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 58%, #4C1D95 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="media"] {
+        border-color: rgba(244, 114, 182, 0.48) !important;
+        background: linear-gradient(135deg, #EC4899 0%, #7C3AED 56%, #831843 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="psychology"] {
+        border-color: rgba(216, 180, 254, 0.46) !important;
+        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 58%, #581C87 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="engineering"] {
+        border-color: rgba(148, 163, 184, 0.46) !important;
+        background: linear-gradient(135deg, #334155 0%, #2563EB 58%, #0F172A 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-card[data-domain="travel"] {
+        border-color: rgba(56, 189, 248, 0.46) !important;
+        background: linear-gradient(135deg, #0EA5E9 0%, #2563EB 58%, #1E1B4B 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="tech"],
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="data"],
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="travel"],
+      .student-app-body.endpoint-student_learning_path .learning-goal-icon {
+        background: linear-gradient(135deg, #67E8F9 0%, #2563EB 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="design"],
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="media"] {
+        background: linear-gradient(135deg, #FDBA74 0%, #EC4899 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="business"] {
+        background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%) !important;
+        color: #422006 !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="health"] {
+        background: linear-gradient(135deg, #5EEAD4 0%, #2563EB 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="education"],
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="psychology"] {
+        background: linear-gradient(135deg, #C4B5FD 0%, #7C3AED 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-career-icon[data-domain="engineering"] {
+        background: linear-gradient(135deg, #CBD5E1 0%, #2563EB 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-goal-card,
+      .student-app-body.endpoint-student_learning_path .career-stat,
+      .student-app-body.endpoint-student_learning_path .learning-stage-card,
+      .student-app-body.endpoint-student_learning_path .learning-skill-card {
+        border-color: rgba(96, 165, 250, 0.34) !important;
+        background:
+          radial-gradient(circle at 12% 0%, rgba(14, 165, 233, 0.18), transparent 22rem),
+          linear-gradient(135deg, #1D4ED8 0%, #312E81 58%, #111827 100%) !important;
+        box-shadow: 0 24px 64px rgba(37, 99, 235, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-task {
+        border-color: rgba(96, 165, 250, 0.18) !important;
+        background: rgba(17, 24, 69, 0.62) !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-status,
+      .student-app-body.endpoint-student_learning_path .learning-task-type {
+        background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-stage-dot {
+        border-color: rgba(96, 165, 250, 0.8) !important;
+        background: #EEF6FF !important;
+        color: #4F46E5 !important;
+        box-shadow: 0 10px 26px rgba(37, 99, 235, 0.26);
+      }
+
+      .student-app-body.endpoint-student_learning_path .learning-timeline::before {
+        background: linear-gradient(180deg, #60A5FA 0%, #7C3AED 100%) !important;
+      }
+
+      /* Career library field palette: every career item keeps its own domain color. */
+      .student-app-body.endpoint-student_career_library .career-filter-strip {
+        align-items: center;
+        margin-top: 34px !important;
+        margin-bottom: 30px !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-search {
+        margin-bottom: 0 !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-section-head {
+        margin-top: 28px !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card,
+      .student-app-body.endpoint-student_career_library .career-job-row {
+        border-width: 1px !important;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Công nghệ"],
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Công nghệ"] {
+        border-color: rgba(34, 211, 238, 0.44) !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #0891B2 58%, #164E63 100%) !important;
+        box-shadow: 0 22px 58px rgba(6, 182, 212, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Y tế"],
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Y tế"] {
+        border-color: rgba(52, 211, 153, 0.44) !important;
+        background: linear-gradient(135deg, #0D9488 0%, #059669 58%, #064E3B 100%) !important;
+        box-shadow: 0 22px 58px rgba(5, 150, 105, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Sáng tạo"],
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Sáng tạo"] {
+        border-color: rgba(251, 113, 133, 0.46) !important;
+        background: linear-gradient(135deg, #EA580C 0%, #DB2777 58%, #831843 100%) !important;
+        box-shadow: 0 22px 58px rgba(219, 39, 119, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Kinh doanh"],
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Kinh doanh"] {
+        border-color: rgba(251, 191, 36, 0.5) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 56%, #78350F 100%) !important;
+        box-shadow: 0 22px 58px rgba(245, 158, 11, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Xã hội"],
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Xã hội"] {
+        border-color: rgba(167, 139, 250, 0.5) !important;
+        background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 54%, #4C1D95 100%) !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Công nghệ"] .career-job-icon,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Công nghệ"] .career-row-icon,
+      .student-app-body.endpoint-student_career_library .career-row-icon[data-field="Công nghệ"] {
+        background: linear-gradient(135deg, #67E8F9 0%, #2563EB 100%) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Y tế"] .career-job-icon,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Y tế"] .career-row-icon,
+      .student-app-body.endpoint-student_career_library .career-row-icon[data-field="Y tế"] {
+        background: linear-gradient(135deg, #6EE7B7 0%, #059669 100%) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Sáng tạo"] .career-job-icon,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Sáng tạo"] .career-row-icon,
+      .student-app-body.endpoint-student_career_library .career-row-icon[data-field="Sáng tạo"] {
+        background: linear-gradient(135deg, #FDBA74 0%, #EC4899 100%) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Kinh doanh"] .career-job-icon,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Kinh doanh"] .career-row-icon,
+      .student-app-body.endpoint-student_career_library .career-row-icon[data-field="Kinh doanh"] {
+        background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%) !important;
+        color: #422006 !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Xã hội"] .career-job-icon,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Xã hội"] .career-row-icon,
+      .student-app-body.endpoint-student_career_library .career-row-icon[data-field="Xã hội"] {
+        background: linear-gradient(135deg, #C4B5FD 0%, #7C3AED 100%) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-chip-row[data-field] small {
+        border: 1px solid rgba(255, 255, 255, 0.22) !important;
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Công nghệ"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Công nghệ"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-chip-row[data-field="Công nghệ"] small {
+        background: rgba(103, 232, 249, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Y tế"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Y tế"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-chip-row[data-field="Y tế"] small {
+        background: rgba(110, 231, 183, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Sáng tạo"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Sáng tạo"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-chip-row[data-field="Sáng tạo"] small {
+        background: rgba(251, 113, 133, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Kinh doanh"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Kinh doanh"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-chip-row[data-field="Kinh doanh"] small {
+        background: rgba(253, 230, 138, 0.26) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-card[data-field="Xã hội"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Xã hội"] .career-chip-row small,
+      .student-app-body.endpoint-student_career_library .career-chip-row[data-field="Xã hội"] small {
+        background: rgba(196, 181, 253, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-save {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.28) !important;
+        background: rgba(255, 255, 255, 0.16) !important;
+        color: #fff !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Kinh doanh"] .career-save {
+        background: rgba(253, 230, 138, 0.24) !important;
+        color: #FEF3C7 !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Công nghệ"] .career-save,
+      .student-app-body.endpoint-student_career_library .career-save[data-field="Công nghệ"] {
+        border-color: rgba(103, 232, 249, 0.36) !important;
+        background: rgba(103, 232, 249, 0.2) !important;
+        color: #CFFAFE !important;
+        box-shadow: 0 12px 28px rgba(6, 182, 212, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Y tế"] .career-save,
+      .student-app-body.endpoint-student_career_library .career-save[data-field="Y tế"] {
+        border-color: rgba(110, 231, 183, 0.36) !important;
+        background: rgba(110, 231, 183, 0.2) !important;
+        color: #D1FAE5 !important;
+        box-shadow: 0 12px 28px rgba(5, 150, 105, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Sáng tạo"] .career-save,
+      .student-app-body.endpoint-student_career_library .career-save[data-field="Sáng tạo"] {
+        border-color: rgba(251, 113, 133, 0.38) !important;
+        background: rgba(251, 113, 133, 0.22) !important;
+        color: #FFE4E6 !important;
+        box-shadow: 0 12px 28px rgba(219, 39, 119, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-save[data-field="Kinh doanh"] {
+        border-color: rgba(253, 230, 138, 0.42) !important;
+        box-shadow: 0 12px 28px rgba(245, 158, 11, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-job-row[data-field="Xã hội"] .career-save,
+      .student-app-body.endpoint-student_career_library .career-save[data-field="Xã hội"] {
+        border-color: rgba(196, 181, 253, 0.38) !important;
+        background: rgba(196, 181, 253, 0.22) !important;
+        color: #EDE9FE !important;
+        box-shadow: 0 12px 28px rgba(124, 58, 237, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-filter-pill.active[data-field="Công nghệ"] {
+        border-color: rgba(34, 211, 238, 0.48) !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #06B6D4 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-filter-pill.active[data-field="Y tế"] {
+        border-color: rgba(52, 211, 153, 0.48) !important;
+        background: linear-gradient(135deg, #0D9488 0%, #059669 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-filter-pill.active[data-field="Sáng tạo"] {
+        border-color: rgba(251, 113, 133, 0.48) !important;
+        background: linear-gradient(135deg, #EA580C 0%, #DB2777 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-filter-pill.active[data-field="Kinh doanh"] {
+        border-color: rgba(251, 191, 36, 0.52) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_career_library .career-filter-pill.active[data-field="Xã hội"] {
+        border-color: rgba(167, 139, 250, 0.5) !important;
+        background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%) !important;
+      }
+
+      /* Student inbox palette: do not reuse the teal career surface for every message. */
+      .student-app-body.endpoint-student_inbox .content-body > .d-flex:first-child {
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        background: var(--gradient-primary, linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)) !important;
+        color: #fff !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card {
+        position: relative;
+        overflow: hidden;
+        padding: 22px !important;
+        border: 1px solid rgba(96, 165, 250, 0.26) !important;
+        border-radius: 22px !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #312E81 58%, #111827 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 24px 64px rgba(37, 99, 235, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card::after {
+        content: "";
+        position: absolute;
+        inset: -80px -50px auto auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        filter: blur(12px);
+        pointer-events: none;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card[data-field="Công nghệ"] {
+        border-color: rgba(34, 211, 238, 0.42) !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #0891B2 58%, #164E63 100%) !important;
+        box-shadow: 0 24px 64px rgba(6, 182, 212, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card[data-field="Y tế"] {
+        border-color: rgba(45, 212, 191, 0.42) !important;
+        background: linear-gradient(135deg, #0F766E 0%, #2563EB 56%, #1E3A8A 100%) !important;
+        box-shadow: 0 24px 64px rgba(37, 99, 235, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card[data-field="Sáng tạo"] {
+        border-color: rgba(251, 113, 133, 0.48) !important;
+        background: linear-gradient(135deg, #EA580C 0%, #DB2777 58%, #831843 100%) !important;
+        box-shadow: 0 24px 64px rgba(219, 39, 119, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card[data-field="Kinh doanh"] {
+        border-color: rgba(251, 191, 36, 0.52) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 58%, #78350F 100%) !important;
+        box-shadow: 0 24px 64px rgba(245, 158, 11, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card[data-field="Xã hội"],
+      .student-app-body.endpoint-student_inbox .career-inbox-card[data-field="Khác"] {
+        border-color: rgba(167, 139, 250, 0.5) !important;
+        background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 54%, #4C1D95 100%) !important;
+        box-shadow: 0 24px 64px rgba(124, 58, 237, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card h5,
+      .student-app-body.endpoint-student_inbox .career-inbox-card .fw-semibold,
+      .student-app-body.endpoint-student_inbox .career-inbox-card .text-muted,
+      .student-app-body.endpoint-student_inbox .career-inbox-card .small {
+        color: #fff !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card .text-muted.small {
+        color: rgba(248, 250, 252, 0.78) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-message {
+        position: relative;
+        z-index: 1;
+        padding: 18px 20px;
+        border: 1px solid rgba(196, 181, 253, 0.28) !important;
+        border-radius: 8px;
+        color: #F8FAFC !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 14px 34px rgba(0, 0, 0, 0.18);
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-question {
+        background: rgba(17, 18, 55, 0.82) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-reply {
+        background: rgba(30, 41, 96, 0.66) !important;
+      }
+
+      .student-app-body.endpoint-student_inbox .career-inbox-card .badge {
+        border: 1px solid rgba(255, 255, 255, 0.24) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 28px rgba(245, 158, 11, 0.2);
+      }
+
+      /* Self-discovery palette: split cards into vivid domains instead of one teal surface. */
+      .student-app-body.endpoint-student_self_discovery .career-mobile-page {
+        max-width: 1476px !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-stat,
+      .student-app-body.endpoint-student_self_discovery .career-insight,
+      .student-app-body.endpoint-student_self_discovery .career-test-card,
+      .student-app-body.endpoint-student_self_discovery .career-trend-box {
+        overflow: hidden;
+        border-radius: 22px !important;
+        color: #fff !important;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.26) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-stat-grid .career-stat:nth-child(1) {
+        border-color: rgba(96, 165, 250, 0.44) !important;
+        background: linear-gradient(135deg, #2563EB 0%, #4F46E5 58%, #1E1B4B 100%) !important;
+        box-shadow: 0 20px 52px rgba(37, 99, 235, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-stat-grid .career-stat:nth-child(2) {
+        border-color: rgba(251, 113, 133, 0.46) !important;
+        background: linear-gradient(135deg, #DB2777 0%, #EA580C 58%, #831843 100%) !important;
+        box-shadow: 0 20px 52px rgba(219, 39, 119, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-stat-grid .career-stat:nth-child(3) {
+        border-color: rgba(167, 139, 250, 0.5) !important;
+        background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 52%, #4C1D95 100%) !important;
+        box-shadow: 0 20px 52px rgba(124, 58, 237, 0.24) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-insight-list .career-insight:nth-child(1) {
+        border-color: rgba(251, 113, 133, 0.46) !important;
+        background: linear-gradient(135deg, #DB2777 0%, #7C3AED 56%, #312E81 100%) !important;
+        box-shadow: 0 22px 58px rgba(219, 39, 119, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-insight-list .career-insight:nth-child(2) {
+        border-color: rgba(251, 191, 36, 0.5) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #EA580C 54%, #7C2D12 100%) !important;
+        box-shadow: 0 22px 58px rgba(245, 158, 11, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-insight-list .career-insight:nth-child(3) {
+        border-color: rgba(34, 211, 238, 0.42) !important;
+        background: linear-gradient(135deg, #1D4ED8 0%, #06B6D4 56%, #164E63 100%) !important;
+        box-shadow: 0 22px 58px rgba(6, 182, 212, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-insight-icon,
+      .student-app-body.endpoint-student_self_discovery .career-test-icon {
+        width: 52px !important;
+        height: 52px !important;
+        border: 1px solid rgba(255, 255, 255, 0.32) !important;
+        border-radius: 12px !important;
+        color: #fff !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 14px 30px rgba(0, 0, 0, 0.18);
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-insight-list .career-insight:nth-child(1) .career-insight-icon {
+        background: linear-gradient(135deg, #F9A8D4 0%, #DB2777 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-insight-list .career-insight:nth-child(2) .career-insight-icon {
+        background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%) !important;
+        color: #422006 !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-insight-list .career-insight:nth-child(3) .career-insight-icon {
+        background: linear-gradient(135deg, #67E8F9 0%, #2563EB 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-badge {
+        border: 1px solid rgba(255, 255, 255, 0.24) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 28px rgba(245, 158, 11, 0.2);
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(1) {
+        border-color: rgba(167, 139, 250, 0.5) !important;
+        background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 58%, #1E1B4B 100%) !important;
+        box-shadow: 0 22px 58px rgba(124, 58, 237, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(2) {
+        border-color: rgba(251, 113, 133, 0.48) !important;
+        background: linear-gradient(135deg, #DB2777 0%, #EA580C 58%, #831843 100%) !important;
+        box-shadow: 0 22px 58px rgba(219, 39, 119, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(3) {
+        border-color: rgba(96, 165, 250, 0.44) !important;
+        background: linear-gradient(135deg, #2563EB 0%, #06B6D4 56%, #312E81 100%) !important;
+        box-shadow: 0 22px 58px rgba(37, 99, 235, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(4) {
+        border-color: rgba(251, 191, 36, 0.5) !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 58%, #78350F 100%) !important;
+        box-shadow: 0 22px 58px rgba(245, 158, 11, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(5) {
+        border-color: rgba(45, 212, 191, 0.42) !important;
+        background: linear-gradient(135deg, #0F766E 0%, #2563EB 56%, #1E3A8A 100%) !important;
+        box-shadow: 0 22px 58px rgba(37, 99, 235, 0.2) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(1) .career-test-icon,
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(2) .career-test-icon {
+        background: linear-gradient(135deg, #F9A8D4 0%, #7C3AED 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(3) .career-test-icon,
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(5) .career-test-icon {
+        background: linear-gradient(135deg, #67E8F9 0%, #2563EB 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-strip .career-test-card:nth-child(4) .career-test-icon {
+        background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%) !important;
+        color: #422006 !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-test-card small,
+      .student-app-body.endpoint-student_self_discovery .career-stat span,
+      .student-app-body.endpoint-student_self_discovery .career-insight p {
+        color: rgba(248, 250, 252, 0.82) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-progress {
+        background: rgba(255, 255, 255, 0.28) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-progress i {
+        background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-trend-box {
+        border-color: rgba(96, 165, 250, 0.34) !important;
+        background:
+          radial-gradient(circle at 8% 0%, rgba(14, 165, 233, 0.16), transparent 22rem),
+          linear-gradient(135deg, #1D4ED8 0%, #312E81 58%, #111827 100%) !important;
+        box-shadow: 0 24px 64px rgba(37, 99, 235, 0.22) !important;
+      }
+
+      .student-app-body.endpoint-student_self_discovery .career-trend-track {
+        background: rgba(255, 255, 255, 0.18) !important;
+      }
+
     </style>
 
   </head>
@@ -3382,9 +4799,8 @@
 
         <a class="navbar-brand d-flex align-items-center gap-3" href="{{ url_for('index') }}">
 
-          <img class="brand-logo-img" src="{{ url_for('static', filename='images/anhnen.jpg') }}" alt="Logo Trường THCS Ngô Quyền">
           <span class="brand-title">
-            <span class="d-block fw-bold">Trường THCS Ngô Quyền</span>
+            <span class="d-block fw-bold">Hỗ trợ học sinh</span>
           </span>
         </a>
 
@@ -3638,8 +5054,7 @@
             <footer class="app-footer">
               <div class="footer-inner">
                 <div class="footer-brand">
-                  <img class="footer-logo-img" src="{{ url_for('static', filename='images/anhnen.jpg') }}" alt="Logo Trường THCS Ngô Quyền">
-                  <span>Trường THCS Ngô Quyền</span>
+                  <span>Hỗ trợ học sinh</span>
                 </div>
                 <div class="footer-links">
                   <a href="{{ url_for('index') }}">Giới thiệu</a>
