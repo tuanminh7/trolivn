@@ -111,15 +111,16 @@
 
       main > section:first-child h1 {
         color: #fff !important;
-        font-size: clamp(54px, 6vw, 86px) !important;
-        line-height: 0.98 !important;
+        font-size: clamp(46px, 5.4vw, 72px) !important;
+        line-height: 1.04 !important;
         letter-spacing: 0 !important;
       }
 
       main > section:first-child p {
         color: rgba(255, 255, 255, 0.9) !important;
-        font-size: 22px !important;
+        font-size: 18px !important;
         font-weight: 700;
+        line-height: 1.65 !important;
       }
 
       main > section:first-child .mb-5 {
@@ -131,10 +132,10 @@
       }
 
       main > section:first-child .mt-8 a {
-        min-height: 58px;
+        min-height: 52px;
         border-radius: 999px !important;
-        padding: 14px 28px !important;
-        font-size: 20px;
+        padding: 12px 24px !important;
+        font-size: 17px;
         font-weight: 900;
       }
 
@@ -238,11 +239,19 @@
 
       @media (max-width: 768px) {
         main > section:first-child h1 {
-          font-size: clamp(42px, 14vw, 62px) !important;
+          font-size: clamp(42px, 12vw, 54px) !important;
+          line-height: 1.02 !important;
         }
 
         main > section:first-child p {
-          font-size: 17px !important;
+          font-size: 16px !important;
+          line-height: 1.6 !important;
+        }
+
+        main > section:first-child .mt-8 a {
+          min-height: 48px;
+          padding: 11px 20px !important;
+          font-size: 16px;
         }
       }
 
@@ -391,21 +400,20 @@
         <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
           <div>
             <div class="mb-5 inline-flex items-center rounded-full border border-violet-200 bg-white/70 px-4 py-2 text-sm font-bold text-primary shadow-sm">
-              Dành cho học sinh THPT & THCS
+              Hướng nghiệp học sinh
             </div>
             <h1 class="max-w-2xl text-4xl font-black leading-tight tracking-tight text-ink sm:text-5xl lg:text-6xl">
-              Khám phá bản thân —<br>
-              Định hướng tương lai
+              Chọn nghề tự tin
             </h1>
-            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              Nền tảng định hướng nghề nghiệp cho học sinh, có thêm nhóm hỗ trợ học đường gồm tâm lý, kỹ năng sống, chuyên gia và cộng đồng.
+            <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+              Khám phá ngành nghề, lộ trình học và hỏi giáo viên trong một nơi.
             </p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="{{ url_for('register') }}" class="inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-extrabold text-white shadow-xl shadow-violet-200 transition hover:-translate-y-1 hover:bg-violet-700">
-                Bắt đầu miễn phí
+                Bắt đầu
               </a>
               <a href="#features" class="inline-flex items-center justify-center rounded-2xl border border-violet-200 bg-white px-6 py-3 text-base font-extrabold text-primary shadow-sm transition hover:-translate-y-1 hover:border-primary hover:shadow-lg">
-                Xem demo
+                Xem nhanh
               </a>
             </div>
           </div>
