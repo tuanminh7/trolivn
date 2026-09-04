@@ -5374,23 +5374,24 @@
               {% if current_user.role == 'student' %}
                 <li class="nav-item"><a class="nav-link student-nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">Trang chủ</a></li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['student_quizzes', 'student_quiz_take', 'student_quiz_result', 'student_chat_rooms', 'student_kbot_chat', 'student_teacher_chat', 'emotion_journal'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tâm lý</a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ url_for('student_quizzes') }}">Trắc nghiệm tâm lý</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_chat_rooms') }}">Chat chuyên gia</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('emotion_journal') }}">Nhật ký cảm xúc</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['career_home', 'student_self_discovery', 'student_career_test_take', 'student_career_library', 'student_career_ask', 'student_learning_path', 'student_inbox'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hướng nghiệp</a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="{{ url_for('student_self_discovery') }}">Khám phá bản thân</a></li>
                     <li><a class="dropdown-item" href="{{ url_for('student_career_library') }}">Thư viện nghề nghiệp</a></li>
                     <li><a class="dropdown-item" href="{{ url_for('student_learning_path') }}">Lộ trình học tập</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('student_inbox') }}">Hộp thư</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_inbox') }}">Hộp thư hướng nghiệp</a></li>
                   </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link student-nav-link {% if request.endpoint in ['student_life_skills', 'student_life_skill_detail'] %}active{% endif %}" href="{{ url_for('student_life_skills') }}">Kỹ năng sống</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['support_tools', 'psychology_quizzes', 'student_quizzes', 'student_quiz_take', 'student_quiz_result', 'student_chat_rooms', 'student_kbot_chat', 'student_teacher_chat', 'emotion_journal', 'student_life_skills', 'student_life_skill_detail'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hỗ trợ học đường</a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{{ url_for('support_tools') }}">Tổng quan hỗ trợ</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_quizzes') }}">Trắc nghiệm tâm lý</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_life_skills') }}">Kỹ năng sống</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('student_chat_rooms') }}">Chat chuyên gia</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('emotion_journal') }}">Nhật ký cảm xúc</a></li>
+                  </ul>
+                </li>
                 <li class="nav-item"><a class="nav-link student-nav-link {% if request.endpoint in ['student_forum', 'student_forum_react', 'student_forum_comment', 'student_forum_report'] %}active{% endif %}" href="{{ url_for('student_forum') }}">Cộng đồng</a></li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle student-nav-link {% if request.endpoint in ['student_profile', 'contact_admin'] %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hồ sơ</a>
@@ -5466,21 +5467,13 @@
               </a>
             {% endif %}
             {% if current_user.role in ['teacher', 'student'] %}
-              <a class="sidebar-link {% if request.endpoint in ['psychology_quizzes', 'teacher_quizzes', 'teacher_quiz_new', 'teacher_quiz_edit', 'teacher_quiz_results', 'student_quizzes', 'student_quiz_take', 'student_quiz_result'] %}active{% endif %}" href="{{ url_for('psychology_quizzes') }}">
-                <span class="sidebar-icon">TL</span>
-                Trắc nghiệm tâm lý
-              </a>
-              <a class="sidebar-link {% if request.endpoint in ['teacher_life_skills', 'teacher_life_skill_new', 'teacher_life_skill_edit', 'student_life_skills', 'student_life_skill_detail'] %}active{% endif %}" href="{{ url_for('teacher_life_skills') if current_user.role == 'teacher' else url_for('student_life_skills') }}">
-                <span class="sidebar-icon">KS</span>
-                Bài học kỹ năng sống
-              </a>
-              <a class="sidebar-link {% if request.endpoint in ['student_chat_rooms', 'student_kbot_chat', 'student_teacher_chat', 'teacher_chat_list', 'teacher_chat_room'] %}active{% endif %}" href="{{ url_for('teacher_chat_list') if current_user.role == 'teacher' else url_for('student_chat_rooms') }}">
-                <span class="sidebar-icon">CH</span>
-                Chat chuyên gia
-              </a>
               <a class="sidebar-link {% if request.endpoint in ['career_home', 'student_self_discovery', 'student_career_test_take', 'student_career_library', 'student_career_ask', 'student_learning_path', 'student_inbox', 'teacher_career_tests', 'teacher_career_test_new', 'teacher_career_test_edit', 'teacher_career_jobs', 'teacher_career_job_new', 'teacher_career_job_edit', 'teacher_career_inquiries', 'teacher_learning_paths', 'teacher_learning_path_new', 'teacher_learning_path_edit'] %}active{% endif %}" href="{{ url_for('teacher_career_tests') if current_user.role == 'teacher' else url_for('student_self_discovery') }}">
                 <span class="sidebar-icon">HN</span>
                 Hướng nghiệp
+              </a>
+              <a class="sidebar-link {% if request.endpoint in ['support_tools', 'psychology_quizzes', 'teacher_quizzes', 'teacher_quiz_new', 'teacher_quiz_edit', 'teacher_quiz_results', 'student_quizzes', 'student_quiz_take', 'student_quiz_result', 'teacher_life_skills', 'teacher_life_skill_new', 'teacher_life_skill_edit', 'student_life_skills', 'student_life_skill_detail', 'student_chat_rooms', 'student_kbot_chat', 'student_teacher_chat', 'teacher_chat_list', 'teacher_chat_room', 'emotion_journal'] %}active{% endif %}" href="{{ url_for('support_tools') }}">
+                <span class="sidebar-icon">HT</span>
+                Hỗ trợ học đường
               </a>
               {% if current_user.role in ['teacher', 'student'] %}
                 <a class="sidebar-link {% if request.endpoint in ['student_forum', 'student_forum_react', 'student_forum_comment', 'student_forum_report'] %}active{% endif %}" href="{{ url_for('student_forum') }}">
@@ -5500,19 +5493,11 @@
                   Hồ sơ học sinh
                 </a>
 
-                <a class="sidebar-link {% if request.endpoint == 'emotion_journal' %}active{% endif %}" href="{{ url_for('emotion_journal') }}">
-
-                  <span class="sidebar-icon">NK</span>
-
-                  Nhật ký cảm xúc
-
-                </a>
-
               {% endif %}
 
               <a class="sidebar-link {% if request.endpoint == 'contact_admin' %}active{% endif %}" href="{{ url_for('contact_admin') }}">
 
-                <span class="sidebar-icon">HT</span>
+                <span class="sidebar-icon">LQ</span>
 
                 Liên hệ quản trị
               </a>

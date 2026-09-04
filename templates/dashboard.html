@@ -528,47 +528,205 @@
       <div>
         <div class="student-dashboard-label">TỔNG QUAN HỌC SINH</div>
         <h1>Chào mừng, {{ current_user.username }} 👋</h1>
-        <p>Khám phá bản thân, theo dõi cảm xúc và định hướng tương lai bằng các công cụ tâm lý học đường & hướng nghiệp.</p>
+        <p>Trọng tâm của nền tảng là hướng nghiệp: khám phá bản thân, xem thư viện nghề, chọn lộ trình học tập và gửi câu hỏi cho giáo viên. Tâm lý và kỹ năng sống được gộp thành nhóm hỗ trợ học đường để dùng khi cần.</p>
         <div class="student-dashboard-actions">
-          <a class="btn btn-primary" href="{{ url_for('student_quizzes') }}">Làm trắc nghiệm</a>
-          <a class="btn btn-outline-primary" href="{{ url_for('student_chat_rooms') }}">Chat chuyên gia</a>
-          <a class="btn btn-outline-primary" href="{{ url_for('student_inbox') }}">Hộp thư</a>
+          <a class="btn btn-primary" href="{{ url_for('student_self_discovery') }}">Khám phá hướng nghiệp</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('student_career_library') }}">Thư viện nghề</a>
+          <a class="btn btn-outline-primary" href="{{ url_for('support_tools') }}">Hỗ trợ học đường</a>
         </div>
       </div>
 
       <div class="student-dashboard-visual">
         <div class="student-dashboard-visual-card">
           <div class="dashboard-photo-single">
-            <img src="{{ url_for('static', filename='images/anh2.webp') }}" alt="Minh họa tâm lý học đường">
+            <img src="{{ url_for('static', filename='images/anh2.webp') }}" alt="Minh họa hướng nghiệp">
           </div>
         </div>
       </div>
     </section>
 
     <section class="student-stats-grid" aria-label="Thống kê học sinh">
-      <article class="student-stat-tile" style="background: var(--color-psy);">
-        <div class="student-stat-icon">🧠</div>
-        <strong>{{ completed_quiz_count|default(0) }}</strong>
-        <span>Bài trắc nghiệm đã làm</span>
-      </article>
-      <article class="student-stat-tile" style="background: var(--color-chat);">
-        <div class="student-stat-icon">💬</div>
-        <strong>{{ expert_chat_count|default(0) }}</strong>
-        <span>Lần chat chuyên gia</span>
-      </article>
       <article class="student-stat-tile" style="background: var(--color-career);">
-        <div class="student-stat-icon">🎯</div>
+        <div class="student-stat-icon">HN</div>
         <strong>{{ explored_career_count|default(0) }}</strong>
         <span>Nghề đã khám phá</span>
       </article>
+      <article class="student-stat-tile" style="background: var(--color-psy);">
+        <div class="student-stat-icon">TL</div>
+        <strong>{{ completed_quiz_count|default(0) }}</strong>
+        <span>Bài hỗ trợ đã làm</span>
+      </article>
+      <article class="student-stat-tile" style="background: var(--color-chat);">
+        <div class="student-stat-icon">CH</div>
+        <strong>{{ expert_chat_count|default(0) }}</strong>
+        <span>Lần chat hỗ trợ</span>
+      </article>
       <article class="student-stat-tile" style="background: var(--color-skill);">
-        <div class="student-stat-icon">✅</div>
+        <div class="student-stat-icon">NK</div>
         <strong>{{ emotion_entry_count|default(0) }}</strong>
         <span>Nhật ký cảm xúc</span>
       </article>
     </section>
 
-    <section class="student-feature-section-restored">
+    <style>
+      .legacy-feature-grid {
+        display: none !important;
+      }
+
+      .student-focus-section {
+        margin-top: 34px;
+        padding: 34px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #111827 0%, #312E81 48%, #581C87 100%);
+        box-shadow: 0 28px 76px rgba(0, 0, 0, 0.32);
+      }
+
+      .student-focus-head {
+        margin-bottom: 22px;
+        text-align: center;
+      }
+
+      .student-focus-head h2 {
+        margin: 8px 0;
+        color: #fff;
+        font-size: clamp(28px, 3vw, 44px);
+        font-weight: 900;
+      }
+
+      .student-focus-head p {
+        margin: 0 auto;
+        max-width: 760px;
+        color: rgba(255, 255, 255, 0.82);
+        font-weight: 750;
+      }
+
+      .student-focus-grid {
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 18px;
+      }
+
+      .student-focus-card {
+        display: block;
+        min-height: 230px;
+        padding: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        color: #fff;
+        text-decoration: none;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.26);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .student-focus-card:hover {
+        color: #fff;
+        transform: translateY(-5px);
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.34);
+      }
+
+      .student-focus-card.primary {
+        grid-row: span 2;
+        min-height: 478px;
+        background:
+          radial-gradient(circle at 12% 0%, rgba(34, 211, 238, 0.18), transparent 24rem),
+          linear-gradient(135deg, #1D4ED8 0%, #0891B2 48%, #312E81 100%);
+      }
+
+      .student-focus-card.support {
+        background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%);
+      }
+
+      .student-focus-card.community {
+        background: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%);
+      }
+
+      .student-focus-card.inbox {
+        background: linear-gradient(135deg, #4F46E5 0%, #1E1B4B 100%);
+      }
+
+      .student-focus-icon {
+        width: 58px;
+        height: 58px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        font-weight: 900;
+      }
+
+      .student-focus-card h3 {
+        color: #fff;
+        font-size: 1.45rem;
+        font-weight: 900;
+      }
+
+      .student-focus-card.primary h3 {
+        font-size: clamp(30px, 4vw, 54px);
+      }
+
+      .student-focus-card p {
+        color: rgba(255, 255, 255, 0.84);
+        line-height: 1.65;
+      }
+
+      .student-focus-link {
+        display: inline-flex;
+        margin-top: 16px;
+        color: #FEF08A;
+        font-weight: 900;
+      }
+
+      @media (max-width: 991.98px) {
+        .student-focus-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .student-focus-card.primary {
+          grid-row: auto;
+          min-height: 280px;
+        }
+      }
+    </style>
+
+    <section class="student-focus-section">
+      <div class="student-focus-head">
+        <div class="student-dashboard-label">CHỨC NĂNG CHÍNH</div>
+        <h2>Hướng nghiệp là trung tâm</h2>
+        <p>Tâm lý và kỹ năng sống được gom thành một nhóm hỗ trợ phụ để giao diện gọn, rõ trọng tâm hơn.</p>
+      </div>
+
+      <div class="student-focus-grid">
+        <a class="student-focus-card primary" href="{{ url_for('student_self_discovery') }}">
+          <span class="student-focus-icon">HN</span>
+          <h3>Hướng nghiệp</h3>
+          <p>Khám phá bản thân, xem thư viện nghề nghiệp, chọn lộ trình học tập và gửi câu hỏi cho giáo viên. Đây là khu vực chính của nền tảng.</p>
+          <span class="student-focus-link">Vào khu hướng nghiệp →</span>
+        </a>
+        <a class="student-focus-card support" href="{{ url_for('support_tools') }}">
+          <span class="student-focus-icon">HT</span>
+          <h3>Tâm lý & kỹ năng sống</h3>
+          <p>Gộp trắc nghiệm tâm lý, chat chuyên gia, nhật ký cảm xúc và bài học kỹ năng sống vào một khu hỗ trợ học đường.</p>
+          <span class="student-focus-link">Mở nhóm hỗ trợ →</span>
+        </a>
+        <a class="student-focus-card community" href="{{ url_for('student_forum') }}">
+          <span class="student-focus-icon">CD</span>
+          <h3>Cộng đồng</h3>
+          <p>Không gian chia sẻ, hỏi đáp và kết nối giữa học sinh.</p>
+          <span class="student-focus-link">Vào diễn đàn →</span>
+        </a>
+        <a class="student-focus-card inbox" href="{{ url_for('student_inbox') }}">
+          <span class="student-focus-icon">HS</span>
+          <h3>Hộp thư hướng nghiệp</h3>
+          <p>Theo dõi câu hỏi đã gửi và phản hồi từ giáo viên.</p>
+          <span class="student-focus-link">Xem hộp thư →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="student-feature-section-restored legacy-feature-grid">
       <div class="student-feature-head">
         <div class="student-dashboard-label">CHỨC NĂNG CHÍNH</div>
         <h2>Tất cả những gì bạn cần</h2>
@@ -821,8 +979,8 @@
       <div>
         <h5 class="fw-bold mb-3">Khu vực chức năng</h5>
         <div class="row g-3">
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('teacher_quizzes') }}" class="feature-card"><div class="feature-kicker">Support</div><div class="feature-title">Tâm lý học đường</div></a></div>
-          <div class="col-md-6 col-xl-3"><a href="{{ url_for('teacher_career_tests') }}" class="feature-card"><div class="feature-kicker">Career</div><div class="feature-title">Hướng nghiệp</div></a></div>
+          <div class="col-md-6 col-xl-6"><a href="{{ url_for('teacher_career_tests') }}" class="feature-card"><div class="feature-kicker">Trọng tâm chính</div><div class="feature-title">Hướng nghiệp</div><p class="section-subtitle mb-0">Quản lý bài khám phá, nghề nghiệp, lộ trình học tập và câu hỏi học sinh.</p></a></div>
+          <div class="col-md-6 col-xl-3"><a href="{{ url_for('support_tools') }}" class="feature-card"><div class="feature-kicker">Nhóm hỗ trợ</div><div class="feature-title">Tâm lý & kỹ năng sống</div><p class="section-subtitle mb-0">Gộp trắc nghiệm, bài học kỹ năng và chat hỗ trợ.</p></a></div>
           <div class="col-md-6 col-xl-3"><a href="{{ url_for('student_forum') }}" class="feature-card"><div class="feature-kicker">Community</div><div class="feature-title">Cộng đồng</div></a></div>
           <div class="col-md-6 col-xl-3"><a href="{{ url_for('teacher_profile') }}" class="feature-card"><div class="feature-kicker">System</div><div class="feature-title">Hồ sơ giáo viên</div></a></div>
         </div>

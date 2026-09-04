@@ -5,12 +5,13 @@
 {% block content %}
   <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
     <div>
-      <p class="text-primary fw-semibold mb-1">Giáo viên</p>
+      <p class="text-primary fw-semibold mb-1">Hỗ trợ học đường</p>
       <h2 class="section-title">Trắc nghiệm tâm lý</h2>
     </div>
 
     <div class="d-flex gap-2 align-self-lg-start">
-      <a href="{{ url_for('teacher_life_skills') }}" class="btn btn-outline-primary">Bài học kỹ năng sống</a>
+      <a href="{{ url_for('support_tools') }}" class="btn btn-outline-primary">Tổng quan hỗ trợ</a>
+      <a href="{{ url_for('teacher_life_skills') }}" class="btn btn-outline-primary">Kỹ năng sống</a>
       <a href="{{ url_for('teacher_quiz_new') }}" class="btn btn-primary">Tạo chủ đề</a>
     </div>
   </div>

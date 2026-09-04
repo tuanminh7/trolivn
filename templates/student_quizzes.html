@@ -2,9 +2,10 @@
 {% block title %}Trắc nghiệm tâm lý{% endblock %}
 {% block content %}
   <div class="mb-4">
-    <p class="text-primary fw-semibold mb-1">Tâm lý học đường</p>
+    <p class="text-primary fw-semibold mb-1">Hỗ trợ học đường</p>
     <h2 class="section-title">Trắc nghiệm tâm lý</h2>
-  </div>
+    <a href="{{ url_for('support_tools') }}" class="btn btn-outline-primary mt-2">Tổng quan hỗ trợ</a>
+  </div>
 
   <div class="row g-3">
     {% for topic in topics %}

@@ -1495,6 +1495,33 @@ def psychology_quizzes():
     return redirect(url_for('dashboard'))
 
 
+@app.route('/support-tools')
+@login_required
+def support_tools():
+    if current_user.role == 'student':
+        quiz_count = PsychologyTopic.query.filter_by(is_published=True).count()
+        lesson_count = LifeSkillLesson.query.filter_by(is_published=True).count()
+        journal_count = EmotionEntry.query.filter_by(student_id=current_user.id).count()
+        return render_template(
+            'support_tools.html',
+            quiz_count=quiz_count,
+            lesson_count=lesson_count,
+            journal_count=journal_count,
+        )
+    if current_user.role == 'teacher':
+        quiz_count = PsychologyTopic.query.filter_by(teacher_id=current_user.id).count()
+        lesson_count = LifeSkillLesson.query.filter_by(teacher_id=current_user.id).count()
+        conversation_count = ChatConversation.query.filter_by(room_type='teacher', teacher_id=current_user.id).count()
+        return render_template(
+            'support_tools.html',
+            quiz_count=quiz_count,
+            lesson_count=lesson_count,
+            conversation_count=conversation_count,
+        )
+    flash('Khu vực hỗ trợ học đường dành cho giáo viên và học sinh', 'warning')
+    return redirect(url_for('dashboard'))
+
+
 @app.route('/teacher/psychology/quizzes')
 @login_required
 def teacher_quizzes():
